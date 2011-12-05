@@ -1,0 +1,75 @@
+h1 REGISTER
+
+div.box
+    form.form-stacked(action="", method="POST")
+        fieldset
+            legend Create an account
+            div.clearfix
+                label(for="gender") Gender
+                div.input
+                    select(name="gender")
+                        option(value="m") a man looking for a woman
+                        option(value="f") a woman looking for a man
+                        option(value="f") a woman looking for a woman
+                        option(value="m") a man looking for a man
+
+            div.clearfix
+                label(for="range") Range
+                    div.input
+                        div.inline-inputs
+                            select.span2(name="range1")
+                                option 20
+                                option 30
+                                option 40
+                                option 50
+                            |&nbsp;
+                            select.span2(name="range2")
+                                option 20
+                                option 30
+                                option 40
+                                option 50
+
+            div.clearfix
+                label(for="birthday") Birthday
+                    div.input
+                        div.inline-inputs
+                            input.span1(placeholder="DD")
+                            |&nbsp;
+                            input.span1(placeholder="MM")
+                            |&nbsp;
+                            input.span2(placeholder="YYYY")
+
+            div.clearfix
+                label(for="country") Country
+                div.input
+                    select(name="country")
+                        option france
+                        option us
+                        option england
+                        option spain
+
+            div.clearfix
+                label(for="zipcode") Zip code
+                div.input
+                    input#zipcode.xlarge(type="text", name="zipcode")
+
+            div.clearfix
+                label(for="login") Login
+                div.input
+                    input#login.xlarge(type="text", size="30", name="login")
+            div.clearfix
+                label(for="password") Password
+                div.input
+                    input#password.xlarge(type="password", size="30", name="password")
+            div.clearfix
+                label(for="password2") Password
+                div.input
+                    input#password2.xlarge(type="password", size="30", name="password2")
+
+            div.clearfix
+                label(for="email") Email
+                div.input
+                    input#email.xlarge(type="text", name="email")
+
+        div.actions
+            button.btn.primary(type="submit") Submit

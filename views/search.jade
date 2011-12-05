@@ -1,0 +1,41 @@
+div.row
+    div.span8
+        div.well
+            h3.page-header Suggestion
+            include lorem
+    div.span5
+        div.well
+            h3.page-header Ads
+            include lorem-small
+
+div.pagination
+    ul
+        - if (pageIndex - 1 > 0)
+            li.prev: a(href="/search?pageIndex=" + (pageIndex - 1)) &larr; Previous
+        - else
+            li.prev.disabled: a(href="/search?pageIndex=" + (pageIndex - 1)) &larr; Previous
+        - for (var i = 1; i < pageCount; i++)
+            - if (i === pageIndex)
+                li.active: a(href="/search?pageIndex=" + i) #{i}
+            - else
+                li: a(href="/search?pageIndex=" + i) #{i}
+        - if (pageIndex < pageCount - 1)
+            li.next: a(href="/search?pageIndex=" + (pageIndex + 1)) Next &rarr;
+        - else
+            li.next.disabled: a(href="/search?pageIndex=" + (pageIndex + 1)) Next &rarr;
+
+div.items
+    for item in items
+        div.item.row
+            div.span2
+                div.media-grid
+                    a(href="/profile/" + item.get('_id'))
+                        img.thumbnail(src="#{item.get('pic')}", height="90px", width="90px")
+            div.span11
+                button.btn.pull-right Flash
+                button.btn.pull-right.info Write
+                button.btn.pull-right.success Save
+                h3.page-header: a(href="/profile/" + item.get('_id')) #{item.get('login')}
+                div #{item.get('email')}
+                div
+                    include lorem-small

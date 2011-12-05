@@ -1,0 +1,40 @@
+!!! 5
+html
+
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+
+    body
+
+        div.topbar
+            div.topbar-inner
+                div.container
+                    a.brand(href='/') Meet
+                    ul.nav
+                        if user
+                            li: a(href="/search") Search
+                            li: a(href="/tests") Tests
+                        else
+                            li: a(href="/login") Login
+                            li: a(href="/register") Register
+
+                    ul.nav.secondary-nav
+                        if user
+                            li: a Welcome #{user.login}
+                            li: a(href="/logout") Logout
+
+        div.content
+            div.container.page
+                h1 #{title}
+                div.row
+                    div.span3
+                        include leftcol
+                    div.span13
+                        != body
+
+            footer.footer
+                div.container
+                    p Powered by 
+                        a(href='http://revolunet.com/') Revolunet
