@@ -8,22 +8,47 @@ function DataManager() {
     this.schema = this.mongoose.Schema;
     this.objectId = this.schema.ObjectId;
 
-    this.models = [{
-        name: 'User',
-        fields: [{
-            // id: ObjectId,
-            // firstName: String,
-            // lastName: String,
-            gender: String,
-            email: String,
-            country: String,
-            pic: String,
-            login: String,
-            password: String
-        }]
-    }];
 
-    this.generateModels();
+    var Flash = new this.schema({
+        user: String,
+        date: Date
+    });
+
+    var User = new this.schema({
+        gender: String,
+        email: String,
+        country: String,
+        pic: String,
+        login: String,
+        password: String,
+        flashed: [Flash],
+        flashedBy: [Flash]
+    });
+
+    this.mongoose.model('User', User);
+
+    // this.models = [{
+    //     name: 'Flash',
+    //     fields: [{
+    //         
+    //     }]
+    // }, {
+    //     name: 'User',
+    //     fields: [{
+    //         // id: ObjectId,
+    //         // firstName: String,
+    //         // lastName: String,
+    //         gender: String,
+    //         email: String,
+    //         country: String,
+    //         pic: String,
+    //         login: String,
+    //         password: String,
+    //         flash: [Flash]
+    //     }]
+    // }];
+    // 
+    // this.generateModels();
 }
 
 DataManager.prototype.getModel = function(name) {

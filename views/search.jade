@@ -8,6 +8,7 @@ div.row
             h3.page-header Ads
             include lorem-small
 
+
 div.pagination
     ul
         - if (pageIndex - 1 > 0)
@@ -24,6 +25,7 @@ div.pagination
         - else
             li.next.disabled: a(href="/search?pageIndex=" + (pageIndex + 1)) Next &rarr;
 
+
 div.items
     for item in items
         div.item.row
@@ -32,10 +34,45 @@ div.items
                     a(href="/profile/" + item.get('_id'))
                         img.thumbnail(src="#{item.get('pic')}", height="90px", width="90px")
             div.span11
-                button.btn.pull-right Flash
-                button.btn.pull-right.info Write
-                button.btn.pull-right.success Save
+
+                - var flash = false;
+                - for (var i = 0, l = user.flashed.length; i < l; i++)
+                    - if (user.flashed[i].user == item.get('_id'))
+                        - flash = user.flashed[i];
+                - if (flash)
+                    button.btn.disabled.pull-right(rel='twipsy', data-original-title='Last flash: ' + flash.date) Flash
+                - else
+                    button.btn.pull-right(data-complete-text="Flash", data-bind="click: function(e) { flash(e.target, '" + item.get('_id') + "'); }") Flash
+
+                button.btn.pull-right.info(data-bind="click: function() { write('" + item.get('_id') + "', '" + item.get('login') + "'); }") Write
+                button.btn.pull-right.success(data-bind="click: function() { save('" + item.get('_id') + "'); }") Save
                 h3.page-header: a(href="/profile/" + item.get('_id')) #{item.get('login')}
                 div #{item.get('email')}
                 div
                     include lorem-small
+
+    script
+        $('button[rel="twipsy"]').twipsy({live: true});
+
+
+div#write-modal.modal.fade.hide
+    div.modal-header
+        a.close ×
+        h3 Send a message to 
+            span
+    div.modal-body
+
+        form.form-stacked(action="", method="POST")
+            div.clearfix
+                label(for="title") Title
+                div.input
+                    input#title.xlarge(type="text", name="title")
+
+            div.clearfix
+                label(for="message") Message
+                div.textarea
+                    textarea#message(rows="15", name="message", style="width: 480px")
+
+    div.modal-footer
+        a.btn.primary Send
+        a.btn.secondary(data-bind="click: closeWriteWindow") Cancel

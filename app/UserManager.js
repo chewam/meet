@@ -75,4 +75,29 @@ UserManager.prototype.login = function(data, callback) {
     });
 };
 
+UserManager.prototype.flash = function(flasher, flashed, callback) {
+    // console.log("FLASHER", flasher);
+    // console.log("FLASHED", flashed);
+    this.get(flashed, function(error, user) {
+        if (!error) {
+            user.flashedBy.push({
+                user: flasher,
+                date: new Date()
+            });
+            user.save();
+        }
+    });
+    this.get(flasher, function(error, user) {
+        if (!error) {
+            user.flashed.push({
+                user: flashed,
+                date: new Date()
+            });
+            user.save(callback);
+        } else {
+            callback.call(this, error, user);
+        }
+    });
+};
+
 module.exports = new UserManager();

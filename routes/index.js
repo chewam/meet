@@ -129,6 +129,16 @@ exports.deleteUser = function(req, res) {
     });
 }
 
+exports.flashUser = function(req, res) {
+    UserMgr.flash(req.session.user._id, req.params.id, function() {
+        req.session.user.flashed.push({
+            user: req.params.id,
+            date: new Date()
+        });
+        res.end('{success: true}');
+    });
+}
+
 // TESTS
 exports.tests = function(req, res) {
     TestMgr.run(function(html) {
