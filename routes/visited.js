@@ -14,6 +14,7 @@ module.exports = function(req, res) {
         }
         res.render('activity', {
             items: items,
+            authorized: true,
             route: '/activity/visited',
             title: 'Meet :: Activity',
             user: req.session.user,

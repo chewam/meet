@@ -15,6 +15,7 @@ module.exports = function(req, res) {
         res.render('search', {
             items: items,
             route: '/search',
+            authorized: true,
             title: 'Meet :: Search',
             user: req.session.user,
             pageIndex: parseInt(q.pageIndex),

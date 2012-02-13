@@ -11,11 +11,9 @@ html
         script(src='http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js')
         script(src='/socket.io/socket.io.js')
         script(src='/javascripts/bootstrap.js')
-        // script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.js')
-        // script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-buttons.js')
-        // script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js')
-        // script(src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js")
-        script(src="/javascripts/index.js")
+
+        if authorized
+            script(src="/javascripts/index.js")
 
 
     body

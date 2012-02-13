@@ -96,6 +96,13 @@ UserManager.prototype.flash = function(emitter, receiver, callback) {
                 date: dt
             });
             user.save(callback);
+            EventMgr.emit(receiver, 'flash', {
+                id: user._id,
+                pic: user.pic,
+                login: user.login,
+                gender: user.gender,
+                zipcode: user.zipcode
+            });
         } else {
             callback.call(this, error, user);
         }
@@ -163,7 +170,6 @@ UserManager.prototype.visit = function(emitter, receiver, callback) {
                 date: dt
             });
             user.save();
-            EventMgr.emit(receiver, 'visit', {id: emitter});
         }
     });
     this.get(emitter, function(error, user) {
@@ -173,6 +179,13 @@ UserManager.prototype.visit = function(emitter, receiver, callback) {
                 date: dt
             });
             user.save(callback);
+            EventMgr.emit(receiver, 'visit', {
+                id: user._id,
+                pic: user.pic,
+                login: user.login,
+                gender: user.gender,
+                zipcode: user.zipcode
+            });
         } else {
             callback.call(this, error, user);
         }

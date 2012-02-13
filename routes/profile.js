@@ -10,6 +10,7 @@ module.exports = function(req, res) {
         UserMgr.get(id, function(error, record) {
             res.render('profile', {
                 item: record,
+                authorized: true,
                 route: '/profile',
                 title: 'Meet :: Profile',
                 user: req.session.user

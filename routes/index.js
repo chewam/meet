@@ -21,7 +21,11 @@ exports.index = function(req, res) {
     if (req.session.user) {
         res.redirect('/home');
     } else {
-        res.render('index', {title: 'Meet :: Index', user: req.session.user});
+        res.render('index', {
+            authorized: false,
+            title: 'Meet :: Index',
+            user: req.session.user
+        });
     }
 };
 
