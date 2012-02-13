@@ -5,12 +5,14 @@ var Meet = {};
 Meet.events = (function() {
     var socket = io.connect('http://localhost');
     socket.on('visit', function (data) {
+        data.type = 'info';
         data.title = 'Nouvelle visite';
-        Meet.Msg.show('info', data);
+        Meet.Msg.show(data);
     });
     socket.on('flash', function (data) {
+        data.type = 'success';
         data.title = 'Nouveau flash';
-        Meet.Msg.show('success', data);
+        Meet.Msg.show(data);
     });
 })();
 
@@ -19,22 +21,24 @@ Meet.events = (function() {
 
 Meet.message = function() {};
 
-Meet.message.prototype.show = function(type, data) {
-    var html = '';
-    html += '<div class="alert alert-block alert-'+type+' fade in" id="alert-visit">';
-        html += '<a class="close" href="#" data-dismiss="alert">×</a>';
-        html += '<h4 class="alert-heading">'+data.title+'</h4>';
-        html += '<div class="row">';
-            html += '<div class="span1">';
-                html += '<a class="thumbnail" href="/profile/'+data.id+'"><img src="'+data.pic+'" /></a>';
-            html += '</div>';
-            html += '<div class="span3">';
-                html += '<h4><a href="/profile/'+data.id+'">'+data.login+'</a></h4>';
-                html += '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do fdf fds fdsfds f dsfdsfds.</p>';
-            html += '</div>';
-        html += '</div>';
-    html += '</div>';
-    $('body').append(html);
+Meet.message.prototype.show = function(data) {    
+    var tmpl = [
+        '<div class="alert alert-block alert-${type} fade in" id="alert-visit">',
+            '<a class="close" href="#" data-dismiss="alert">×</a>',
+            '<h4 class="alert-heading">${title}</h4>',
+            '<div class="row">',
+                '<div class="span1">',
+                    '<a class="thumbnail" href="/profile/${id}"><img src="${pic}" /></a>',
+                '</div>',
+                '<div class="span3">',
+                    '<h4><a href="/profile/${id}">${login}</a></h4>',
+                    '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do fdf fds fdsfds f dsfdsfds.</p>',
+                '</div>',
+            '</div>',
+        '</div>'
+    ].join('');
+
+    $.tmpl(tmpl, data).appendTo("body");
 };
 
 Meet.Msg = new Meet.message();
