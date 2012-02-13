@@ -21,80 +21,51 @@ exports.index = function(req, res) {
     if (req.session.user) {
         res.redirect('/home');
     } else {
-        res.render('index', {title: 'Meet', user: req.session.user});
+        res.render('index', {title: 'Meet :: Index', user: req.session.user});
     }
 };
 
 // LOGIN
-exports.login = function(req, res) {
-    var data = req.body;
-    if (data.login && data.password) {
-        UserMgr.login(data, function(error, user) {
-            if (!error && user) {
-                req.session.user = user;
-                res.redirect('/home');
-            } else {
-                res.render('login', {title: 'Meet :: Login', user: req.session.user});
-            }
-        });
-    } else {
-        res.render('login', {title: 'Meet :: Login', user: req.session.user});
-    }
-};
+exports.login = require('./login');
 
 // LOGOUT
-exports.logout = function(req, res) {
-    delete req.session.user;
-    res.redirect('/');
-};
+exports.logout = require('./logout');
 
 // REGISTER
-exports.register = function(req, res) {
-    var data = req.body;
-    if (data.login && data.password && data.email && data.gender) {
-        UserMgr.create(data, function(error, user) {
-            if (!error && user) {
-                req.session.user = user;
-                res.redirect('/home');
-            } else {
-                res.render('index', {title: 'Meet', user: req.session.user});
-            }
-        });
-    } else {
-        res.render('register', {title: 'Meet', user: req.session.user});
-    }
-};
+exports.register = require('./register');
 
 // HOME
-exports.home = function(req, res) {
-    res.render('home', {
-        title: 'Meet :: Home',
-        user: req.session.user
-    });
-};
+exports.home = require('./home');
 
 // SEARCH
-exports.search = function(req, res) {
-    var q = req.query,
-        user = req.session.user;
+exports.search = require('./search');
 
-    q.pageIndex = q.pageIndex || 1;
-    q.pageSize = q.pageSize || 10;
+// PROFILE
+exports.profile = require('./profile');
 
-    UserMgr.find(user, q, function(error, docs, count) {
-        var items = [];
-        if (!error) {
-            items = docs;
-        }
-        res.render('search', {
-            items: items,
-            title: 'Meet :: Search',
-            user: req.session.user,
-            pageIndex: parseInt(q.pageIndex),
-            pageCount: Math.ceil(count / q.pageSize)
-        });
-    });
-};
+// ACTIVITY
+exports.activity = require('./activity');
+
+// ACTIVITY :: MESSAGES
+exports.messages = require('./messages');
+
+// ACTIVITY :: FLASHED BY
+exports.flashedBy = require('./flashedBy');
+
+// ACTIVITY :: FLASHED
+exports.flashed = require('./flashed');
+
+// ACTIVITY :: SAVED BY
+exports.savedBy = require('./savedBy');
+
+// ACTIVITY :: SAVED
+exports.saved = require('./saved');
+
+// ACTIVITY :: VISITED
+exports.visited = require('./visited');
+
+// ACTIVITY :: VISITED BY
+exports.visitedBy = require('./visitedBy');
 
 // USERS
 exports.getUsers = function(req, res) {
@@ -135,6 +106,27 @@ exports.flashUser = function(req, res) {
             user: req.params.id,
             date: new Date()
         });
+        res.end('{success: true}');
+    });
+}
+
+exports.saveUser = function(req, res) {
+    UserMgr.save(req.session.user._id, req.params.id, function() {
+        req.session.user.saved.push({
+            user: req.params.id,
+            date: new Date()
+        });
+        res.end('{success: true}');
+    });
+}
+
+exports.writeUser = function(req, res) {
+    var data = req.body;
+    UserMgr.write(req.session.user._id, req.params.id, data, function() {
+        // req.session.user.flashed.push({
+        //     user: req.params.id,
+        //     date: new Date()
+        // });
         res.end('{success: true}');
     });
 }

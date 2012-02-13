@@ -1,22 +1,20 @@
-h1 REGISTER
-
-div.box
-    form.form-stacked(action="", method="POST")
+div
+    form.form-vertical(action="", method="POST")
         fieldset
             legend Create an account
-            div.clearfix
+            div.control-group
                 label(for="gender") Gender
-                div.input
+                div.controls
                     select(name="gender")
                         option(value="m") a man looking for a woman
                         option(value="f") a woman looking for a man
                         option(value="f") a woman looking for a woman
                         option(value="m") a man looking for a man
 
-            div.clearfix
+            div.control-group
                 label(for="range") Range
-                    div.input
-                        div.inline-inputs
+                    div.controls
+                        div.form-inline
                             select.span2(name="range1")
                                 option 20
                                 option 30
@@ -29,46 +27,46 @@ div.box
                                 option 40
                                 option 50
 
-            div.clearfix
+            div.control-group
                 label(for="birthday") Birthday
-                    div.input
-                        div.inline-inputs
+                    div.controls
+                        div.form-inline
                             input.span1(placeholder="DD")
                             |&nbsp;
                             input.span1(placeholder="MM")
                             |&nbsp;
                             input.span2(placeholder="YYYY")
 
-            div.clearfix
+            div.control-group
                 label(for="country") Country
-                div.input
+                div.controls
                     select(name="country")
                         option france
                         option us
                         option england
                         option spain
 
-            div.clearfix
+            div.control-group
                 label(for="zipcode") Zip code
-                div.input
+                div.controls
                     input#zipcode.xlarge(type="text", name="zipcode")
 
-            div.clearfix
+            div.control-group
                 label(for="login") Login
-                div.input
+                div.controls
                     input#login.xlarge(type="text", size="30", name="login")
-            div.clearfix
+            div.control-group
                 label(for="password") Password
-                div.input
+                div.controls
                     input#password.xlarge(type="password", size="30", name="password")
-            div.clearfix
+            div.control-group
                 label(for="password2") Password
-                div.input
+                div.controls
                     input#password2.xlarge(type="password", size="30", name="password2")
 
-            div.clearfix
+            div.control-group
                 label(for="email") Email
-                div.input
+                div.controls
                     input#email.xlarge(type="text", name="email")
 
         div.actions

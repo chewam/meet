@@ -1,0 +1,55 @@
+div.row
+    div.span6
+        div.well
+            h3.page-header Suggestion
+            include lorem
+    div.span3
+        div.well
+            h3.page-header Ads
+            include lorem-small
+
+ul.nav.nav-tabs
+    - if (route == "/activity/messages")
+        li.active: a Messages
+    - else
+        li: a(href="/activity/messages") Messages
+
+    - if (route == "/activity/visitedby")
+        li.active: a Visited by
+    - else
+        li: a(href="/activity/visitedby") Visited by
+
+    - if (route == "/activity/visited")
+        li.active: a Visited
+    - else
+        li: a(href="/activity/visited") Visited
+
+    - if (route == "/activity/flashedby")
+        li.active: a Flashed by
+    - else
+        li: a(href="/activity/flashedby") Flashed by
+
+    - if (route == "/activity/flashed")
+        li.active: a Flashed
+    - else
+        li: a(href="/activity/flashed") Flashed
+
+    - if (route == "/activity/savedby")
+        li.active: a Saved by
+    - else
+        li: a(href="/activity/savedby") Saved by
+
+    - if (route == "/activity/saved")
+        li.active: a Saved
+    - else
+        li: a(href="/activity/saved") Saved
+
+div.tab-content
+    div.tab-pane#messages
+    div.tab-pane#visited
+    div.tab-pane#visitedby
+    div.tab-pane#flashedby
+    div.tab-pane#flashed.active
+        include list
+    div.tab-pane#savedby
+    div.tab-pane#saved

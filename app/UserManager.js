@@ -1,6 +1,9 @@
-var DataMgr = require('./DataManager');
+var DataMgr = require('./DataManager'),
+    EventMgr = require('./EventManager');
 
-function UserManager() {}
+function UserManager() {
+    console.log('---> Create UserManager');
+};
 
 UserManager.prototype.get = function(id, callback) {
     var User = DataMgr.getModel('User');
@@ -75,25 +78,287 @@ UserManager.prototype.login = function(data, callback) {
     });
 };
 
-UserManager.prototype.flash = function(flasher, flashed, callback) {
-    // console.log("FLASHER", flasher);
-    // console.log("FLASHED", flashed);
-    this.get(flashed, function(error, user) {
+UserManager.prototype.flash = function(emitter, receiver, callback) {
+    var dt = new Date();
+    this.get(receiver, function(error, user) {
         if (!error) {
             user.flashedBy.push({
-                user: flasher,
-                date: new Date()
+                user: emitter,
+                date: dt
             });
             user.save();
         }
     });
-    this.get(flasher, function(error, user) {
+    this.get(emitter, function(error, user) {
         if (!error) {
             user.flashed.push({
-                user: flashed,
-                date: new Date()
+                user: receiver,
+                date: dt
             });
             user.save(callback);
+        } else {
+            callback.call(this, error, user);
+        }
+    });
+};
+
+UserManager.prototype.getFlashed = function(id, params, callback) {
+
+    this.get(id, function(error, user) {
+        if (!error) {
+            var flashed = [],
+                User = DataMgr.getModel('User'),
+                query = User.find({});
+
+            for (var i = 0, l = user.flashed.length; i < l; i++) {
+                flashed.push(user.flashed[i].user);
+            }
+
+            query.where('_id').in(flashed);
+            query.skip(params.pageSize * (params.pageIndex - 1));
+            query.limit(params.pageSize).exec(function(error, docs) {
+                query = User.find({});
+                query.where('_id').in(flashed);
+                query.count(function(error, count) {
+                    callback.call(this, error, docs, count);
+                });
+            });
+        }
+    });
+
+};
+
+UserManager.prototype.getFlashedBy = function(id, params, callback) {
+
+    this.get(id, function(error, user) {
+        if (!error) {
+            var flashed = [],
+                User = DataMgr.getModel('User'),
+                query = User.find({});
+
+            for (var i = 0, l = user.flashedBy.length; i < l; i++) {
+                flashed.push(user.flashedBy[i].user);
+            }
+
+            query.where('_id').in(flashed);
+            query.skip(params.pageSize * (params.pageIndex - 1));
+            query.limit(params.pageSize).exec(function(error, docs) {
+                query = User.find({});
+                query.where('_id').in(flashed);
+                query.count(function(error, count) {
+                    callback.call(this, error, docs, count);
+                });
+            });
+        }
+    });
+
+};
+
+UserManager.prototype.visit = function(emitter, receiver, callback) {
+    var dt = new Date();
+    this.get(receiver, function(error, user) {
+        if (!error) {
+            user.visitedBy.push({
+                user: emitter,
+                date: dt
+            });
+            user.save();
+            EventMgr.emit(receiver, 'visit', {id: emitter});
+        }
+    });
+    this.get(emitter, function(error, user) {
+        if (!error) {
+            user.visited.push({
+                user: receiver,
+                date: dt
+            });
+            user.save(callback);
+        } else {
+            callback.call(this, error, user);
+        }
+    });
+};
+
+UserManager.prototype.getVisited = function(id, params, callback) {
+
+    this.get(id, function(error, user) {
+        if (!error) {
+            var visited = [],
+                User = DataMgr.getModel('User'),
+                query = User.find({});
+
+            for (var i = 0, l = user.visited.length; i < l; i++) {
+                visited.push(user.visited[i].user);
+            }
+
+            query.where('_id').in(visited);
+            query.skip(params.pageSize * (params.pageIndex - 1));
+            query.limit(params.pageSize).exec(function(error, docs) {
+                query = User.find({});
+                query.where('_id').in(visited);
+                query.count(function(error, count) {
+                    callback.call(this, error, docs, count);
+                });
+            });
+        }
+    });
+
+};
+
+UserManager.prototype.getVisitedBy = function(id, params, callback) {
+
+    this.get(id, function(error, user) {
+        if (!error) {
+            var visited = [],
+                User = DataMgr.getModel('User'),
+                query = User.find({});
+
+            for (var i = 0, l = user.visitedBy.length; i < l; i++) {
+                visited.push(user.visitedBy[i].user);
+            }
+
+            query.where('_id').in(visited);
+            query.skip(params.pageSize * (params.pageIndex - 1));
+            query.limit(params.pageSize).exec(function(error, docs) {
+                query = User.find({});
+                query.where('_id').in(visited);
+                query.count(function(error, count) {
+                    callback.call(this, error, docs, count);
+                });
+            });
+        }
+    });
+
+};
+
+UserManager.prototype.getSaved = function(id, params, callback) {
+
+    this.get(id, function(error, user) {
+        if (!error) {
+            var saved = [],
+                User = DataMgr.getModel('User'),
+                query = User.find({});
+
+            for (var i = 0, l = user.saved.length; i < l; i++) {
+                saved.push(user.saved[i].user);
+            }
+
+            query.where('_id').in(saved);
+            query.skip(params.pageSize * (params.pageIndex - 1));
+            query.limit(params.pageSize).exec(function(error, docs) {
+                query = User.find({});
+                query.where('_id').in(saved);
+                query.count(function(error, count) {
+                    callback.call(this, error, docs, count);
+                });
+            });
+        }
+    });
+
+};
+
+UserManager.prototype.getSavedBy = function(id, params, callback) {
+
+    this.get(id, function(error, user) {
+        if (!error) {
+            var saved = [],
+                User = DataMgr.getModel('User'),
+                query = User.find({});
+
+            for (var i = 0, l = user.savedBy.length; i < l; i++) {
+                saved.push(user.savedBy[i].user);
+            }
+
+            query.where('_id').in(saved);
+            query.skip(params.pageSize * (params.pageIndex - 1));
+            query.limit(params.pageSize).exec(function(error, docs) {
+                query = User.find({});
+                query.where('_id').in(saved);
+                query.count(function(error, count) {
+                    callback.call(this, error, docs, count);
+                });
+            });
+        }
+    });
+
+};
+
+UserManager.prototype.save = function(emitter, receiver, callback) {
+    var dt = new Date();
+    this.get(receiver, function(error, user) {
+        if (!error) {
+            user.savedBy.push({
+                user: emitter,
+                date: dt
+            });
+            user.save();
+        }
+    });
+    this.get(emitter, function(error, user) {
+        if (!error) {
+            user.saved.push({
+                user: receiver,
+                date: dt
+            });
+            user.save(callback);
+        } else {
+            callback.call(this, error, user);
+        }
+    });
+};
+
+UserManager.prototype.write = function(emitter, receiver, data, callback) {
+    var me = this,
+        Thread = DataMgr.getModel('Thread'),
+        thread = new Thread({
+            users: [emitter, receiver],
+            message: [{
+                emitter: emitter,
+                receiver: receiver,
+                title: data.title,
+                message: data.message
+            }]
+        });
+
+    thread.save(function(error, thread) {
+        if (!error) {
+            var id = thread.get('_id');
+            me.get(receiver, function(error, user) {
+                if (!error) {
+                    user.threads.push(id);
+                    user.save();
+                }
+            });
+            me.get(emitter, function(error, user) {
+                if (!error) {
+                    user.threads.push(id);
+                    user.save(callback);
+                } else {
+                    callback.call(this, error, user);
+                }
+            });
+        } else {
+            callback.call(this, error, thread);
+        }
+    });
+};
+
+UserManager.prototype.getMessages = function(id, params, callback) {
+    this.get(id, function(error, user) {
+        if (!error) {
+            var threads = user.get('threads'),
+                Thread = DataMgr.getModel('Thread');
+                query = Thread.find({});
+                
+            query.where('_id').in(threads);
+            query.skip(params.pageSize * (params.pageIndex - 1));
+            query.limit(params.pageSize).exec(function(error, docs) {
+                query = Thread.find({});
+                query.where('_id').in(threads);
+                query.count(function(error, count) {
+                    callback.call(this, error, docs, count);
+                });
+            });
         } else {
             callback.call(this, error, user);
         }

@@ -4,7 +4,7 @@ body {
 }
 
 h1 {
-    margin-top: 40px;
+    margin-top: 40px !important;
 }
 
 .topbar {
@@ -16,18 +16,23 @@ h1 {
 }
 
 .page {
-    padding: 0 20px 20px;
+    padding: 0 20px;
+    margin: 0 auto 20px;
     background-color: #FFF;
     border-radius: 0 0 4px 4px;
     box-shadow: 0 1px 6px -3px rgba(0, 0, 0, .8);
 }
 
-.page-header .label.pull-right {
+.page-header {
+    padding-bottom: 6px;
+}
+
+/*.page-header .pull-right {
     top: 12px;
     line-height: 14px;
     position: relative;
 }
-
+*/
 .box {
     min-height:20px;
     margin-bottom:20px;
@@ -50,8 +55,23 @@ h1 {
     margin-bottom: 0;
 }
 
+.items .item {
+    margin-bottom: 20px;
+}
+
+.items .item h3 {
+    margin-top: 0;
+}
+
 .items .item button {
+/*    margin-top: 14px;*/
     margin-left: 4px;
+}
+
+.items .item .thumbnail,
+.items .item .thumbnail img {
+    height: 90px;
+    width: 90px;
 }
 
 .footer {

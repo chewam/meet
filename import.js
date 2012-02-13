@@ -1,7 +1,7 @@
 var fs = require('fs'),
     mongoose = require('mongoose');
 
-mongoose.connect('mongodb://chewam.com/app');
+mongoose.connect('mongodb://127.0.0.1/app');
 
 var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
@@ -44,7 +44,13 @@ function buildFakeData() {
                 // firstName: femaleNames[i],
                 // lastName: lastNames[i],
                 login: lastNames[i],
-                password: 'password'
+                password: 'password',
+                country: 'France',
+                city: 'Paris',
+                email: 'fakeuser@meet.com',
+                zipcode: '75000',
+                range1: '25',
+                range2: '35'
             };
         } else {
             data = {
@@ -53,7 +59,13 @@ function buildFakeData() {
                 // firstName: maleNames[i],
                 // lastName: lastNames[i],
                 login: lastNames[i],
-                password: 'password'
+                password: 'password',
+                country: 'France',
+                city: 'Paris',
+                email: 'fakeuser@meet.com',
+                zipcode: '75000',
+                range1: '25',
+                range2: '35'
             };
         }
 
@@ -90,5 +102,5 @@ dumpSchema();
 loadPics();
 loadNames();
 buildFakeData();
-// saveFakeData();
+saveFakeData();
 console.log("length", lastNames.length, maleNames.length, femaleNames.length, malePics.length, femalePics.length, fakeData.length/*, fakeData*/);

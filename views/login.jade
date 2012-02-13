@@ -1,17 +1,14 @@
-h1 LOGIN
+form.form-stacked(action="", method="POST")
+    fieldset
+        legend Authentication
+        div.clearfix
+            label(for="login") Login
+            div.input
+                input#login.xlarge(type="text", name="login")
+        div.clearfix
+            label(for="password") Password
+            div.input
+                input#password.xlarge(type="password", name="password")
 
-div.box
-    form.form-stacked(action="", method="POST")
-        fieldset
-            legend Authentication
-            div.clearfix
-                label(for="login") Login
-                div.input
-                    input#login.xlarge(type="text", name="login")
-            div.clearfix
-                label(for="password") Password
-                div.input
-                    input#password.xlarge(type="password", name="password")
-
-        div.actions
-            button.btn.primary(type="submit") Submit
+    div.actions
+        button.btn.primary(type="submit") Submit

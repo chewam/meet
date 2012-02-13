@@ -6,9 +6,14 @@
 console.log("---> Node version:", process.version);
 
 var express = require('express'),
-    routes = require('./routes');
+    routes = require('./routes'),
+    EventMgr = require('./app/EventManager');
+
+var sessionStore = new express.session.MemoryStore();
 
 var app = module.exports = express.createServer();
+
+EventMgr.init(app, sessionStore);
 
 // Configuration
 
@@ -18,7 +23,7 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({secret: 'meet'}));
+  app.use(express.session({secret: 'meet', store: sessionStore, key: 'meet.sid'}));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
@@ -42,13 +47,26 @@ app.get('/home', routes.checkSession, routes.home);
 app.get('/search', routes.checkSession, routes.search);
 app.get('/tests', routes.checkSession, routes.tests);
 
+app.get('/profile/:id', routes.checkSession, routes.profile);
+
+app.get('/activity', routes.checkSession, routes.activity);
+app.get('/activity/messages', routes.checkSession, routes.messages);
+app.get('/activity/flashedby', routes.checkSession, routes.flashedBy);
+app.get('/activity/flashed', routes.checkSession, routes.flashed);
+app.get('/activity/savedby', routes.checkSession, routes.savedBy);
+app.get('/activity/saved', routes.checkSession, routes.saved);
+app.get('/activity/visited', routes.checkSession, routes.visited);
+app.get('/activity/visitedby', routes.checkSession, routes.visitedBy);
+
 app.get('/users', routes.getUsers);
 app.post('/users', routes.createUser);
 app.get('/users/:id', routes.getUser);
 app.put('/users/:id', routes.updateUser);
 app.del('/users/:id', routes.deleteUser);
 
+app.post('/users/:id/write', routes.writeUser);
 app.post('/users/:id/flash', routes.flashUser);
+app.post('/users/:id/save', routes.saveUser);
 
 app.listen(3000);
 

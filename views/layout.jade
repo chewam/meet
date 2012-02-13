@@ -9,38 +9,42 @@ html
         script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
         script(src='http://cloud.github.com/downloads/SteveSanderson/knockout/jquery.tmpl.min.js')
         script(src='http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.2.1.js')
-        script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.js')
-        script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-buttons.js')
-        script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js')
+        script(src='/socket.io/socket.io.js')
+        script(src='/javascripts/bootstrap.js')
+        // script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.js')
+        // script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-buttons.js')
+        // script(src='http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js')
+        // script(src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js")
         script(src="/javascripts/index.js")
 
 
     body
 
-        div.topbar
-            div.topbar-inner
+        div.navbar.navbar-fixed-top
+            div.navbar-inner
                 div.container
                     a.brand(href='/') Meet
                     ul.nav
                         if user
                             li: a(href="/search") Search
+                            li: a(href="/activity") Activity
                             li: a(href="/tests") Tests
                         else
                             li: a(href="/login") Login
                             li: a(href="/register") Register
 
-                    ul.nav.secondary-nav
+                    ul.nav.pull-right
                         if user
                             li: a Welcome #{user.login}
                             li: a(href="/logout") Logout
 
         div.content
             div.container.page
-                h1 #{title}
+                h1.page-header #{title}
                 div.row
                     div.span3
                         include leftcol
-                    div.span13
+                    div.span9
                         != body
 
             footer.footer

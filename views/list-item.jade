@@ -1,0 +1,36 @@
+div.item.row
+    div.span2
+        a.thumbnail(href="/profile/" + item.get('_id'))
+            img(src="#{item.get('pic')}")
+    div.span7
+
+        // FLASH BUTTON
+        - var flash = false;
+        - for (var i = 0, l = user.flashed.length; i < l; i++)
+            - if (user.flashed[i].user == item.get('_id'))
+                - flash = user.flashed[i];
+        - if (flash)
+            button.btn.pull-right(disabled="disabled", rel='tooltip', data-original-title='Last flash: ' + flash.date) Flashed
+        - else
+            // button.btn.pull-right(autocomplete="off", data-complete-text="Flashed", onclick="function(e) { flash(e.target, '" + item.get('_id') + "'); }") Flash
+            button.btn.pull-right(data-complete-text="Flashed", data-bind="click: function(e) { flash(e.target, '" + item.get('_id') + "'); }") Flash
+
+        // WRITE BUTTON
+        button.btn.btn-info.pull-right(onclick="function() { write('" + item.get('_id') + "', '" + item.get('login') + "'); }") Write
+        // button.btn.btn-info.pull-right(data-bind="click: function() { write('" + item.get('_id') + "', '" + item.get('login') + "'); }") Write
+
+        // SAVE BUTTON
+        - var save = false;
+        - for (var i = 0, l = user.saved.length; i < l; i++)
+            - if (user.saved[i].user == item.get('_id'))
+                - save = user.saved[i];
+        - if (save)
+            button.btn.btn-success.pull-right(disabled="disabled", rel='tooltip', data-original-title='Saved: ' + save.date) Saved
+        - else
+            // button.btn.btn-success.pull-right(data-complete-text="Saved", onclick="function(e) { save(e.target, '" + item.get('_id') + "'); }") Save
+            button.btn.btn-success.pull-right(data-complete-text="Saved", data-bind="click: function(e) { save(e.target, '" + item.get('_id') + "'); }") Save
+
+        h3.page-header: a(href="/profile/" + item.get('_id')) #{item.get('login')}
+        div #{item.get('email')}
+        div
+            include lorem-small
