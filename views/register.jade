@@ -47,9 +47,14 @@ div
                         option spain
 
             div.control-group
+                label(for="city") City
+                div.controls
+                    input#city.xlarge(type="text", name="city", value="Paris")
+
+            div.control-group
                 label(for="zipcode") Zip code
                 div.controls
-                    input#zipcode.xlarge(type="text", name="zipcode")
+                    input#zipcode.xlarge(type="text", name="zipcode", value="75006")
 
             div.control-group
                 label(for="login") Login
@@ -67,7 +72,7 @@ div
             div.control-group
                 label(for="email") Email
                 div.controls
-                    input#email.xlarge(type="text", name="email")
+                    input#email.xlarge(type="text", name="email", value="gary@chewam.com")
 
         div.actions
             button.btn.primary(type="submit") Submit

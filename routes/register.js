@@ -3,8 +3,8 @@ module.exports = function(req, res) {
     if (data.login && data.password && data.email && data.gender) {
         var UserMgr = require('../app/').UserManager;
         data.pic = '/images/pictures/default.png';
-        UserMgr.create(data, function(error, user) {
-            if (!error && user) {
+        UserMgr.create(data, function(user) {
+            if (user) {
                 req.session.user = user;
                 res.redirect('/home');
             } else {

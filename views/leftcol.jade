@@ -1,17 +1,40 @@
-div.well
-    h3.page-header Profile
-    include lorem
-
-div.well
-    h3.page-header Activity
+if authorized
+    div.row
+        div.span1
+            a.thumbnail(href="/profile/#{user.id}"): img(src="#{user.pic}")
+        div.span2
+            h2: a(href="/profile/#{user.id}") #{user.login}
+            div: a(href="/profile/#{user.id}")
+                i.icon-pencil
+                |&nbsp;&nbsp;Edit
+    hr
     ul.nav.nav-list
-        li.active
-            a(href="#")
-                i.icon-home.icon-white
-                |Home
-        li: a(href="#")
-            i.icon-book
-            |Library
-        li: a(href="#")
-            i.icon-pencil
-            |Applications
+        li
+            i.icon-user
+            |&nbsp;Visit: 
+        li
+            i.icon-fire
+            |&nbsp;Flash: 
+
+    hr
+    div
+        // h3.page-header Activity
+        ul.nav.nav-list
+            li: a(href="/activity/visited")
+                i.icon-user
+                |&nbsp;Visited
+            li: a(href="/activity/visitedby")
+                i.icon-user
+                |&nbsp;Visited By
+            li: a(href="/activity/flashed")
+                i.icon-fire
+                |&nbsp;Flashed
+            li: a(href="/activity/flashedby")
+                i.icon-fire
+                |&nbsp;Flashed By
+            li: a(href="/activity/saved")
+                i.icon-heart
+                |&nbsp;Saved
+            li: a(href="/activity/savedby")
+                i.icon-heart
+                |&nbsp;Saved By

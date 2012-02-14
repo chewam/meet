@@ -102,5 +102,5 @@ dumpSchema();
 loadPics();
 loadNames();
 buildFakeData();
-// saveFakeData();
+saveFakeData();
 console.log("length", lastNames.length, maleNames.length, femaleNames.length, malePics.length, femalePics.length, fakeData.length/*, fakeData*/);

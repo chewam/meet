@@ -6,14 +6,25 @@ function UserManager() {
 };
 
 UserManager.prototype.get = function(id, callback) {
-    var User = DataMgr.getModel('User');
-    User.findById(id, callback);
+    var query = 'SELECT id, login, email, pic FROM users WHERE id = ?';
+
+    DataMgr.client.query(query, [id], function(err, results, fields) {
+        console.log('GET USER', results[0]);
+        callback.call(this, results[0]);
+    });
 };
 
 UserManager.prototype.create = function(data, callback) {
-    var User = DataMgr.getModel('User');
-    var user = new User(data);
-    user.save(callback);
+    var me = this,
+        query = 'INSERT INTO users '
+        + 'SET gender = ?, pic = ?, login = ?, password = ?, country = ?, city = ?, email = ?, zipcode = ?, range1 = ?, range2 = ?';
+
+    DataMgr.client.query(query,
+        [data.gender, data.pic, data.login, data.password, data.country, data.city, data.email, data.zipcode, data.range1, data.range2],
+        function(err, info) {
+            me.get(info.insertId, callback);
+        }
+    );
 };
 
 UserManager.prototype.update = function(user, data, callback) {
@@ -60,22 +71,46 @@ UserManager.prototype.find = function(user, params, callback) {
     });
 };
 
-UserManager.prototype.login = function(data, callback) {
-    var User = DataMgr.getModel('User');
-    User.find({}, function (error, docs) {
-        var user = null;
-        if (!error) {
-            docs.forEach(function(doc) {
-                if (doc.get('login') === data.login && doc.get('password') === data.password) {
-                    user = doc;
-                    return false;
-                }
-            });
-            callback.call(this, error, user);
-        } else {
-            callback.call(this, error);
-        }
+UserManager.prototype.list = function(callback) {
+    var count = 'SELECT COUNT(*) AS total FROM users WHERE gender = ?',
+        query = 'SELECT id, login, email, pic FROM users WHERE gender = ? LIMIT ?, ?';
+
+    DataMgr.client.query(query, ['f', 0, 10], function(err, results, fields) {
+        DataMgr.client.query(count, ['f'], function(err, count) {
+            callback.call(this, results, count[0].total);
+        });
     });
+};
+
+UserManager.prototype.login = function(data, callback) {
+    var query = 'SELECT id, login, password, email, pic FROM users';
+
+    DataMgr.client.query(query, function(err, results, fields) {
+        for (var i = 0, l = results.length; i < l; i++) {
+            if (results[i].login === data.login && results[i].password === data.password) {
+                delete results[i].password;
+                callback.call(this, results[i]);
+                return;
+            }
+        }
+        callback.call(this);
+    });
+
+    // var User = DataMgr.getModel('User');
+    // User.find({}, function (error, docs) {
+    //     var user = null;
+    //     if (!error) {
+    //         docs.forEach(function(doc) {
+    //             if (doc.get('login') === data.login && doc.get('password') === data.password) {
+    //                 user = doc;
+    //                 return false;
+    //             }
+    //         });
+    //         callback.call(this, error, user);
+    //     } else {
+    //         callback.call(this, error);
+    //     }
+    // });
 };
 
 UserManager.prototype.flash = function(emitter, receiver, callback) {
@@ -321,18 +356,43 @@ UserManager.prototype.save = function(emitter, receiver, callback) {
 };
 
 UserManager.prototype.write = function(emitter, receiver, data, callback) {
+    // var dt = new Date();
+    // this.get(receiver, function(error, user) {
+    //     if (!error) {
+    //         user.messages.push({
+    //             emitter: emitter,
+    //             receiver: receiver,
+    //             title: data.title,
+    //             message: data.message
+    //         });
+    //         user.save();
+    //     }
+    // });
+    // this.get(emitter, function(error, user) {
+    //     if (!error) {
+    //         user.messages.push({
+    //             emitter: emitter,
+    //             receiver: receiver,
+    //             title: data.title,
+    //             message: data.message
+    //         });
+    //         user.save(callback);
+    //     } else {
+    //         callback.call(this, error, user);
+    //     }
+    // });
     var me = this,
         Thread = DataMgr.getModel('Thread'),
         thread = new Thread({
             users: [emitter, receiver],
-            message: [{
+            messages: [{
                 emitter: emitter,
                 receiver: receiver,
                 title: data.title,
                 message: data.message
             }]
         });
-
+    
     thread.save(function(error, thread) {
         if (!error) {
             var id = thread.get('_id');
@@ -357,9 +417,40 @@ UserManager.prototype.write = function(emitter, receiver, data, callback) {
 };
 
 UserManager.prototype.getMessages = function(id, params, callback) {
+    // this.get(id, function(error, user) {
+    //     if (!error) {
+    //         var userId, message,
+    //             store = [], messages = [],
+    //             User = DataMgr.getModel('User'),
+    //             query = User.find({});
+    // 
+    //         for (var i = 0, l = user.messages.length; i < l; i++) {
+    //             message = user.messages[i];
+    //             userId = id === message.emitter ? message.receiver : message.emitter;
+    //             messages.push(userId);
+    //             store[userId] = message;
+    //         }
+    // 
+    //         query.where('_id').in(messages);
+    //         query.skip(params.pageSize * (params.pageIndex - 1));
+    //         query.limit(params.pageSize).exec(function(error, docs) {
+    //             query = User.find({});
+    //             query.where('_id').in(messages);
+    //             query.count(function(error, count) {
+    //                 for (var i = 0, l = docs.length; i < l; i++) {
+    //                     docs[i].set('message', store[docs[i].get('_id')]);
+    //                 }
+    //                 console.log('DOCS', docs);
+    //                 callback.call(this, error, docs, count);
+    //             });
+    //         });
+    //     }
+    // });
+
     this.get(id, function(error, user) {
         if (!error) {
-            var threads = user.get('threads'),
+            var doc,
+                threads = user.get('threads'),
                 Thread = DataMgr.getModel('Thread');
                 query = Thread.find({});
                 

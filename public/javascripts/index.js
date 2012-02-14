@@ -147,4 +147,7 @@ Meet.search.prototype.closeWriteWindow = function() {
 
 $(function() { ko.applyBindings(new Meet.search()); });
 
-$(function() { $().alert(); });
+$(function() {
+    // $().alert();
+    $('.item').tooltip({selector: "a[rel=tooltip]"});
+});

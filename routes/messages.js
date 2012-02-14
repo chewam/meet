@@ -12,6 +12,7 @@ module.exports = function(req, res) {
         if (!error) {
             items = docs;
         }
+        console.log('ITEMS', items);
         res.render('activity', {
             items: items,
             authorized: true,

@@ -1,36 +1,67 @@
 div.item.row
     div.span2
-        a.thumbnail(href="/profile/" + item.get('_id'))
-            img(src="#{item.get('pic')}")
+        a.thumbnail(href="/profile/" + item.id)
+            img(src="#{item.pic}")
     div.span7
 
         // FLASH BUTTON
-        - var flash = false;
-        - for (var i = 0, l = user.flashed.length; i < l; i++)
-            - if (user.flashed[i].user == item.get('_id'))
-                - flash = user.flashed[i];
-        - if (flash)
-            button.btn.pull-right(disabled="disabled", rel='tooltip', data-original-title='Last flash: ' + flash.date) Flashed
-        - else
-            // button.btn.pull-right(autocomplete="off", data-complete-text="Flashed", onclick="function(e) { flash(e.target, '" + item.get('_id') + "'); }") Flash
-            button.btn.pull-right(data-complete-text="Flashed", data-bind="click: function(e) { flash(e.target, '" + item.get('_id') + "'); }") Flash
+        // - var flash = false;
+        // - for (var i = 0, l = user.flashed.length; i < l; i++)
+        //     - if (user.flashed[i].user == item.id)
+        //         - flash = user.flashed[i];
+        // - if (flash)
+        //     button.btn.pull-right(disabled="disabled", rel='tooltip', data-original-title='Last flash: ' + flash.date)
+        //         i.icon-fire
+        //         |&nbsp;Flashed
+        // - else
+        //     // button.btn.pull-right(autocomplete="off", data-complete-text="Flashed", onclick="function(e) { flash(e.target, '" + item.id + "'); }") Flash
+        //     button.btn.pull-right(data-complete-text="Flashed", data-bind="click: function(e) { flash(e.target, '" + item.id + "'); }")
+        //         i.icon-fire
+        //         |&nbsp;Flash
+        // 
+        // // WRITE BUTTON
+        // // button.btn.btn-info.pull-right(onclick="function() { write('" + item.id + "', '" + item.login + "'); }")
+        // button.btn.btn-info.pull-right(data-bind="click: function() { write('" + item.id + "', '" + item.login + "'); }")
+        //     i.icon-comment.icon-white
+        //     |&nbsp;Write
+        // 
+        // // SAVE BUTTON
+        // - var save = false;
+        // - for (var i = 0, l = user.saved.length; i < l; i++)
+        //     - if (user.saved[i].user == item.id)
+        //         - save = user.saved[i];
+        // - if (save)
+        //     button.btn.btn-success.pull-right(disabled="disabled", rel='tooltip', data-original-title='Saved: ' + save.date)
+        //         i.icon-heart.icon-white
+        //         |&nbsp;Saved
+        // - else
+        //     // button.btn.btn-success.pull-right(data-complete-text="Saved", onclick="function(e) { save(e.target, '" + item.id + "'); }") Save
+        //     button.btn.btn-success.pull-right(data-complete-text="Saved", data-bind="click: function(e) { save(e.target, '" + item.id + "'); }")
+        //         i.icon-heart.icon-white
+        //         |&nbsp;Save
 
-        // WRITE BUTTON
-        button.btn.btn-info.pull-right(onclick="function() { write('" + item.get('_id') + "', '" + item.get('login') + "'); }") Write
-        // button.btn.btn-info.pull-right(data-bind="click: function() { write('" + item.get('_id') + "', '" + item.get('login') + "'); }") Write
+        h3.page-header
+            a(href="/profile/" + item.id) #{item.login}
+            small.pull-right
+                div.btn-group
+                    a.btn(href="#", rel="tooltip", data-original-title="write a message")
+                        i.icon-comment
+                    a.btn(href="#", rel="tooltip", data-original-title="flash")
+                        i.icon-fire
+                    a.btn(href="#", rel="tooltip", data-original-title="save")
+                        i.icon-heart
 
-        // SAVE BUTTON
-        - var save = false;
-        - for (var i = 0, l = user.saved.length; i < l; i++)
-            - if (user.saved[i].user == item.get('_id'))
-                - save = user.saved[i];
-        - if (save)
-            button.btn.btn-success.pull-right(disabled="disabled", rel='tooltip', data-original-title='Saved: ' + save.date) Saved
-        - else
-            // button.btn.btn-success.pull-right(data-complete-text="Saved", onclick="function(e) { save(e.target, '" + item.get('_id') + "'); }") Save
-            button.btn.btn-success.pull-right(data-complete-text="Saved", data-bind="click: function(e) { save(e.target, '" + item.get('_id') + "'); }") Save
-
-        h3.page-header: a(href="/profile/" + item.get('_id')) #{item.get('login')}
-        div #{item.get('email')}
+                // button.btn.btn-small
+                //     i.icon-comment
+                //     |&nbsp;write
+                // &nbsp;&nbsp;
+                // a(href="#")
+                //     i.icon-fire
+                //     |&nbsp;flash
+                // &nbsp;&nbsp;
+                // a(href="#")
+                //     i.icon-heart
+                //     |&nbsp;save
+                
         div
             include lorem-small

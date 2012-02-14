@@ -3,23 +3,6 @@ body {
     background-color: #FFF;
 }
 
-.alert {
-    width: 300px;
-    right: 16px;
-    bottom: 0px;
-    position: fixed;
-    box-shadow: 0 1px 6px -3px rgba(0, 0, 0, .8);
-}
-
-.alert .alert-heading {
-    margin-bottom: 16px;
-}
-
-.alert .thumbnail {
-    height: 60px;
-    width: 60px;
-}
-
 h1 {
     margin-top: 40px !important;
 }
@@ -50,7 +33,7 @@ h1 {
     position: relative;
 }
 */
-.box {
+/*.box {
     min-height:20px;
     margin-bottom:20px;
     background-color: transparent;
@@ -70,28 +53,55 @@ h1 {
 
 .box form, .box .actions {
     margin-bottom: 0;
+}*/
+
+.footer {
+    background-color: #FFF;
+    box-shadow: 0 -1px 6px -3px rgba(0, 0, 0, .3);
 }
 
+
+/***** ITEMS
+*******************************************************************************/
 .items .item {
     margin-bottom: 20px;
 }
 
+.items .item .span2 {
+    width: 80px;
+}
+
 .items .item h3 {
     margin-top: 0;
+    margin-bottom: 6px;
 }
 
 .items .item button {
-/*    margin-top: 14px;*/
     margin-left: 4px;
 }
 
 .items .item .thumbnail,
 .items .item .thumbnail img {
-    height: 90px;
-    width: 90px;
+    height: 70px;
+    width: 70px;
 }
 
-.footer {
-    background-color: #FFF;
-    box-shadow: 0 -1px 6px -3px rgba(0, 0, 0, .3);
+
+/***** ALERT
+*******************************************************************************/
+.alert {
+    width: 300px;
+    right: 16px;
+    bottom: 0px;
+    position: fixed;
+    box-shadow: 0 1px 6px -3px rgba(0, 0, 0, .8);
+}
+
+.alert .alert-heading {
+    margin-bottom: 16px;
+}
+
+.alert .thumbnail {
+    height: 60px;
+    width: 60px;
 }

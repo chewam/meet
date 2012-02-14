@@ -1,0 +1,25 @@
+div#write-modal.modal.fade.hide
+    div.modal-header
+        a.close ×
+        h3 Send a message to 
+            span
+    div.modal-body
+
+        form.form-stacked(action="", method="POST")
+            div.clearfix
+                label(for="title") Title
+                div.input
+                    input#title.xlarge(type="text", name="title")
+
+            div.clearfix
+                label(for="message") Message
+                div.textarea
+                    textarea#message(rows="10", name="message", style="width: 480px")
+
+    div.modal-footer
+        a.btn.btn-primary(data-complete-text="Send", data-bind="click: function(e) { sendMessage(e.target); }")
+            i.icon-ok.icon-white
+            |&nbsp;Send
+        a.btn.btn-secondary(data-bind="click: closeWriteWindow")
+            i.icon-remove
+            |&nbsp;Cancel
