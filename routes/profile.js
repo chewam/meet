@@ -2,14 +2,15 @@ var UserMgr = require('../app/').UserManager;
 
 module.exports = function(req, res) {
     var id = req.params.id;
-    UserMgr.visit(req.session.user._id, id, function() {
-        req.session.user.visited.push({
-            user: id,
-            date: new Date()
-        });
-        UserMgr.get(id, function(error, record) {
+    UserMgr.visit(req.session.user.id, id, function(user) {
+        // req.session.user.visited.push({
+        //     user: id,
+        //     date: new Date()
+        // });
+        UserMgr.get(id, function(user) {
+            user = user || {};
             res.render('profile', {
-                item: record,
+                item: user,
                 authorized: true,
                 route: '/profile',
                 title: 'Meet :: Profile',

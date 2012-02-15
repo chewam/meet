@@ -1,12 +1,13 @@
 var UserMgr = require('../app/').UserManager;
 
 module.exports = function(req, res) {
+    var q = req.query,
+        user = req.session.user;
 
-    var q = {};
-    q.pageIndex = 1;
-    q.pageSize = 10;
+    q.pageIndex = q.pageIndex || 1;
+    q.pageSize = q.pageSize || 10;
 
-    UserMgr.list(function(users, count) {
+    UserMgr.find(user.id, q, function(users, count) {
         res.render('search', {
             items: users,
             route: '/search',

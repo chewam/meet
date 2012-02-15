@@ -47,18 +47,26 @@ Meet.Msg = new Meet.message();
 
 Meet.search = function() {};
 
-Meet.search.prototype.flash = function(btn, id) {
+Meet.search.prototype.onItemButtonClick = function(btn) {
+
+    var id = btn.attr('data-user-id'),
+        type = btn.attr('data-original-title');
+
+    this[type](id);
+};
+
+Meet.search.prototype.flash = function(id) {
     console.log("FLASH", this, arguments);
     // btn = $(btn);
     // $(btn).button('loading');
-    $(btn).addClass('disabled');
+    // $(btn).addClass('disabled');
     // btn.removeAttr('data-bind');
     $.post('/users/' + id + '/flash', {toto: 42}, function() {
-        console.log("callback", this, arguments, $(btn));
+        console.log("callback", this, arguments);
         // $(btn).button('complete');
         // $(btn).addClass('disabled');
         // btn.attr('disabled', 'disabled');
-        console.log('BUTTON', $(btn), $(btn).attr('class'));
+        // console.log('BUTTON', $(btn), $(btn).attr('class'));
         // btn.tooltip({
         //     fallback: 'flash ok'
         // });
@@ -80,14 +88,14 @@ Meet.search.prototype.write = function(id, login) {
     }, 500);
 };
 
-Meet.search.prototype.save = function(btn, id) {
+Meet.search.prototype.save = function(id) {
     console.log("SAVE", this, arguments);
-    btn = $(btn);
+    // btn = $(btn);
     // btn.button('loading');
     $.post('/users/' + id + '/save', function() {
         console.log("callback", this, arguments);
         // btn.button('complete');
-        btn.addClass('disabled');
+        // btn.addClass('disabled');
         // btn.tooltip({
         //     fallback: 'save ok'
         // });
@@ -145,9 +153,14 @@ Meet.search.prototype.closeWriteWindow = function() {
     $('#write-modal').modal('hide');
 };
 
-$(function() { ko.applyBindings(new Meet.search()); });
+// $(function() { ko.applyBindings(new Meet.search()); });
 
 $(function() {
     // $().alert();
+    var search = new Meet.search();
+
     $('.item').tooltip({selector: "a[rel=tooltip]"});
+    $('.item a.btn').click(function() {
+        search.onItemButtonClick($(this));
+    });
 });

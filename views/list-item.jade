@@ -41,14 +41,14 @@ div.item.row
         //         |&nbsp;Save
 
         h3.page-header
-            a(href="/profile/" + item.id) #{item.login}
+            a(href="/profile/#{item.id}") #{item.login}
             small.pull-right
                 div.btn-group
-                    a.btn(href="#", rel="tooltip", data-original-title="write a message")
+                    a.btn(rel="tooltip", data-user-id="#{item.id}", data-original-title="write")
                         i.icon-comment
-                    a.btn(href="#", rel="tooltip", data-original-title="flash")
+                    a.btn(rel="tooltip", data-user-id="#{item.id}", data-original-title="flash")
                         i.icon-fire
-                    a.btn(href="#", rel="tooltip", data-original-title="save")
+                    a.btn(rel="tooltip", data-user-id="#{item.id}", data-original-title="save")
                         i.icon-heart
 
                 // button.btn.btn-small

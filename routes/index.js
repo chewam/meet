@@ -105,21 +105,21 @@ exports.deleteUser = function(req, res) {
 }
 
 exports.flashUser = function(req, res) {
-    UserMgr.flash(req.session.user._id, req.params.id, function() {
-        req.session.user.flashed.push({
-            user: req.params.id,
-            date: new Date()
-        });
+    UserMgr.flash(req.session.user.id, req.params.id, function() {
+        // req.session.user.flashed.push({
+        //     user: req.params.id,
+        //     date: new Date()
+        // });
         res.end('{success: true}');
     });
 }
 
 exports.saveUser = function(req, res) {
-    UserMgr.save(req.session.user._id, req.params.id, function() {
-        req.session.user.saved.push({
-            user: req.params.id,
-            date: new Date()
-        });
+    UserMgr.save(req.session.user.id, req.params.id, function() {
+        // req.session.user.saved.push({
+        //     user: req.params.id,
+        //     date: new Date()
+        // });
         res.end('{success: true}');
     });
 }

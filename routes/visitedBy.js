@@ -7,13 +7,10 @@ module.exports = function(req, res) {
     q.pageIndex = q.pageIndex || 1;
     q.pageSize = q.pageSize || 10;
 
-    UserMgr.getVisitedBy(user._id, q, function(error, docs, count) {
-        var items = [];
-        if (!error) {
-            items = docs;
-        }
+    UserMgr.getVisitedBy(user.id, q, function(users, count) {
+        users = users || [];
         res.render('activity', {
-            items: items,
+            items: users,
             authorized: true,
             route: '/activity/visitedby',
             title: 'Meet :: Activity',
