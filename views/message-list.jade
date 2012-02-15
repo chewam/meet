@@ -1,0 +1,15 @@
+include pagination
+
+div.items
+    - var item;
+    - for (var i = 0, l = items.length; i < l; i++)
+        - item = items[i];
+        div.item.row
+            div.span2
+                a.thumbnail(href="/profile/" + item.id)
+                    img(src="#{item.pic}")
+            div.span7
+                h3.page-header
+                    a(href="/profile/#{item.id}") #{item.login}
+                div
+                    #{item.message}

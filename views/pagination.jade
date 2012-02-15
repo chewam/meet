@@ -1,0 +1,15 @@
+div.pagination
+    ul
+        - if (pageIndex - 1 > 0)
+            li.prev: a(href=route + "?pageIndex=" + (pageIndex - 1)) &larr;
+        - else
+            li.prev.disabled: a(href=route + "?pageIndex=" + (pageIndex - 1)) &larr;
+        - for (var i = 1; i <= pageCount; i++)
+            - if (i === pageIndex)
+                li.active: a(href=route + "?pageIndex=" + i) #{i}
+            - else
+                li: a(href=route + "?pageIndex=" + i) #{i}
+        - if (pageIndex < pageCount)
+            li.next: a(href=route + "?pageIndex=" + (pageIndex + 1)) &rarr;
+        - else
+            li.next.disabled: a(href=route + "?pageIndex=" + (pageIndex + 1)) &rarr;

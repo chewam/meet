@@ -7,14 +7,11 @@ module.exports = function(req, res) {
     q.pageIndex = q.pageIndex || 1;
     q.pageSize = q.pageSize || 10;
 
-    UserMgr.getMessages(user._id, q, function(error, docs, count) {
-        var items = [];
-        if (!error) {
-            items = docs;
-        }
-        console.log('ITEMS', items);
+    UserMgr.getMessages(user.id, q, function(messages, count) {
+        messages = messages || [];
+        console.log('---> messages: ', messages);
         res.render('activity', {
-            items: items,
+            items: messages,
             authorized: true,
             route: '/activity/messages',
             title: 'Meet :: Activity',

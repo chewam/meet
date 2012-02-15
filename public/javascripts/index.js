@@ -52,7 +52,7 @@ Meet.search.prototype.onItemButtonClick = function(btn) {
     var id = btn.attr('data-user-id'),
         type = btn.attr('data-original-title');
 
-    this[type](id);
+    if (!btn.hasClass('disabled')) this[type](id);
 };
 
 Meet.search.prototype.flash = function(id) {

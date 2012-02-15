@@ -40,15 +40,18 @@ div.item.row
         //         i.icon-heart.icon-white
         //         |&nbsp;Save
 
+        - var fCls = item.flashed ? 'disabled' : '';
+        - var sCls = item.saved ? 'disabled' : '';
+
         h3.page-header
             a(href="/profile/#{item.id}") #{item.login}
             small.pull-right
                 div.btn-group
-                    a.btn(rel="tooltip", data-user-id="#{item.id}", data-original-title="write")
+                    a.btn.btn-small(rel="tooltip", data-user-id="#{item.id}", data-original-title="write")
                         i.icon-comment
-                    a.btn(rel="tooltip", data-user-id="#{item.id}", data-original-title="flash")
+                    a.btn.btn-small(rel="tooltip", data-user-id="#{item.id}", data-original-title="flash", class="#{fCls}")
                         i.icon-fire
-                    a.btn(rel="tooltip", data-user-id="#{item.id}", data-original-title="save")
+                    a.btn.btn-small(rel="tooltip", data-user-id="#{item.id}", data-original-title="save", class="#{sCls}")
                         i.icon-heart
 
                 // button.btn.btn-small

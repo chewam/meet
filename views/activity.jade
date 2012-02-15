@@ -45,13 +45,10 @@ ul.nav.nav-tabs
         li: a(href="/activity/saved") Saved
 
 div.tab-content
-    div.tab-pane#messages
-    div.tab-pane#visited
-    div.tab-pane#visitedby
-    div.tab-pane#flashedby
-    div.tab-pane#flashed.active
+    div.tab-pane.active
+    - if (route == "/activity/messages")
+        include message-list
+    - else
         include list
-    div.tab-pane#savedby
-    div.tab-pane#saved
 
 include write-modal
