@@ -18,16 +18,21 @@ exports.checkSession = function(req, res, next) {
 
 // INDEX
 exports.index = function(req, res) {
+    // console.log('REQ', req, req.path);
     if (req.session.user) {
         res.redirect('/home');
     } else {
         res.render('index', {
+            path: req.path,
             authorized: false,
             title: 'Meet :: Index',
             user: req.session.user
         });
     }
 };
+
+// UTILS
+exports.utils = require('./utils');
 
 // LOGIN
 exports.login = require('./login');

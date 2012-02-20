@@ -1,14 +1,13 @@
 form.form-stacked(action="", method="POST")
-    fieldset
-        legend Authentication
-        div.clearfix
-            label(for="login") Login
-            div.input
-                input#login.xlarge(type="text", name="login")
-        div.clearfix
-            label(for="password") Password
-            div.input
-                input#password.xlarge(type="password", name="password")
+    h3.thin.page-header Authentication
+    div.group-control
+        label(for="login") Login
+        div.controls
+            input#login(type="text", name="login")
+    div.group-control
+        label(for="password") Password
+        div.controls
+            input#password(type="password", name="password")
 
     div.actions
         button.btn.primary(type="submit") Submit

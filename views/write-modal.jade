@@ -1,25 +1,25 @@
 div#write-modal.modal.fade.hide
     div.modal-header
-        a.close ×
+        a.close(data-dismiss="modal") ×
         h3 Send a message to 
             span
     div.modal-body
 
         form.form-stacked(action="", method="POST")
-            div.clearfix
+            div.control-group
                 label(for="title") Title
-                div.input
+                div.controls
                     input#title.xlarge(type="text", name="title")
 
-            div.clearfix
+            div.control-group
                 label(for="message") Message
-                div.textarea
+                div.controls
                     textarea#message(rows="10", name="message", style="width: 480px")
 
     div.modal-footer
         a.btn.btn-primary(data-complete-text="Send", data-bind="click: function(e) { sendMessage(e.target); }")
             i.icon-ok.icon-white
             |&nbsp;Send
-        a.btn.btn-secondary(data-bind="click: closeWriteWindow")
+        a.btn(data-dismiss="modal")
             i.icon-remove
             |&nbsp;Cancel

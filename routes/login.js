@@ -8,6 +8,7 @@ module.exports = function(req, res) {
                 res.redirect('/home');
             } else {
                 res.render('login', {
+                    path: req.path,
                     authorized: false,
                     title: 'Meet :: Login',
                     user: req.session.user
@@ -16,6 +17,7 @@ module.exports = function(req, res) {
         });
     } else {
         res.render('login', {
+            path: req.path,
             authorized: false,
             title: 'Meet :: Login',
             user: req.session.user

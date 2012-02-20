@@ -18,23 +18,32 @@ if authorized
 
     hr
     div
-        // h3.page-header Activity
         ul.nav.nav-list
-            li: a(href="/activity/visited")
-                i.icon-user
-                |&nbsp;Visited
+            li.nav-header They are interested
+
             li: a(href="/activity/visitedby")
                 i.icon-user
                 |&nbsp;Visited By
-            li: a(href="/activity/flashed")
-                i.icon-fire
-                |&nbsp;Flashed
             li: a(href="/activity/flashedby")
                 i.icon-fire
                 |&nbsp;Flashed By
-            li: a(href="/activity/saved")
-                i.icon-heart
-                |&nbsp;Saved
             li: a(href="/activity/savedby")
                 i.icon-heart
                 |&nbsp;Saved By
+
+            li.nav-header You are interested
+
+            li: a(href="/activity/visited")
+                i.icon-user
+                |&nbsp;Visited
+            li: a(href="/activity/flashed")
+                i.icon-fire
+                |&nbsp;Flashed            
+            li: a(href="/activity/saved")
+                i.icon-heart
+                |&nbsp;Saved
+
+else
+    div
+        h3.thin.page-header Information
+        p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

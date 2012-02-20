@@ -9,22 +9,69 @@ UserManager.prototype.get = function(id, callback) {
     var query = 'SELECT id, login, email, pic FROM user WHERE id = ?';
 
     DataMgr.client.query(query, [id], function(err, results, fields) {
-        console.log('GET USER', results[0]);
         callback.call(this, results[0]);
     });
 };
 
-UserManager.prototype.create = function(data, callback) {
-    var me = this,
-        query = 'INSERT INTO user '
-        + 'SET gender = ?, pic = ?, login = ?, password = ?, country = ?, city = ?, email = ?, zipcode = ?, range1 = ?, range2 = ?';
+UserManager.prototype.createUser = function(data, callback) {
+    if (
+        data.login && data.login.length &&
+        data.email && data.email.length &&
+        data.password && data.password.length &&
+        data.password === data.password2 &&
+        data.range1 && data.range1.length &&
+        data.range2 && data.range2.length &&
+        data['birthday-day'] && data['birthday-day'].length &&
+        data['birthday-month'] && data['birthday-month'].length &&
+        data['birthday-year'] && data['birthday-year'].length &&
+        data.location && data.location.length
+    ) {
+        var me = this,
+            geocoder = require('geocoder'),
+            location = data.location.split('|');
 
-    DataMgr.client.query(query,
-        [data.gender, data.pic, data.login, data.password, data.country, data.city, data.email, data.zipcode, data.range1, data.range2],
-        function(err, info) {
-            me.get(info.insertId, callback);
-        }
-    );
+        geocoder.reverseGeocode(location[0], location[1], function (err, response) {
+            if (!err) {
+                var type,
+                    result = response.results[0].address_components;
+                for (var i = 0, l = result.length; i < l; i++) {
+                    type = result[i].types;
+                    if (type.indexOf('locality') !== -1) {
+                        data.city = result[i].long_name;
+                    } else if (type.indexOf('country') !== -1) {
+                        data.country = result[i].long_name;
+                    } else if (type.indexOf('postal_code') !== -1) {
+                        data.zipcode = result[i].long_name;
+                    }
+                }
+
+                if (
+                    data.city && data.city.length &&
+                    data.country && data.country.length &&
+                    data.zipcode && data.zipcode.length
+                ) {
+                    var query = 'INSERT INTO user '
+                        + 'SET gender = ?, pic = ?, login = ?, password = ?, country = ?, city = ?, email = ?, zipcode = ?, range1 = ?, range2 = ?';
+
+                    DataMgr.client.query(query,
+                        [data.gender, data.pic, data.login, data.password, data.country, data.city, data.email, data.zipcode, data.range1, data.range2],
+                        function(err, info) {
+                            me.get(info.insertId, callback);
+                        }
+                    );
+                } else {
+                    callback.call(this, false);
+                }
+
+            } else {
+                callback.call(this, false);
+            }
+        });
+
+    } else {
+        callback.call(this, false);
+    }
+
 };
 
 UserManager.prototype.update = function(user, data, callback) {
@@ -53,7 +100,7 @@ UserManager.prototype.remove = function(user, callback) {
 };
 
 UserManager.prototype.list = function(queries, values, params, callback) {
-    var limit = 10,
+    var limit = params.pageLimit || 10,
         start = (params.pageIndex - 1) * 10,
         limitedValues = values.concat([start, limit]),
         count = queries.count,
@@ -125,6 +172,22 @@ UserManager.prototype.visit = function(emitter, receiver, callback) {
     //     gender: user.gender,
     //     zipcode: user.zipcode
     // });
+};
+
+UserManager.prototype.checkLoginAvailability = function(data, callback) {
+    var query = 'SELECT count(*) as total FROM user WHERE login LIKE ?';
+
+    DataMgr.client.query(query, [data.login], function(err, results, fields) {
+        callback.call(this, !results[0].total);
+    });
+};
+
+UserManager.prototype.checkEmailAvailability = function(data, callback) {
+    var query = 'SELECT count(*) as total FROM user WHERE email LIKE ?';
+
+    DataMgr.client.query(query, [data.email], function(err, results, fields) {
+        callback.call(this, !results[0].total);
+    });
 };
 
 UserManager.prototype.find = function(id, params, callback) {
@@ -225,10 +288,11 @@ UserManager.prototype.getMessages = function(id, params, callback) {
 
         select: 'SELECT user.id, user.login, user.email, user.pic, message.id AS messageId, '
             + 'message.message, message.emitter, message.receiver, '
+            + 'DATE_FORMAT(message.cd, "%d/%m/%Y %H:%i") AS cd, '
             + '(SELECT IF (COUNT(*) > 0, true, false) FROM save WHERE emitter = '+id+' AND receiver = user.id) AS saved, '
             + '(SELECT IF (COUNT(*) > 0, true, false) FROM visit WHERE emitter = '+id+' AND receiver = user.id) AS visited, '
             + '(SELECT IF (COUNT(*) > 0, true, false) FROM flash WHERE emitter = '+id+' AND receiver = user.id) AS flashed '
-            + 'FROM user, message WHERE user.id = IF(message.emitter = ?, message.receiver, message.emitter)'
+            + 'FROM user, message WHERE user.id = IF(message.emitter = ?, message.receiver, message.emitter) ORDER BY message.cd'
     };
 
     this.list(queries, [id], params, callback);

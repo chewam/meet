@@ -1,78 +1,125 @@
-div
-    form.form-vertical(action="", method="POST")
-        fieldset
-            legend Create an account
-            div.control-group
-                label(for="gender") Gender
-                div.controls
-                    select(name="gender")
-                        option(value="m") a man looking for a woman
-                        option(value="f") a woman looking for a man
-                        option(value="f") a woman looking for a woman
-                        option(value="m") a man looking for a man
+form#register-form.register.form-vertical(action="", method="POST")
+    fieldset
+        h3.thin.page-header Create an account
+        div.row
+            div.span4
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-user
+                            input#login.required(type="text", size="30", name="login", placeholder="Login")
+                            span.help-inline.input-loader
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-envelope
+                            input(type="text", name="email", placeholder="Email")
+                            span.help-inline.input-loader
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-lock
+                            input(type="password", size="30", name="password", placeholder="Password")
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-lock
+                            input(type="password", size="30", name="password2", placeholder="Confirm password")
 
-            div.control-group
-                label(for="range") Range
+                hr
+
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-search
+                            select(name="gender")
+                                option(value="m") a man looking for a woman
+                                option(value="f") a woman looking for a man
+                                option(value="f") a woman looking for a woman
+                                option(value="m") a man looking for a man
+
+                div.control-group
+                    label.control-label(for="range1") Range
                     div.controls
                         div.form-inline
-                            select.span2(name="range1")
-                                option 20
-                                option 30
-                                option 40
-                                option 50
-                            |&nbsp;
-                            select.span2(name="range2")
-                                option 20
-                                option 30
-                                option 40
-                                option 50
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-minus
+                                select.input-mini(name="range1", placeholder="min")
+                                    - for (var i = 18, l = 100; i <= l; i++)
+                                        - if (i == 25)
+                                            option(selected="selected") #{i}
+                                        - else
+                                            option #{i}
 
-            div.control-group
-                label(for="birthday") Birthday
+                            |&nbsp;
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-plus
+                                select.span1(name="range2", placeholder="max")
+                                    - for (var i = 18, l = 100; i <= l; i++)
+                                        - if (i == 45)
+                                            option(selected="selected") #{i}
+                                        - else
+                                            option #{i}
+
+                div.control-group
+                    label.control-label(for="birthday-day") Birthday
                     div.controls
                         div.form-inline
-                            input.span1(placeholder="DD")
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-calendar
+                                select.span1(name="birthday-day", placeholder="DD")
+                                    - var option;
+                                    - for (var i = 1, l = 31; i <= l; i++)
+                                        - option = {text: (i < 10 ? '0' : '') + i, value: i}
+                                        option(value="#{option.value}") #{option.text}
+
                             |&nbsp;
-                            input.span1(placeholder="MM")
+                            select.span1(name="birthday-month", placeholder="MM", style="width: 100px")
+                                option(value="1") Janvier
+                                option(value="2") Fevrier
+                                option(value="3") Mars
+                                option(value="4") Avril
+                                option(value="5") Mai
+                                option(value="6") Juin
+                                option(value="7") Juillet
+                                option(value="8") Aout
+                                option(value="9") Septembre
+                                option(value="10") Octobre
+                                option(value="11") Novembre
+                                option(value="12") Decembre
+
                             |&nbsp;
-                            input.span2(placeholder="YYYY")
+                            select.span1(name="birthday-year", placeholder="YYYY")
+                                - var year = (new Date()).getFullYear();
+                                - for (var i = year-18, l = year-100+18; i >= l; i--)
+                                    option(value="#{i}") #{i}
 
-            div.control-group
-                label(for="country") Country
-                div.controls
-                    select(name="country")
-                        option france
-                        option us
-                        option england
-                        option spain
 
-            div.control-group
-                label(for="city") City
-                div.controls
-                    input#city.xlarge(type="text", name="city", value="Paris")
+            div.span5
+                ul.thumbnails
+                    li.span5
+                        div.thumbnail
+                            div#map-canvas
+                            div.caption
+                                div.control-group
+                                    div.controls
+                                        div.input-prepend
+                                            span.add-on
+                                                i.icon-map-marker
+                                            input#location.span5(type="text", name="location", data-provide="typeahead", data-source='["toto","titi","tutu"]', placeholder="Location")
+                                            span.help-inline.input-loader
+                                h5 Thumbnail label
+                                p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
 
-            div.control-group
-                label(for="zipcode") Zip code
-                div.controls
-                    input#zipcode.xlarge(type="text", name="zipcode", value="75006")
-
-            div.control-group
-                label(for="login") Login
-                div.controls
-                    input#login.xlarge(type="text", size="30", name="login")
-            div.control-group
-                label(for="password") Password
-                div.controls
-                    input#password.xlarge(type="password", size="30", name="password")
-            div.control-group
-                label(for="password2") Password
-                div.controls
-                    input#password2.xlarge(type="password", size="30", name="password2")
-
-            div.control-group
-                label(for="email") Email
-                div.controls
-                    input#email.xlarge(type="text", name="email", value="gary@chewam.com")
-
-        div.actions
-            button.btn.primary(type="submit") Submit
+        div.form-actions
+            span.form-loader Loading...
+            button.btn.btn-primary.pull-right(type="button") Create
+            div(style="clear: both")

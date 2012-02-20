@@ -47,7 +47,7 @@ div.item.row
             a(href="/profile/#{item.id}") #{item.login}
             small.pull-right
                 div.btn-group
-                    a.btn.btn-small(rel="tooltip", data-user-id="#{item.id}", data-original-title="write")
+                    a.btn.btn-small(rel="tooltip", data-user-id="#{item.id}", data-user-login="#{item.login}", data-original-title="write")
                         i.icon-comment
                     a.btn.btn-small(rel="tooltip", data-user-id="#{item.id}", data-original-title="flash", class="#{fCls}")
                         i.icon-fire

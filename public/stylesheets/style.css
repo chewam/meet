@@ -7,12 +7,67 @@ h1 {
     margin-top: 40px !important;
 }
 
-.topbar {
-    box-shadow: 0 1px 6px -3px rgba(0, 0, 0, .8);
+.thin {
+    color: #0088CC;
+    font-weight: 300;
+    padding-left: 10px;
+/*    background-color: #EEEEEE;*/
+    background-color: #F5F5F5;
+    text-shadow: 0 1px 0 #FFFFFF;
+    border-bottom: 1px solid #DDDDDD;
+    box-shadow: 0 -10px 16px -24px #000000 inset;
+
+/*    background-image: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#eeeeee));
+    background-image: -webkit-linear-gradient(top, #f5f5f5 0%,#eeeeee 100%);
+    background-image: -ms-linear-gradient(top, #f5f5f5 0%,#eeeeee 100%);
+    background-image: -o-linear-gradient(top, #f5f5f5 0%,#eeeeee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#eeeeee',GradientType=0 );
+    background-image: linear-gradient(top, #f5f5f5 0%,#eeeeee 100%);
+*/}
+
+.navbar-inner {
+    border-radius: 0 0 0 0;
+    border-width: 0 0 1px;
+    background-color: #EEEEEE;
+    border: 1px solid #D5D5D5;
+    background-repeat: repeat-x;
+    box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+    background-image: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%); /* FF3.6+ */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#eeeeee)); /* Chrome,Safari4+ */
+    background-image: -webkit-linear-gradient(top, #f5f5f5 0%,#eeeeee 100%); /* Chrome 10+,Safari 5.1+ */
+    background-image: -ms-linear-gradient(top, #f5f5f5 0%,#eeeeee 100%); /* IE10+ */
+    background-image: -o-linear-gradient(top, #f5f5f5 0%,#eeeeee 100%); /* Opera 11.10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+    background-image: linear-gradient(top, #f5f5f5 0%,#eeeeee 100%); /* W3C */
+}
+
+.navbar .brand {
+    color: #0088CC;
+}
+
+.navbar .nav > li > a {
+    color: #777;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.navbar .nav > li > a:hover {
+    color: #005580;
+}
+
+.navbar .nav > li.active > a,
+.navbar .nav > li.active > a:hover {
+    background-color: #E9E9E9;
+    border-left: 0 none;
+    border-right-color: #DDDDDD;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05) inset;
+    color: #999;
+    padding-left: 13px;
 }
 
 .content {
-    background-color: #B2DCFF;
+/*    background-color: #B2DCFF;*/
+    background-color: #F5F5F5;
 }
 
 .page {
@@ -20,46 +75,90 @@ h1 {
     margin: 0 auto 20px;
     background-color: #FFF;
     border-radius: 0 0 4px 4px;
-    box-shadow: 0 1px 6px -3px rgba(0, 0, 0, .8);
+/*    box-shadow: 0 1px 6px -3px rgba(0, 0, 0, .8);*/
+    box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .page-header {
-    padding-bottom: 6px;
+    margin: 6px 0 8px;
+    padding-bottom: 2px;
 }
-
-/*.page-header .pull-right {
-    top: 12px;
-    line-height: 14px;
-    position: relative;
-}
-*/
-/*.box {
-    min-height:20px;
-    margin-bottom:20px;
-    background-color: transparent;
-    border:1px solid #eee;
-    border:1px solid rgba(0, 0, 0, 0.05);
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-    -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-.box form {
-    margin-top: 20px;
-}
-
-.box form, .box .actions {
-    margin-bottom: 0;
-}*/
 
 .footer {
     background-color: #FFF;
     box-shadow: 0 -1px 6px -3px rgba(0, 0, 0, .3);
 }
 
+
+/***** ONLINE
+*******************************************************************************/
+.online .span2 .thumbnail,
+.online .span2 .thumbnail img {
+    width: 128px;
+    height: 128px;
+}
+
+.online .span1 .thumbnail,
+.online .span1 .thumbnail img {
+    width: 50px;
+    height: 50px;
+}
+/***** REGISTER
+*******************************************************************************/
+.register {
+/*    margin-top: 6px;*/
+}
+
+.register .span4 {
+    width: 276px;
+}
+
+.register .span5 {
+    width: 404px;
+}
+
+.register input.span5 {
+    width: 310px;
+}
+
+.register #map-canvas {
+    height:220px;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+}
+
+.register .help-block {
+    font-size: 11px;
+    margin-top: -11px;
+    position: absolute;
+}
+
+.register .thumbnail .help-block {
+    margin-top: -8px;
+}
+
+.register .thumbnail .help-position {
+    text-align: right;
+    width: 345px;
+}
+
+.register .form-inline .help-block {
+    margin-top: -7px;
+}
+
+.register .form-loader {
+    height: 24px;
+    padding: 2px 0 0 30px;
+    display: none;
+    background: url('../images/loader.gif') no-repeat scroll 0 0 transparent;
+}
+
+.register .input-loader {
+    width: 24px;
+    height: 24px;
+    display: none;
+    background: url('../images/loader.gif') no-repeat scroll center transparent;
+}
 
 /***** ITEMS
 *******************************************************************************/

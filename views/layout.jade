@@ -14,27 +14,15 @@ html
 
         if authorized
             script(src="/javascripts/index.js")
+        else
+            script(src="http://maps.googleapis.com/maps/api/js?sensor=false&v=3.5")
+            // script(src="/javascripts/jquery.validate.min.js")
+            script(src="/javascripts/register.js")
 
 
     body
 
-        div.navbar.navbar-fixed-top
-            div.navbar-inner
-                div.container
-                    a.brand(href='/') Meet
-                    ul.nav
-                        if user
-                            li: a(href="/search") Search
-                            li: a(href="/activity") Activity
-                            li: a(href="/tests") Tests
-                        else
-                            li: a(href="/login") Login
-                            li: a(href="/register") Register
-
-                    ul.nav.pull-right
-                        if user
-                            li: a Welcome #{user.login}
-                            li: a(href="/logout") Logout
+        include navbar
 
         div.content
             div.container.page
@@ -48,4 +36,4 @@ html
             footer.footer
                 div.container
                     p Powered by 
-                        a(href='http://revolunet.com/') Revolunet
+                        a(href='http://chewam.com/') Chewam

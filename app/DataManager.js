@@ -59,7 +59,7 @@ function DataManager() {
 
     var mysql = require('mysql');
 
-    console.log("---> Opening MySQL ("+ mysql.version +") connection");
+    console.log("---> Opening node-mysql ("+ mysql.PACKAGE.version +") connection");
 
     this.client = mysql.createClient({user: 'root', password: 'juX2p0mX'});
     this.client.query('USE meet');

@@ -1,0 +1,22 @@
+div.navbar.navbar-fixed-top
+    div.navbar-inner
+        div.container
+            a.brand(href='/') Meet
+            ul.nav
+                - var cls, link, links
+                - if (user)
+                    - links = ['search', 'activity', 'tests']
+                - else
+                    - links = ['login', 'register']
+
+                - for (var i = 0, l = links.length; i < l; i++)
+                    - link = links[i]
+                    - if ('/'+link === path)
+                        li.active: a(href="/#{link}") #{link}
+                    - else
+                        li: a(href="/#{link}") #{link}
+
+            ul.nav.pull-right
+                if user
+                    li: a Welcome #{user.login}
+                    li: a(href="/logout") Logout

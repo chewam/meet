@@ -68,6 +68,8 @@ app.post('/users/:id/write', routes.writeUser);
 app.post('/users/:id/flash', routes.flashUser);
 app.post('/users/:id/save', routes.saveUser);
 
+app.post('/utils/:method', routes.utils);
+
 app.listen(3000);
 
 console.log("---> Express server listening on port %d in %s mode", app.address().port, app.settings.env);
