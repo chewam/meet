@@ -11,6 +11,7 @@ module.exports = function(req, res) {
         users = users || [];
         res.render('activity', {
             items: users,
+            path: req.path,
             authorized: true,
             route: '/activity/flashedby',
             title: 'Meet :: Activity',

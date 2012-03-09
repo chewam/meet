@@ -7,7 +7,7 @@ div.navbar.navbar-fixed-top
                 - if (user)
                     - links = ['search', 'activity', 'tests']
                 - else
-                    - links = ['login', 'register']
+                    - links = [/*'login', */'register']
 
                 - for (var i = 0, l = links.length; i < l; i++)
                     - link = links[i]
@@ -16,7 +16,12 @@ div.navbar.navbar-fixed-top
                     - else
                         li: a(href="/#{link}") #{link}
 
-            ul.nav.pull-right
-                if user
+            if user
+                ul.nav.pull-right
                     li: a Welcome #{user.login}
-                    li: a(href="/logout") Logout
+                    li: a(href="/logout") Sign out
+            if !user
+                form.form-inline.pull-right(action="/login", method="POST")
+                    input.input-small(type="text", placeholder="Login", name="login", tabindex="1")
+                    input.input-small(type="password", placeholder="Password", name="password", tabindex="2")
+                    button.btn(type="submit", tabindex="3") Sign in

@@ -1,42 +1,359 @@
 div #{item.id}
 div #{item.pic}
-div #{item.email}
 div #{item.gender}
+div #{item.country}
+div #{item.city}
+div #{item.zipcode}
 
-// div.items
-//     div.item.row
-//         div.span2
-//             a.thumbnail(href="/profile/#{item.get('_id')}")
-//                 img(src="#{item.get('pic')}")
-//         div.span7
-// 
-//             // FLASH BUTTON
-//             - var flash = false;
-//             - for (var i = 0, l = user.flashed.length; i < l; i++)
-//                 - if (user.flashed[i].user == item.get('_id'))
-//                     - flash = user.flashed[i];
-//             - if (flash)
-//                 button.btn.pull-right(disabled="disabled", rel='tooltip', data-original-title='Last flash: ' + flash.date) Flashed
-//             - else
-//                 // button.btn.pull-right(autocomplete="off", data-complete-text="Flashed", onclick="function(e) { flash(e.target, '" + item.get('_id') + "'); }") Flash
-//                 button.btn.pull-right(autocomplete="off", data-complete-text="Flashed", data-bind="click: function(e) { flash(e.target, '" + item.get('_id') + "'); }") Flash
-// 
-//             // WRITE BUTTON
-//             button.btn.btn-info.pull-right(onclick="function() { write('" + item.get('_id') + "', '" + item.get('login') + "'); }") Write
-//             // button.btn.btn-info.pull-right(data-bind="click: function() { write('" + item.get('_id') + "', '" + item.get('login') + "'); }") Write
-// 
-//             // SAVE BUTTON
-//             - var save = false;
-//             - for (var i = 0, l = user.saved.length; i < l; i++)
-//                 - if (user.saved[i].user == item.get('_id'))
-//                     - save = user.saved[i];
-//             - if (save)
-//                 button.btn.btn-success.pull-right(disabled="disabled", rel='tooltip', data-original-title='Saved: ' + save.date) Saved
-//             - else
-//                 button.btn.btn-success.pull-right(data-complete-text="Saved", onclick="function(e) { save(e.target, '" + item.get('_id') + "'); }") Save
-//                 // button.btn.btn-success.pull-right(data-complete-text="Saved", data-bind="click: function(e) { save(e.target, '" + item.get('_id') + "'); }") Save
-// 
-//             h3.page-header: a(href="/profile/" + item.get('_id')) #{item.get('login')}
-//             div #{item.get('email')}
-//             div
-//                 include lorem-small
+div#myCarousel.carousel.slide
+    div.carousel-inner
+        div.item.active
+            img(alt="", src="http://placehold.it/870x500/000/E8117F")
+
+        div.item
+            img(alt="", src="http://placehold.it/870x500/E8117F/000")
+
+    a.left.carousel-control(data-slide="prev", href="#myCarousel") ‹
+    a.right.carousel-control(data-slide="next", href="#myCarousel") ›
+
+
+form#account-form.register.form-vertical(action="", method="POST")
+    fieldset.box
+        h3.thin.page-header Your account
+        div.row
+            div.span4
+
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-user
+                            input#login.required(type="text", size="30", name="login", placeholder="Login", value="#{item.login}")
+                            span.help-inline.input-loader
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-envelope
+                            input(type="text", name="email", placeholder="Email", value="#{item.email}")
+                            span.help-inline.input-loader
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-lock
+                            input(type="password", size="30", name="password", placeholder="Password")
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-lock
+                            input(type="password", size="30", name="password2", placeholder="Confirm password")
+
+                div.control-group
+                    div.controls
+                        div.input-prepend
+                            span.add-on
+                                i.icon-search
+                            select(name="gender")
+                                option(value="m") a man looking for a woman
+                                option(value="f") a woman looking for a man
+                                option(value="f") a woman looking for a woman
+                                option(value="m") a man looking for a man
+
+                div.control-group
+                    label.control-label(for="range1") Range
+                    div.controls
+                        div.form-inline
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-minus
+                                select.input-mini(name="range1", placeholder="min")
+                                    - var selected = item.range1 || 25
+                                    - for (var i = 18, l = 100; i <= l; i++)
+                                        - if (i == selected)
+                                            option(selected="selected") #{i}
+                                        - else
+                                            option #{i}
+
+                            |&nbsp;
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-plus
+                                select.span1(name="range2", placeholder="max")
+                                    - var selected = item.range2 || 45
+                                    - for (var i = 18, l = 100; i <= l; i++)
+                                        - if (i == selected)
+                                            option(selected="selected") #{i}
+                                        - else
+                                            option #{i}
+
+                div.control-group
+                    label.control-label(for="birthday-day") Birthday
+                    div.controls
+                        div.form-inline
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-calendar
+                                select.span1(name="birthday-day", placeholder="DD")
+                                    - var option;
+                                    - for (var i = 1, l = 31; i <= l; i++)
+                                        - option = {text: (i < 10 ? '0' : '') + i, value: i}
+                                        option(value="#{option.value}") #{option.text}
+
+                            |&nbsp;
+                            select.span1(name="birthday-month", placeholder="MM", style="width: 100px")
+                                option(value="1") Janvier
+                                option(value="2") Fevrier
+                                option(value="3") Mars
+                                option(value="4") Avril
+                                option(value="5") Mai
+                                option(value="6") Juin
+                                option(value="7") Juillet
+                                option(value="8") Aout
+                                option(value="9") Septembre
+                                option(value="10") Octobre
+                                option(value="11") Novembre
+                                option(value="12") Decembre
+
+                            |&nbsp;
+                            select.span1(name="birthday-year", placeholder="YYYY")
+                                - var year = (new Date()).getFullYear();
+                                - for (var i = year-18, l = year-100+18; i >= l; i--)
+                                    option(value="#{i}") #{i}
+
+
+            div.span5
+                ul.thumbnails
+                    li.span5
+                        div.thumbnail
+                            div#map-canvas
+                            div.caption
+                                div.control-group
+                                    div.controls
+                                        div.input-prepend
+                                            span.add-on
+                                                i.icon-map-marker
+                                            input#location.span5(type="text", name="location", data-provide="typeahead", data-source='["toto","titi","tutu"]', placeholder="Location")
+                                            span.help-inline.input-loader
+                                h5 Thumbnail label
+                                p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+
+
+form.form-horizontal
+    fieldset.box
+        h3.thin.page-header Your profile
+
+        div.control-group
+            label.control-label(for="input01") Ethnicity
+            div.controls
+                select.span3(id="input01")
+                    option Asian
+                    option Black
+                    option Indian
+                    option Hispanic / Latin
+                    option Middle Eastern
+                    option Pacific Islander
+                    option White
+                    option Other
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Height
+            div.controls
+                select.span3(type="text", id="input01")
+                    - for (var i = 140, l = 200; i <= l; i++)
+                        option #{i}
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Body Type
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Rather not say
+                    option Thin
+                    option Overweight
+                    option Skinny
+                    option Average
+                    option Fit
+                    option Athletic
+                    option Jacked
+                    option A little extra
+                    option Curvy
+                    option Full figured
+                    option Used up
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Diet
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option anything
+                    option vegetarian
+                    option vegan
+                    option kosher
+                    option halal
+                    option other
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Smokes
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Yes
+                    option Sometimes
+                    option When drinking
+                    option Trying to quit
+                    option No
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Drinks
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Very often
+                    option Often
+                    option Socially
+                    option Rarely
+                    option Desperately
+                    option Not at all
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Drugs
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Never
+                    option Sometimes
+                    option Often
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Religion
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Agnosticism
+                    option Atheism
+                    option Christianity
+                    option Judaism
+                    option Catholicism
+                    option Islam
+                    option Hinduism
+                    option Buddhism
+                    option Other
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Sign
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Aquarius
+                    option Pisces
+                    option Aries
+                    option Taurus
+                    option Gemini
+                    option Cancer
+                    option Leo
+                    option Virgo
+                    option Libra
+                    option Scorpio
+                    option Sagittarius
+                    option Capricorn
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Education
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option high school
+                    option two-year college
+                    option college/university
+                    option masters program
+                    option law school
+                    option med school
+                    option Ph.D program
+                    option space camp
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Job
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Student
+                    option Artistic / Musical / Writer
+                    option Banking / Financial / Real Estate
+                    option Clerical / Administrative
+                    option Computer / Hardware / Software
+                    option Construction / Craftsmanship
+                    option Education / Academia
+                    option Entertainment / Media
+                    option Executive / Management
+                    option Hospitality / Travel
+                    option Law / Legal Services
+                    option Medicine / Health
+                    option Military
+                    option Political / Government
+                    option Sales / Marketing / Biz Dev
+                    option Science / Tech / Engineering
+                    option Transportation
+                    option Unemployed
+                    option Other
+                    option Rather Not Say
+                    option Retired
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Income
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Less than $20,000
+                    option $20,000–$30,000
+                    option $30,000–$40,000
+                    option $40,000–$50,000
+                    option $50,000–$60,000
+                    option $60,000–$70,000
+                    option $70,000–$80,000
+                    option $80,000–$100,000
+                    option $100,000–$150,000
+                    option $150,000–$250,000
+                    option $250,000–$500,000
+                    option $500,000–$1,000,000
+                    option More than $1,000,000
+                    option Rather not say
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Offspring
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Has a kid
+                    option Has kids
+                    option Doesn’t have kids
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Pets
+            div.controls
+                select.span3(type="text", id="input01")
+                    option —
+                    option Has dogs
+                    option Likes dogs
+                    option Dislikes dogs
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.control-group
+            label.control-label(for="input01") Speaks
+            div.controls
+                input.span3(type="text", id="input01")
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.

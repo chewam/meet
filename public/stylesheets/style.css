@@ -1,21 +1,59 @@
 body {
     padding-top: 20px;
-    background-color: #FFF;
+    background-color: #F5F5F5;
 }
 
+/*body, p, input {
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+*/
 h1 {
+    font-style: oblique;
+    font-family: Georgia;
     margin-top: 40px !important;
 }
 
-.thin {
-    color: #0088CC;
+
+/***** BOX
+********************************************************************************/
+.box {
+    margin-bottom: 18px;
+    border: 1px solid #DDDDDD;
+    border-radius: 3px;
+}
+
+.box h3 {
+    margin-top: 0;
+    color: #DD1144;
     font-weight: 300;
     padding-left: 10px;
-/*    background-color: #EEEEEE;*/
+    font-style: oblique;
+    font-family: Georgia;
     background-color: #F5F5F5;
     text-shadow: 0 1px 0 #FFFFFF;
     border-bottom: 1px solid #DDDDDD;
     box-shadow: 0 -10px 16px -24px #000000 inset;
+}
+
+.box .box-inner {
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.box .form-actions {
+    margin-bottom: 0;
+}
+
+.thin {
+    /*color: #DD1144;
+        font-weight: 300;
+        padding-left: 10px;
+        font-style: oblique;
+        font-family: Georgia;
+        background-color: #F5F5F5;
+        text-shadow: 0 1px 0 #FFFFFF;
+        border-bottom: 1px solid #DDDDDD;
+        box-shadow: 0 -10px 16px -24px #000000 inset;*/
 
 /*    background-image: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#eeeeee));
@@ -26,6 +64,9 @@ h1 {
     background-image: linear-gradient(top, #f5f5f5 0%,#eeeeee 100%);
 */}
 
+
+/***** NAVBAR
+********************************************************************************/
 .navbar-inner {
     border-radius: 0 0 0 0;
     border-width: 0 0 1px;
@@ -65,6 +106,20 @@ h1 {
     padding-left: 13px;
 }
 
+.navbar form {
+    padding: 5px 0;
+    margin-bottom: 0;
+}
+
+.navbar form input {
+    margin-right: 4px;
+}
+
+.navbar form .btn {
+    margin-top: 0;
+}
+
+
 .content {
 /*    background-color: #B2DCFF;*/
     background-color: #F5F5F5;
@@ -80,18 +135,36 @@ h1 {
 }
 
 .page-header {
-    margin: 6px 0 8px;
+    margin-bottom: 8px;
     padding-bottom: 2px;
 }
 
 .footer {
-    background-color: #FFF;
-    box-shadow: 0 -1px 6px -3px rgba(0, 0, 0, .3);
+    color: #777;
+    text-shadow: 0 1px 0 #FFFFFF;
+/*    background-color: #FFF;
+    box-shadow: 0 -1px 6px -3px rgba(0, 0, 0, .3);*/
+}
+
+.footer p {
+    font-size: .8em;
 }
 
 
 /***** ONLINE
 *******************************************************************************/
+.online .box-inner {
+    margin-bottom: 0;
+}
+
+.online .thumbnails {
+    margin: 0 0 0 -10px;
+}
+
+.online .thumbnails > li {
+    margin: 0 0 8px 13px;
+}
+
 .online .span2 .thumbnail,
 .online .span2 .thumbnail img {
     width: 128px;
@@ -100,8 +173,8 @@ h1 {
 
 .online .span1 .thumbnail,
 .online .span1 .thumbnail img {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
 }
 /***** REGISTER
 *******************************************************************************/
@@ -111,10 +184,11 @@ h1 {
 
 .register .span4 {
     width: 276px;
+    padding-left: 6px;
 }
 
 .register .span5 {
-    width: 404px;
+    width: 389px;
 }
 
 .register input.span5 {
@@ -125,6 +199,10 @@ h1 {
     height:220px;
     border-radius: 3px;
     border: 1px solid #CCC;
+}
+
+.register #map-canvas img {
+    max-width: none;
 }
 
 .register .help-block {

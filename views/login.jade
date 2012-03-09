@@ -1,13 +1,21 @@
-form.form-stacked(action="", method="POST")
+form.box.form-stacked(action="", method="POST")
     h3.thin.page-header Authentication
-    div.group-control
-        label(for="login") Login
-        div.controls
-            input#login(type="text", name="login")
-    div.group-control
-        label(for="password") Password
-        div.controls
-            input#password(type="password", name="password")
+    div.box-inner
+        div.group-control
+            label(for="login") Login
+            div.controls
+                div.input-prepend
+                    span.add-on
+                        i.icon-user
+                    input#login(type="text", name="login")
+        div.group-control
+            label(for="password") Password
+            div.controls
+                div.input-prepend
+                    span.add-on
+                        i.icon-lock
+                    input#password(type="password", name="password")
 
-    div.actions
-        button.btn.primary(type="submit") Submit
+    div.form-actions
+        button.btn.btn-primary.pull-right(type="submit") Submit
+        div(style="clear: both")

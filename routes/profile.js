@@ -7,10 +7,11 @@ module.exports = function(req, res) {
         //     user: id,
         //     date: new Date()
         // });
-        UserMgr.get(id, function(user) {
+        UserMgr.getProfile(id, function(user) {
             user = user || {};
             res.render('profile', {
                 item: user,
+                path: req.path,
                 authorized: true,
                 route: '/profile',
                 title: 'Meet :: Profile',

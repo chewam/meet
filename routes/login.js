@@ -7,20 +7,22 @@ module.exports = function(req, res) {
                 req.session.user = user;
                 res.redirect('/home');
             } else {
-                res.render('login', {
-                    path: req.path,
-                    authorized: false,
-                    title: 'Meet :: Login',
-                    user: req.session.user
-                });
+                res.redirect('/');
+                // res.render('login', {
+                //     path: req.path,
+                //     authorized: false,
+                //     title: 'Meet :: Login',
+                //     user: req.session.user
+                // });
             }
         });
     } else {
-        res.render('login', {
-            path: req.path,
-            authorized: false,
-            title: 'Meet :: Login',
-            user: req.session.user
-        });
+        res.redirect('/');
+        // res.render('login', {
+        //     path: req.path,
+        //     authorized: false,
+        //     title: 'Meet :: Login',
+        //     user: req.session.user
+        // });
     }
 };

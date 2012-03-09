@@ -10,6 +10,7 @@ module.exports = function(req, res) {
     UserMgr.find(user.id, q, function(users, count) {
         res.render('search', {
             items: users,
+            path: req.path,
             route: '/search',
             authorized: true,
             title: 'Meet :: Search',

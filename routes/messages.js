@@ -12,6 +12,7 @@ module.exports = function(req, res) {
         console.log('---> messages: ', messages);
         res.render('activity', {
             items: messages,
+            path: req.path,
             authorized: true,
             route: '/activity/messages',
             title: 'Meet :: Activity',

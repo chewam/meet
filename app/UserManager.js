@@ -5,12 +5,23 @@ function UserManager() {
     console.log('---> Create UserManager');
 };
 
-UserManager.prototype.get = function(id, callback) {
-    var query = 'SELECT id, login, email, pic FROM user WHERE id = ?';
+UserManager.prototype.get = function(id, fields, callback) {
+    if (!callback) {
+        callback = fields;
+        fields = ['id', 'login', 'email', 'pic'];
+    }
+
+    var query = 'SELECT '+ fields.join(', ') +' FROM user WHERE id = ?';
 
     DataMgr.client.query(query, [id], function(err, results, fields) {
         callback.call(this, results[0]);
     });
+};
+
+UserManager.prototype.getProfile = function(id, callback) {
+    var fields = ['id', 'login', 'email', 'pic', 'gender', 'country', 'city', 'zipcode', 'range1', 'range2'];
+
+    this.get(id, fields, callback);
 };
 
 UserManager.prototype.createUser = function(data, callback) {
@@ -123,11 +134,13 @@ UserManager.prototype.login = function(data, callback) {
         + 'FROM user';
 
     DataMgr.client.query(query, function(err, results, fields) {
-        for (var i = 0, l = results.length; i < l; i++) {
-            if (results[i].login === data.login && results[i].password === data.password) {
-                delete results[i].password;
-                callback.call(this, results[i]);
-                return;
+        if (!err && results) {
+            for (var i = 0, l = results.length; i < l; i++) {
+                if (results[i].login === data.login && results[i].password === data.password) {
+                    delete results[i].password;
+                    callback.call(this, results[i]);
+                    return;
+                }
             }
         }
         callback.call(this);
