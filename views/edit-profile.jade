@@ -1,0 +1,346 @@
+form#register-form.register.form-vertical(action="", method="POST")
+    div.box
+        h3.thin.page-header Your account
+        div.box-inner
+            div.row
+                div.span4
+
+                    div.control-group
+                        div.controls
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-user
+                                input#login.required(type="text", size="30", name="login", placeholder="Login", value="#{item.login}")
+                                span.help-inline.input-loader
+                    div.control-group
+                        div.controls
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-envelope
+                                input(type="text", name="email", placeholder="Email", value="#{item.email}")
+                                span.help-inline.input-loader
+                    div.control-group
+                        div.controls
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-lock
+                                input(type="password", size="30", name="password", placeholder="Password")
+                    div.control-group
+                        div.controls
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-lock
+                                input(type="password", size="30", name="password2", placeholder="Confirm password")
+
+                    div.control-group
+                        div.controls
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-search
+                                select(name="gender")
+                                    option(value="m") a man looking for a woman
+                                    option(value="f") a woman looking for a man
+                                    option(value="f") a woman looking for a woman
+                                    option(value="m") a man looking for a man
+
+                    div.control-group
+                        label.control-label(for="range1") Range
+                        div.controls
+                            div.form-inline
+                                div.input-prepend
+                                    span.add-on
+                                        i.icon-minus
+                                    select.input-mini(name="range1", placeholder="min")
+                                        - var selected = item.range1 || 25
+                                        - for (var i = 18, l = 100; i <= l; i++)
+                                            - if (i == selected)
+                                                option(selected="selected") #{i}
+                                            - else
+                                                option(value="") #{i}
+
+                                |&nbsp;
+                                div.input-prepend
+                                    span.add-on
+                                        i.icon-plus
+                                    select.span1(name="range2", placeholder="max")
+                                        - var selected = item.range2 || 45
+                                        - for (var i = 18, l = 100; i <= l; i++)
+                                            - if (i == selected)
+                                                option(selected="selected") #{i}
+                                            - else
+                                                option(value="") #{i}
+
+                    div.control-group
+                        label.control-label(for="birthday-day") Birthday
+                        div.controls
+                            div.form-inline
+                                div.input-prepend
+                                    span.add-on
+                                        i.icon-calendar
+                                    select.span1(name="birthday-day", placeholder="DD")
+                                        - var option;
+                                        - for (var i = 1, l = 31; i <= l; i++)
+                                            - option= {text: (i < 10 ? '0' : '') + i, value: i}
+                                            option(value="#{option.value}") #{option.text}
+
+                                |&nbsp;
+                                select.span1(name="birthday-month", placeholder="MM", style="width: 100px")
+                                    option(value="1") Janvier
+                                    option(value="2") Fevrier
+                                    option(value="3") Mars
+                                    option(value="4") Avril
+                                    option(value="5") Mai
+                                    option(value="6") Juin
+                                    option(value="7") Juillet
+                                    option(value="8") Aout
+                                    option(value="9") Septembre
+                                    option(value="10") Octobre
+                                    option(value="11") Novembre
+                                    option(value="12") Decembre
+
+                                |&nbsp;
+                                select.span1(name="birthday-year", placeholder="YYYY")
+                                    - var year = (new Date()).getFullYear();
+                                    - for (var i = year-18, l = year-100+18; i >= l; i--)
+                                        option(value="#{i}") #{i}
+
+
+                div.span5
+                    div#map-canvas
+                    br
+                    div.control-group
+                        div.controls
+                            div.input-prepend
+                                span.add-on
+                                    i.icon-map-marker
+                                input#location.span4(type="text", name="location", data-provide="typeahead", data-source='["toto","titi","tutu"]', placeholder="Location", tabindex="14")
+                                span.help-inline.input-loader
+                    ul#location-details
+                        li Country:
+                        li City:
+                        li Zip Code:
+
+
+        div.form-actions
+            span.form-loader Loading...
+            button.btn.btn-primary.pull-right(type="submit") Save
+            div(style="clear: both")
+
+
+// div#myCarousel.carousel.slide
+//     div.carousel-inner
+//         div.item.active
+//             img(alt="", src="http://placehold.it/870x500/000/E8117F")
+// 
+//         div.item
+//             img(alt="", src="http://placehold.it/870x500/E8117F/000")
+// 
+//     a.left.carousel-control(data-slide="prev", href="#myCarousel") ‹
+//     a.right.carousel-control(data-slide="next", href="#myCarousel") ›
+
+
+form.form-horizontal(action="/users/#{item.id}", method="post")
+    fieldset.box
+        h3.thin.page-header Your words
+
+        div.control-group
+            div.controls
+                - var selectedValue = item.q1 || '';
+                textarea.span3(name="q1", rows="3") #{selectedValue}
+                p.help-block In addition to freeform text, any HTML5 text-based input appears like so.
+
+        div.form-actions
+            span.form-loader Loading...
+            button.btn.btn-primary.pull-right(type="submit") Save
+            div(style="clear: both")
+
+
+
+form.form-horizontal(action="/users/#{item.id}", method="post")
+    fieldset.box
+        h3.thin.page-header Your profile
+
+        div.control-group
+            label.control-label(for="input01") Ethnicity
+            div.controls
+                select.span3(name="ethnicity")
+                    - var selectedValue = item.ethnicity || 0;
+                    - var values = ['--', 'Asian', 'Black', 'Indian', 'Hispanic / Latin', 'Middle Eastern', 'Pacific Islander', 'White', 'Other']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Height
+            div.controls
+                select.span3(name="height")
+                    option(value="0") --
+                    - var selectedValue = item.height || 0;
+                    - for (var i = 140, l = 200; i <= l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{i}
+                        - else
+                            option(value="#{i}") #{i}
+
+        div.control-group
+            label.control-label(for="input01") Body Type
+            div.controls
+                select.span3(name="bodytype")
+                    - var selectedValue = item.bodytype || 0;
+                    - var values = ['--', 'Rather not say', 'Thin', 'Overweight', 'Skinny', 'Average', 'Fit', 'Athletic', 'Jacked', 'A little extra', 'Curvy', 'Full figured', 'Used up']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Diet
+            div.controls
+                select.span3(name="diet")
+                    - var selectedValue = item.diet || 0;
+                    - var values = ['--', 'anything', 'vegetarian', 'vegan', 'kosher', 'halal', 'other']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Smokes
+            div.controls
+                select.span3(name="smokes")
+                    - var selectedValue = item.smokes || 0;
+                    - var values = ['--', 'Yes', 'Sometimes', 'When drinking', 'Try to quit', 'No']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Drinks
+            div.controls
+                select.span3(name="drinks")
+                    - var selectedValue = item.drinks || 0;
+                    - var values = ['--', 'Very often', 'Often', 'Socially', 'Rarely', 'Desperately', 'Not at all']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Drugs
+            div.controls
+                select.span3(name="drugs")
+                    - var selectedValue = item.drugs || 0;
+                    - var values = ['--', 'Never', 'Sometimes', 'Often']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Religion
+            div.controls
+                select.span3(name="religion")
+                    - var selectedValue = item.religion || 0;
+                    - var values = ['--', 'Agnosticism', 'Atheism', 'Christianity', 'Judaism', 'Catholicism', 'Islam', 'Hinduism', 'Buddhism', 'Other']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Sign
+            div.controls
+                select.span3(name="sign")
+                    - var selectedValue = item.sign || 0;
+                    - var values = ['--', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Education
+            div.controls
+                select.span3(name="education")
+                    - var selectedValue = item.education || 0;
+                    - var values = ['--', 'high school', 'two-year college', 'college/university', 'masters program', 'law school', 'med school', 'Ph.D program', 'space camp']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Job
+            div.controls
+                select.span3(name="job")
+                    - var selectedValue = item.job || 0;
+                    - var values = ['--', 'Student', 'Artistic / Musical / Writer', 'Banking / Financial / Real Estate', 'Clerical / Administrative', 'Computer / Hardware / Software', 'Construction / Craftsmanship', 'Education / Academia', 'Entertainment / Media', 'Executive / Management', 'Hospitality / Travel', 'Law / Legal Services', 'Medicine / Health', 'Military', 'Political / Government', 'Sales / Marketing / Biz Dev', 'Science / Tech / Engineering', 'Transportation', 'Unemployed', 'Other', 'Rather Not Say', 'Retired']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Income
+            div.controls
+                select.span3(name="income")
+                    - var selectedValue = item.income || 0;
+                    - var values = ['--', 'Less than $20,000', '$20,000–$30,000', '$30,000–$40,000', '$40,000–$50,000', '$50,000–$60,000', '$60,000–$70,000', '$70,000–$80,000', '$80,000–$100,000', '$100,000–$150,000', '$150,000–$250,000', '$250,000–$500,000', '$500,000–$1,000,000', 'More than $1,000,000', 'Rather not say']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Offspring
+            div.controls
+                select.span3(name="offspring")
+                    - var selectedValue = item.offspring || 0;
+                    - var values = ['--', 'Has a kid', 'Has kids', 'Doesn’t have kids']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Pets
+            div.controls
+                select.span3(name="pets")
+                    - var selectedValue = item.pets || 0;
+                    - var values = ['--', 'Has pets', 'Likes pets', 'Dislikes pets']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.control-group
+            label.control-label(for="input01") Speaks
+            div.controls
+                select.span3(name="speaks")
+                    - var selectedValue = item.pets || 0;
+                    - var values = ['--', 'English', 'Français', 'Dislikes pets']
+                    - for (var i = 0, l = values.length; i < l; i++)
+                        - if (i === selectedValue)
+                            option(value="#{i}", selected="selected") #{values[i]}
+                        - else
+                            option(value="#{i}") #{values[i]}
+
+        div.form-actions
+            span.form-loader Loading...
+            button.btn.btn-primary.pull-right(type="submit") Save
+            div(style="clear: both")

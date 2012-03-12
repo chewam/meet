@@ -1,19 +1,4 @@
 var fs = require('fs');
-//     mongoose = require('mongoose');
-// 
-// mongoose.connect('mongodb://127.0.0.1/app');
-// 
-// var Schema = mongoose.Schema,
-//     ObjectId = Schema.ObjectId;
-// 
-// var User = mongoose.model('User', new Schema({
-//     gender: String,
-//     email: String,
-//     country: String,
-//     pic: String,
-//     login: String,
-//     password: String
-// }));
 
 var mysql = require('mysql');
 var client = mysql.createClient({

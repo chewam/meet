@@ -13,11 +13,15 @@ html
         script(src='/javascripts/bootstrap.js')
 
         if authorized
+            script(src="/javascripts/meet/meet.js")
+            script(src="/javascripts/meet/meet.events.js")
+            script(src="/javascripts/meet/meet.message.js")
+            script(src="/javascripts/meet/meet.search.js")
             script(src="/javascripts/index.js")
-        else
-            script(src="http://maps.googleapis.com/maps/api/js?sensor=false&v=3.5")
+        // else
+        script(src="http://maps.googleapis.com/maps/api/js?sensor=false&v=3.5")
             // script(src="/javascripts/jquery.validate.min.js")
-            script(src="/javascripts/register.js")
+        script(src="/javascripts/register.js")
 
 
     body

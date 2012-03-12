@@ -18,7 +18,6 @@ exports.checkSession = function(req, res, next) {
 
 // INDEX
 exports.index = function(req, res) {
-    // console.log('REQ', req, req.path);
     if (req.session.user) {
         res.redirect('/home');
     } else {
@@ -52,6 +51,9 @@ exports.search = require('./search');
 // PROFILE
 exports.profile = require('./profile');
 
+// EDIT PROFILE
+exports.editProfile = require('./editProfile');
+
 // ACTIVITY
 exports.activity = require('./activity');
 
@@ -76,11 +78,54 @@ exports.visited = require('./visited');
 // ACTIVITY :: VISITED BY
 exports.visitedBy = require('./visitedBy');
 
+// MOBILE
+exports.mobile = require('./mobile');
+
 // USERS
-exports.getUsers = function(req, res) {
-    UserMgr.find(null, {pageSize: 10}, function(error, records) {
-        res.end(JSON.stringify(records));
+exports.isLogged = function(req, res) {
+    res.end(JSON.stringify({
+        success: !!req.session.user,
+        data: req.session.user ? [req.session.user] : undefined
+    }));
+};
+
+exports.logUser = function(req, res) {
+    var data = req.body;
+
+    UserMgr.login(data, function(success) {
+        if (success && success.login) {
+            req.session.user = success;
+        }
+        res.end(JSON.stringify({success: success}));
     });
+};
+
+exports.getUsers = function(req, res) {
+    var q = req.query,
+        user = req.session.user;
+
+    q.pageIndex = q.pageIndex || 1;
+    q.pageLimit = q.pageLimit || 10;
+
+    UserMgr.find(user.id, q, function(users, count) {
+          res.end(JSON.stringify({
+              data: users,
+              count: count
+          }));
+        // res.render('search', {
+        //     items: users,
+        //     path: req.path,
+        //     route: '/search',
+        //     authorized: true,
+        //     title: 'Meet :: Search',
+        //     user: req.session.user,
+        //     pageIndex: parseInt(q.pageIndex),
+        //     pageCount: Math.ceil(count / q.pageSize)
+        // });
+    });
+    // UserMgr.find(null, {pageSize: 10}, function(error, records) {
+    //     res.end(JSON.stringify(records));
+    // });
 };
 
 exports.getUser = function(req, res) {
@@ -98,8 +143,9 @@ exports.createUser = function(req, res) {
 
 exports.updateUser = function(req, res) {
     var data = req.body;
+
     UserMgr.update(req.params.id, data, function(error, record) {
-        res.end(JSON.stringify(record));
+        res.end(JSON.stringify({success: true}));
     });
 }
 

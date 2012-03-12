@@ -4,7 +4,7 @@ if authorized
             a.thumbnail(href="/profile/#{user.id}"): img(src="#{user.pic}")
         div.span2
             h2: a(href="/profile/#{user.id}") #{user.login}
-            div: a(href="/profile/#{user.id}")
+            div: a(href="/profile/#{user.id}/edit")
                 i.icon-pencil
                 |&nbsp;&nbsp;Edit
     hr

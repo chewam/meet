@@ -42,10 +42,13 @@ app.all('/login', routes.login);
 app.all('/logout', routes.logout);
 app.all('/register', routes.register);
 
+app.get('/mobile', routes.mobile);
+
 app.get('/home', routes.checkSession, routes.home);
 app.get('/search', routes.checkSession, routes.search);
 app.get('/tests', routes.checkSession, routes.tests);
 
+app.get('/profile/:id/edit', routes.checkSession, routes.editProfile);
 app.get('/profile/:id', routes.checkSession, routes.profile);
 
 app.get('/activity', routes.checkSession, routes.activity);
@@ -57,8 +60,12 @@ app.get('/activity/saved', routes.checkSession, routes.saved);
 app.get('/activity/visited', routes.checkSession, routes.visited);
 app.get('/activity/visitedby', routes.checkSession, routes.visitedBy);
 
-app.get('/users', routes.getUsers);
+app.get('/users', routes.checkSession, routes.getUsers);
 app.post('/users', routes.createUser);
+
+app.get('/users/isLogged', routes.isLogged);
+app.post('/users/login', routes.logUser);
+
 app.get('/users/:id', routes.getUser);
 app.put('/users/:id', routes.updateUser);
 app.del('/users/:id', routes.deleteUser);

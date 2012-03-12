@@ -8,6 +8,7 @@ function checkLocation(address, callback) {
             address = results[0];
             googleMap.centerMap(address.geometry.location);
             googleMap.addMapMarker(address.geometry.location);
+            googleMap.geocodePosition(address.geometry.location);
             scope.address = address.geometry.location;
         }
         callback.call(scope, isValid, address);
@@ -116,10 +117,9 @@ $(function() {
             console.log('submitValues', values);
             var scope = this,
                 $button = $('button.btn-primary', scope);
-
+            
             scope.setLoading(true);
             $.post('/utils/createUser', values, function(response) {
-                console.log('submit callback', response);
                 scope.setLoading(false);
                 $button.removeClass('disabled');
                 if (response.success) {
@@ -133,7 +133,7 @@ $(function() {
             if (visible) {
                 $loader.css('display', 'inline-block')
             } else $loader.hide();
-        },
+        }
 
     });
 
@@ -171,12 +171,10 @@ $(function() {
 
                 if (isValid && rule.remote) {
                     $element.remoteValidation(function(isValid) {
-                        console.log('validate', $element.attr('name'), isValid);
                         $element.setValidationState(isValid);
                         (callback || function() {}).call(scope, $element, isValid);
                     });
                 } else {
-                    console.log('validate', $element.attr('name'), isValid);
                     $element.setValidationState(isValid);
                     (callback || function() {}).call(scope, $element, isValid);
                 }
@@ -280,7 +278,9 @@ $(function() {
             this.each(function() {
                 var $element = $(this);
                 $element.createMap();
+                $element.initLocation();
                 elements.push($element);
+                
             });
             this.elements = elements;
 
@@ -288,10 +288,11 @@ $(function() {
         },
 
         createMap: function() {
-            var latlng = new google.maps.LatLng(-34.397, 150.644),
+            var latlng = new google.maps.LatLng(48.849, 2.334),
                 myOptions = {
                 zoom: 10,
                 center: latlng,
+                streetViewControl: false,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
@@ -335,7 +336,7 @@ $(function() {
         },
 
         geocodePosition: function(position) {
-            var scope = this, address = [];
+            var scope = this, address = {};
             this.geocoder.geocode({
                 latLng: position
             }, function(responses) {
@@ -346,17 +347,19 @@ $(function() {
 
                     for (var i = 0, l = components.length; i < l; i++) {
                         types = components[i].types;
-                        if (types.indexOf('locality') !== -1) {
-                            address.unshift(components[i].long_name);
+                        if (types.indexOf('postal_code') !== -1) {
+                            address.zipcode = components[i].long_name;
+                        } else if (types.indexOf('locality') !== -1) {
+                            address.city = components[i].long_name;
                         } else if (types.indexOf('country') !== -1) {
-                            address.push(components[i].long_name);
+                            address.country = components[i].long_name;
                         }
                     }
-                    address = address.join(', ');
+                    // address = address.join(', ');
                 } else {
-                    address = '';
+                    // address = '';
                 }
-                scope.updateLocationField(address);
+                scope.updateLocationDetails(address);
             });
         },
 
@@ -366,17 +369,41 @@ $(function() {
                 lng = Math.round(position.lng()*1000)/1000,
                 html = 'latitude: ' + lat + ' longitude: ' + lng;
 
-            if (!$position.length) {                
+            if (!$position.length) {
                 $position = $('<span class="help-block help-position"></span>')
                             .appendTo($('input[name="location"]', this.parent()).parent());
             }
-            
+
             $position.html(html);
+        },
+
+        updateLocationDetails: function(address) {
+            var location = [];
+            if (address.city) location.push(address.city);
+            if (address.country) location.push(address.country);
+            this.updateLocationField(location.join(', '));
+            $('#location-details').html(
+                '<li><i>Country</i>: '+ (address.country || '') + '</li>'
+                + '<li><i>City</i>: '+ (address.city || '') + '</li>'
+                + '<li><i>Zip Code</i>: '+ (address.zipcode || '') + '</li>'
+            );
         },
 
         updateLocationField: function(address) {
             $location = $('input[name="location"]', this.parent());
             $location.val(address)
+        },
+
+        initLocation: function() {
+            var scope = this;
+
+            if (navigator && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    scope.centerMap(latlng);
+                    scope.geocodePosition(latlng);
+                });
+            }
         }
 
     });

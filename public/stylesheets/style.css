@@ -41,7 +41,9 @@ h1 {
 }
 
 .box .form-actions {
+    margin-top: 0;
     margin-bottom: 0;
+    box-shadow: 0 10px 16px -24px #000000 inset;
 }
 
 .thin {
@@ -183,12 +185,20 @@ h1 {
 }
 
 .register .span4 {
-    width: 276px;
-    padding-left: 6px;
+/*    width: 276px;
+    padding-left: 6px;*/
 }
 
 .register .span5 {
-    width: 389px;
+    width: 357px;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid #EEE;
+}
+
+.register .span5 .thumbnails,
+.register .span5 .thumbnails li {
+    margin-bottom: 6px;
 }
 
 .register input.span5 {

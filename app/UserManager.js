@@ -19,7 +19,38 @@ UserManager.prototype.get = function(id, fields, callback) {
 };
 
 UserManager.prototype.getProfile = function(id, callback) {
-    var fields = ['id', 'login', 'email', 'pic', 'gender', 'country', 'city', 'zipcode', 'range1', 'range2'];
+    var fields = [
+        'id',
+        'login',
+        'email',
+        'pic',
+        'gender',
+        'country',
+        'city',
+        'zipcode',
+        'range1',
+        'range2',
+        'ethnicity',
+        'height',
+        'bodytype',
+        'diet',
+        'smokes',
+        'drinks',
+        'drugs',
+        'religion',
+        'sign',
+        'education',
+        'job',
+        'income',
+        'offspring',
+        'pets',
+        'speaks',
+        'q1',
+        'lat',
+        'lng',
+        'birthdate',
+        'TIMESTAMPDIFF(YEAR, birthdate, NOW()) AS age'
+    ];
 
     this.get(id, fields, callback);
 };
@@ -39,7 +70,8 @@ UserManager.prototype.createUser = function(data, callback) {
     ) {
         var me = this,
             geocoder = require('geocoder'),
-            location = data.location.split('|');
+            location = data.location.split('|'),
+            birthdate = data['birthday-year'] + '-' + data['birthday-month'] + '-' + data['birthday-day'];
 
         geocoder.reverseGeocode(location[0], location[1], function (err, response) {
             if (!err) {
@@ -62,10 +94,10 @@ UserManager.prototype.createUser = function(data, callback) {
                     data.zipcode && data.zipcode.length
                 ) {
                     var query = 'INSERT INTO user '
-                        + 'SET gender = ?, pic = ?, login = ?, password = ?, country = ?, city = ?, email = ?, zipcode = ?, range1 = ?, range2 = ?';
+                        + 'SET gender = ?, pic = ?, login = ?, password = ?, country = ?, city = ?, email = ?, zipcode = ?, range1 = ?, range2 = ?, lat = ?, lng = ?, birthdate = ?';
 
                     DataMgr.client.query(query,
-                        [data.gender, data.pic, data.login, data.password, data.country, data.city, data.email, data.zipcode, data.range1, data.range2],
+                        [data.gender, data.pic, data.login, data.password, data.country, data.city, data.email, data.zipcode, data.range1, data.range2, location[0], location[1], birthdate],
                         function(err, info) {
                             me.get(info.insertId, callback);
                         }
@@ -85,18 +117,23 @@ UserManager.prototype.createUser = function(data, callback) {
 
 };
 
-UserManager.prototype.update = function(user, data, callback) {
-    // var doUpdate = function(error, user) {
-    //     for (var key in data) {
-    //         user.set(key, data[key]);
-    //     }
-    //     user.save(callback);
-    // };
-    // if (typeof user === 'string') {
-    //     this.get(user, doUpdate);
-    // } else {
-    //     doUpdate(undefined, user);
-    // }    
+UserManager.prototype.update = function(id, data, callback) {
+    var query,
+        fields = [],
+        values = [];
+
+    for (var key in data) {
+        fields.push(key + '=?');
+        values.push(data[key]);
+    }
+
+    values.push(id);
+
+    query = 'UPDATE user SET '+ fields.join(', ') +' WHERE id = ?';
+
+    DataMgr.client.query(query, values, function(err, info) {
+        callback.call(this);
+    });
 };
 
 UserManager.prototype.remove = function(user, callback) {
@@ -111,13 +148,11 @@ UserManager.prototype.remove = function(user, callback) {
 };
 
 UserManager.prototype.list = function(queries, values, params, callback) {
-    var limit = params.pageLimit || 10,
-        start = (params.pageIndex - 1) * 10,
+    var limit = parseInt(params.pageLimit) || 10,
+        start = (params.pageIndex - 1) * limit,
         limitedValues = values.concat([start, limit]),
         count = queries.count,
         query = queries.select + ' LIMIT ?, ?';
-
-    limitedValues = values.concat([start, limit]);
 
     DataMgr.client.query(query, limitedValues, function(err, results, fields) {
         DataMgr.client.query(count, values, function(err, count) {
@@ -213,7 +248,7 @@ UserManager.prototype.find = function(id, params, callback) {
             + 'FROM user WHERE gender = ?'
     };
 
-    this.list(queries, ['f'], params, callback);
+    this.list(queries, [2], params, callback);
 };
 
 UserManager.prototype.getFlashed = function(id, params, callback) {
