@@ -134,6 +134,55 @@ exports.updateUser = function(req, res) {
     });
 };
 
+exports.getFlashed = function(req, res) {
+    var q = req.query,
+        user = req.session.user;
+
+    UserMgr.getFlashed(user.id, q, function(users, count) {
+        res.end(JSON.stringify({
+            data: users,
+            count: count
+        }));
+    });
+};
+
+exports.getVisited = function(req, res) {
+    var q = req.query,
+        user = req.session.user;
+
+    UserMgr.getVisited(user.id, q, function(users, count) {
+        res.end(JSON.stringify({
+            data: users,
+            count: count
+        }));
+    });
+};
+
+exports.getFlashedBy = function(req, res) {
+    var q = req.query,
+        user = req.session.user;
+
+    UserMgr.getFlashedBy(user.id, q, function(users, count) {
+        res.end(JSON.stringify({
+            data: users,
+            count: count
+        }));
+    });
+};
+
+exports.getVisitedBy = function(req, res) {
+    var q = req.query,
+        user = req.session.user;
+
+    UserMgr.getVisitedBy(user.id, q, function(users, count) {
+        res.end(JSON.stringify({
+            data: users,
+            count: count
+        }));
+    });
+};
+
+
 // exports.isLogged = function(req, res) {
     // res.end(JSON.stringify({
     //     success: !!req.session.user,

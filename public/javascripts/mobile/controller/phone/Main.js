@@ -14,9 +14,14 @@ Ext.define('Meet.controller.phone.Main', {
             loginButton: 'button[action=login]',
             homeMenuButton: 'meet_menu button[action=home]',
             searchMenuButton: 'meet_menu button[action=search]',
+            profileMenuButton: 'meet_menu button[action=profile]',
+            activityMenuButton: 'meet_menu button[action=activity]',
             profileBackButton: 'meet_profile button[action=back]',
             profileActionButton: 'meet_profile button[action=action]',
+            profileFlashButton: 'meet_profile_actions button[action=flash]',
+            messengerBackButton: 'meet_profile_messenger button[action=back]',
             homePanel: 'meet_main meet_home',
+            activityList: 'meet_main meet_activity list',
             menuPanel: {
                 selector: 'meet_main meet_menu',
                 xtype: 'meet_menu',
@@ -32,16 +37,21 @@ Ext.define('Meet.controller.phone.Main', {
                 xtype: 'meet_search',
                 autoCreate: true
             },
+            activityPanel: {
+                selector: 'meet_main meet_activity',
+                xtype: 'meet_activity',
+                autoCreate: true
+            },
             profilePanel: {
                 selector: 'meet_main meet_profile',
                 xtype: 'meet_profile',
                 autoCreate: true
+            },
+            messengerPanel: {
+                selector: 'meet_main meet_profile meet_profile_messenger',
+                xtype: 'meet_profile_messenger',
+                autoCreate: true
             }
-            // profileActionsSheet: {
-            //     selector: 'meet_main meet_profile',
-            //     xtype: 'meet_profile_actions',
-            //     autoCreate: true
-            // }
         },
         control: {
             menuButton: {
@@ -56,17 +66,32 @@ Ext.define('Meet.controller.phone.Main', {
             homeMenuButton: {
                 tap: 'onHomeMenuButtonTap'
             },
+            profileMenuButton: {
+                tap: 'onProfileMenuButtonTap'
+            },
+            activityMenuButton: {
+                tap: 'onActivityMenuButtonTap'
+            },
             homePanel: {
                 itemtap: 'onHomePanelItemTap'
             },
             searchPanel: {
                 itemtap: 'onSearchPanelItemTap'
             },
+            activityList: {
+                itemtap: 'onActivityListItemTap'
+            },
             profileBackButton: {
                 tap: 'onProfileBackButtonTap'
             },
             profileActionButton: {
-                tap: 'onProfileActionButton'
+                tap: 'onProfileActionButtonTap'
+            },
+            profileFlashButton: {
+                tap: 'onProfileFlashButtonTap'
+            },
+            messengerBackButton: {
+                tap: 'onMessengerBackButtonTap'
             }
         }
     },
@@ -149,12 +174,24 @@ Ext.define('Meet.controller.phone.Main', {
 
     showProfile: function(data, callback) {
         console.log('showProfile', this, arguments);
-        this.getMainPanel().setSlideAnimation('left');
-        this.getProfilePanel().callback = callback || Ext.emptyFn;
         this.getMainPanel().setActiveItem(this.getProfilePanel());
+        if (callback) {
+            this.getProfilePanel().callback = callback;
+        }
         if (data) {
             this.getProfilePanel().setData(data);
         }
+    },
+
+    showActivity: function() {
+        console.log('showActivity', this, arguments);
+        this.getMainPanel().setActiveItem(this.getActivityPanel());
+    },
+
+    showMessenger: function() {
+        console.log('showMessenger', this, arguments);
+        this.getMainPanel().setSlideAnimation('left');
+        this.getMainPanel().setActiveItem(this.getMessengerPanel());
     },
 
     onMenuButtonTap: function() {
@@ -173,23 +210,44 @@ Ext.define('Meet.controller.phone.Main', {
         this.showHome();
     },
 
+    onSearchMenuButtonTap: function() {
+        console.log('onSearchMenuButtonTap', this, arguments);
+        this.getMainPanel().setRevealAnimation('up');
+        this.showSearch();
+        this.getSearchPanel().getStore().load();
+    },
+
+    onProfileMenuButtonTap: function() {
+        console.log('onProfileMenuButtonTap', this, arguments);
+        this.getMainPanel().setRevealAnimation('up');
+        this.showProfile(Ext.getStore('userStore').first().data, this.showHome);
+    },
+
+    onActivityMenuButtonTap: function() {
+        console.log('onActivityMenuButtonTap', this, arguments);
+        this.getMainPanel().setRevealAnimation('up');
+        this.showActivity();
+    },
+
     onHomePanelItemTap: function() {
         console.log('onHomePanelItemTap', this, arguments);
         var record = Ext.getStore('userStore').first();
+        this.getMainPanel().setSlideAnimation('left');
         this.showProfile(record.data, this.showHome);
     },
 
     onSearchPanelItemTap: function(list, index) {
         var record = Ext.getStore('usersStore').getAt(index);
         console.log('onSearchPanelItemTap', record);
+        this.getMainPanel().setSlideAnimation('left');
         this.showProfile(record.data, this.showSearch);
     },
 
-    onSearchMenuButtonTap: function() {
-        console.log('onSearchMenuButtonTap', this, arguments);
-        this.getMainPanel().setRevealAnimation('up');
-        this.showSearch();
-        this.getSearchPanel().getStore().load();
+    onActivityListItemTap: function(list, index) {
+        var record = list.getStore().getAt(index);
+        console.log('onActivityListItemTap', record);
+        this.getMainPanel().setSlideAnimation('left');
+        this.showProfile(record.data, this.showActivity);
     },
 
     onProfileBackButtonTap: function() {
@@ -198,12 +256,24 @@ Ext.define('Meet.controller.phone.Main', {
         this.getProfilePanel().callback.call(this);
     },
 
-    onProfileActionButton: function() {
+    onProfileActionButtonTap: function() {
         var sheet = Ext.create('Meet.view.phone.profile.Actions');
-        console.log('onProfileActionButton', sheet);
+        console.log('onProfileActionButtonTap', sheet);
         Ext.Viewport.add(sheet);
         sheet.show();
-        // this.getProfileActionsSheet().show();
-    }
+    },
+
+    onProfileFlashButtonTap: function() {
+        console.log('onProfileFlashButtonTap', this, arguments);
+        var sheet = Ext.Viewport.down('meet_profile_actions');
+        sheet.hide();
+        this.showMessenger();
+    },
+
+    onMessengerBackButtonTap: function() {
+        console.log('onMessengerBackButtonTap', this, arguments);
+        this.getMainPanel().setSlideAnimation('right');
+        this.showProfile();
+    },
 
 });

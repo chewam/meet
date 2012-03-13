@@ -10,6 +10,21 @@ Ext.define('Ext.ux.CardPanel', {
 
     },
 
+    initialize: function() {
+        this.callParent(arguments);
+        this.on('activeitemchange', this.onActiveItemChange, this);
+    },
+
+    onActiveItemChange: function(panel, newItem, oldItem) {
+        var me = this;
+
+        if (oldItem.getAutoRemove && oldItem.getAutoRemove()) {
+            setTimeout(function() {
+                me.remove(oldItem);
+            }, 500);
+        }
+    },
+
     setCoverAnimation: function(direction) {
         this.getLayout().setAnimation(
             new Ext.fx.layout.card.Cover({

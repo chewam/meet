@@ -4,6 +4,7 @@ Ext.define('Meet.view.phone.Menu', {
     xtype: 'meet_menu',
 
     config: {
+        autoRemove: true,
         style: 'background: #1468A2',
         defaults: {
             ui: 'action',

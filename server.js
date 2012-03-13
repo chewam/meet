@@ -70,7 +70,14 @@ app.get('/ws/signIn', routes.signIn);
 // app.post('/ws/checkEmailAvailability', routes.checkEmailAvailability);
 // 
 
+app.get('/ws/user/getVisited', routes.checkSession, routes.getVisited);
+app.get('/ws/user/getFlashed', routes.checkSession, routes.getFlashed);
+app.get('/ws/user/getVisitedBy', routes.checkSession, routes.getVisitedBy);
+app.get('/ws/user/getFlashedBy', routes.checkSession, routes.getFlashedBy);
+
 app.put('/ws/users/:id', routes.checkSession, routes.updateUser);
+
+// app.get('/ws/users/:id/getFlash', routes.checkSession, routes.getFlash);
 
 app.get('/ws/users', routes.checkSession, routes.getUsers);
 // app.post('/ws/users', routes.checkSession, routes.createUser);

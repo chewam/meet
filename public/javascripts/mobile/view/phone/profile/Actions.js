@@ -6,11 +6,14 @@ Ext.define('Meet.view.phone.profile.Actions', {
     config: {
         hideOnMaskTap: true,
         items: [{
-            text: 'Send a message'
+            text: 'Send a message',
+            action: 'message'
         }, {
-            text: 'Flash'
+            text: 'Flash',
+            action: 'flash'
         }, {
-            text: 'Save'
+            text: 'Save',
+            action: 'save'
         }]
     },
 

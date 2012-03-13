@@ -1,17 +1,12 @@
-Ext.define('Meet.view.phone.Search', {
+Ext.define('Meet.view.phone.activity.Flashed', {
 
     extend: 'Ext.List',
 
-    xtype: 'meet_search',
+    xtype: 'meet_activity_flashed',
 
     config: {
-        store: 'usersStore',
+        store: 'usersFlashedStore',
         itemTpl: Meet.template.phone.User,
-        items: [{
-            docked: 'top',
-            xtype: 'toolbar',
-            title: 'SEARCH'
-        }],
         plugins: [{
             xclass: 'Ext.plugin.PullRefresh',
             pullRefreshText: 'Pull down to refresh !'

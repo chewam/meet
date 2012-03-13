@@ -9,7 +9,8 @@ Ext.define('Meet.view.Main', {
         'Meet.view.phone.Menu',
         'Meet.view.phone.Login',
         'Meet.view.phone.Search',
-        'Meet.view.phone.Profile'
+        'Meet.view.phone.Profile',
+        'Meet.view.phone.Activity'
     ],
 
     config: {

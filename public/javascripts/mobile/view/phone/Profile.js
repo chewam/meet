@@ -6,11 +6,13 @@ Ext.define('Meet.view.phone.Profile', {
     requires: [
         'Meet.view.phone.profile.About',
         'Meet.view.phone.profile.Details',
-        'Meet.view.phone.profile.Actions'
+        'Meet.view.phone.profile.Actions',
+        'Meet.view.phone.profile.Messenger'
     ],
 
     config: {
         tabBar: {
+            ui: 'light',
             defaults: {flex: 1}
         },
         items: [{
@@ -41,6 +43,15 @@ Ext.define('Meet.view.phone.Profile', {
             style: 'background: #1468A2'
         }]
     },
+
+    // initialize: function() {
+    //     this.callParent(arguments);
+    //     Ext.getStore('userStore').on('load', this.onStoreLoad, this);
+    // },
+    // 
+    // onStoreLoad: function() {
+    //     console.warn('onStoreLoad', this, arguments);
+    // },
 
     setData: function(data) {
         this.callParent(arguments);
