@@ -1,20 +1,39 @@
 div.row
     div.span3
-        a.thumbnail(href="/profile/278")
+        a.thumbnail(href="/profile/#{item.id}")
             img(src="#{item.pic}")
-    div.span3
+    div.span6
         h2 #{item.login}
-        div #{item.age} years old, #{item.height} cm
+        div #{item.age} / #{item.gender} / #{item.status} / #{item.height} cm
         div #{item.city}, #{item.country}
-    div.span3
-        table.table
-            // - var values = {"City": item.city, "Pets": item.pets, "Offspring": item.offspring, "Income": item.income, "Job": item.job, "Education": item.education, "Sign": item.sign, "Religion": item.religion, "Diet": item.diet, "Body Type": item.bodytype, "Smokes": item.smokes, "Drinks": item.drinks, "Drugs": item.drugs, "Speaks": item.speaks, "height": item.height, "Gender": item.gender, "Country": item.country, "Zip Code": item.zipcode, "Ethnicity": item.ethnicity, "Latitude": item.lat, "Longitude": item.lng, "Birth Date": item.birthdate, "Age": item.age}
-            - var values = {"Pets": item.pets, "Offspring": item.offspring, "Income": item.income, "Job": item.job, "Education": item.education, "Sign": item.sign, "Religion": item.religion, "Diet": item.diet, "Body Type": item.bodytype, "Smokes": item.smokes, "Drinks": item.drinks, "Drugs": item.drugs, "Speaks": item.speaks, "height": item.height, "Gender": item.gender, "Ethnicity": item.ethnicity, "Latitude": item.lat, "Longitude": item.lng, "Age": item.age}
-            - for (var key in values)
-                tr
-                    td #{key}
-                    td #{values[key]}
 
-div.row
-    div.span9
-        p #{item.q1}
+br
+br
+div.box
+    h3 Few words...
+    div.box-inner #{item.q1}
+
+br
+div.row-fluid
+    div.span6
+        div.box
+            h3 Information
+            div.box-inner
+                table.table
+                    // - var values = {"City": item.city, "Pets": item.pets, "Offspring": item.offspring, "Income": item.income, "Job": item.job, "Education": item.education, "Sign": item.sign, "Religion": item.religion, "Diet": item.diet, "Body Type": item.bodytype, "Smokes": item.smokes, "Drinks": item.drinks, "Drugs": item.drugs, "Speaks": item.speaks, "height": item.height, "Gender": item.gender, "Country": item.country, "Zip Code": item.zipcode, "Ethnicity": item.ethnicity, "Latitude": item.lat, "Longitude": item.lng, "Birth Date": item.birthdate, "Age": item.age}
+                    - var values = {"Ethnicity": item.ethnicity, "Age": item.age, "Body Type": item.bodytype, "Height": (item.height + ' cm'), "Weight": item.weight, "Speaks": item.speaks, "Religion": item.religion, "Sign": item.sign}
+                    - for (var key in values)
+                        tr
+                            td #{key}
+                            td #{values[key]}
+    div.span6
+        div.box
+            h3 Life style
+            div.box-inner
+                table.table
+                    - var values = {"Status": item.status, "Offspring": item.offspring, "Education": item.education, "Job": item.job, "Income": item.income, "Pets": item.pets, "Diet": item.diet, "Smokes": item.smokes, "Drinks": item.drinks, "Drugs": item.drugs}
+                    - for (var key in values)
+                        tr
+                            td #{key}
+                            td #{values[key]}
+

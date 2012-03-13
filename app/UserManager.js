@@ -25,6 +25,7 @@ UserManager.prototype.getProfile = function(id, callback) {
         'email',
         'pic',
         'gender',
+        'status',
         'country',
         'city',
         'zipcode',
@@ -49,7 +50,11 @@ UserManager.prototype.getProfile = function(id, callback) {
         'lat',
         'lng',
         'birthdate',
-        'TIMESTAMPDIFF(YEAR, birthdate, NOW()) AS age'
+        'TIMESTAMPDIFF(YEAR, birthdate, NOW()) AS age',
+        '(SELECT COUNT(*) FROM save WHERE receiver = 278) AS saved',
+        '(SELECT COUNT(*) FROM flash WHERE receiver = 278) AS flashed',
+        '(SELECT COUNT(*) FROM visit WHERE receiver = 278) AS visited',
+        
     ];
 
     this.get(id, fields, callback);
@@ -94,10 +99,10 @@ UserManager.prototype.createUser = function(data, callback) {
                     data.zipcode && data.zipcode.length
                 ) {
                     var query = 'INSERT INTO user '
-                        + 'SET gender = ?, pic = ?, login = ?, password = ?, country = ?, city = ?, email = ?, zipcode = ?, range1 = ?, range2 = ?, lat = ?, lng = ?, birthdate = ?';
+                        + 'SET cd = NOW(), status = ?, gender = ?, pic = ?, login = ?, password = ?, country = ?, city = ?, email = ?, zipcode = ?, range1 = ?, range2 = ?, lat = ?, lng = ?, birthdate = ?';
 
                     DataMgr.client.query(query,
-                        [data.gender, data.pic, data.login, data.password, data.country, data.city, data.email, data.zipcode, data.range1, data.range2, location[0], location[1], birthdate],
+                        [data.status, data.gender, data.pic, data.login, data.password, data.country, data.city, data.email, data.zipcode, data.range1, data.range2, location[0], location[1], birthdate],
                         function(err, info) {
                             me.get(info.insertId, callback);
                         }
@@ -147,33 +152,23 @@ UserManager.prototype.remove = function(user, callback) {
     // }
 };
 
-UserManager.prototype.list = function(queries, values, params, callback) {
-    var limit = parseInt(params.pageLimit) || 10,
-        start = (params.pageIndex - 1) * limit,
-        limitedValues = values.concat([start, limit]),
-        count = queries.count,
-        query = queries.select + ' LIMIT ?, ?';
-
-    DataMgr.client.query(query, limitedValues, function(err, results, fields) {
-        DataMgr.client.query(count, values, function(err, count) {
-            callback.call(this, results, count[0].total);
-        });
-    });
-};
-
 UserManager.prototype.login = function(data, callback) {
-    var query = 'SELECT id, login, password, email, pic, '
-        + '(SELECT COUNT(*) FROM flash WHERE receiver = 278) AS flashed, '
-        + '(SELECT COUNT(*) FROM visit WHERE receiver = 278) AS visited, '
-        + '(SELECT COUNT(*) FROM save WHERE receiver = 278) AS saved '
-        + 'FROM user';
+    // var query = 'SELECT id, login, password, email, pic, '
+    //     + '(SELECT COUNT(*) FROM flash WHERE receiver = 278) AS flashed, '
+    //     + '(SELECT COUNT(*) FROM visit WHERE receiver = 278) AS visited, '
+    //     + '(SELECT COUNT(*) FROM save WHERE receiver = 278) AS saved '
+    //     + 'FROM user';
+    // 
+    var user,
+        me = this,
+        query = 'SELECT id, login, password FROM user';    
 
     DataMgr.client.query(query, function(err, results, fields) {
         if (!err && results) {
             for (var i = 0, l = results.length; i < l; i++) {
-                if (results[i].login === data.login && results[i].password === data.password) {
-                    delete results[i].password;
-                    callback.call(this, results[i]);
+                user = results[i];
+                if (user.login === data.login && user.password === data.password) {
+                    me.getProfile(user.id, callback);
                     return;
                 }
             }
@@ -238,17 +233,81 @@ UserManager.prototype.checkEmailAvailability = function(data, callback) {
     });
 };
 
+UserManager.prototype.list = function(queries, values, params, callback) {
+    var limit = parseInt(params.pageLimit) || 10,
+        start = (params.pageIndex - 1) * limit,
+        limitedValues = values.concat([start, limit]),
+        count = queries.count,
+        query = queries.select + ' LIMIT ?, ?';
+
+    DataMgr.client.query(query, limitedValues, function(err, results, fields) {
+        DataMgr.client.query(count, values, function(err, count) {
+            callback.call(this, results, count[0].total);
+        });
+    });
+};
+
+UserManager.prototype.list2 = function(queries, values, params, callback) {
+    var limit = parseInt(params.pageLimit) || 10,
+        start = (params.pageIndex - 1) * limit,
+        limitedValues = values.concat([start, limit]),
+        count = 'SELECT COUNT(*) AS total FROM '+ queries.table +' '+ queries.where,
+        query = 'SELECT '+ (queries.fields.join(', ')) +' FROM '+ queries.table +' '+ queries.where + ' LIMIT ?, ?';
+
+    // console.log('QUERY', query);
+
+    DataMgr.client.query(query, limitedValues, function(err, results, fields) {
+        console.log('RESULTS', results);
+        DataMgr.client.query(count, values, function(err, count) {
+            callback.call(this, results, count[0].total);
+        });
+    });
+};
+
 UserManager.prototype.find = function(id, params, callback) {
     var queries = {
-        count: 'SELECT COUNT(*) AS total FROM user WHERE gender = ?',
-        select: 'SELECT id, login, email, pic, '
-            + '(SELECT IF (COUNT(*) > 0, true, false) FROM save WHERE emitter = '+id+' AND receiver = user.id) AS saved, '
-            + '(SELECT IF (COUNT(*) > 0, true, false) FROM visit WHERE emitter = '+id+' AND receiver = user.id) AS visited, '
-            + '(SELECT IF (COUNT(*) > 0, true, false) FROM flash WHERE emitter = '+id+' AND receiver = user.id) AS flashed '
-            + 'FROM user WHERE gender = ?'
+        table: 'user',
+        fields: [
+            'id',
+            'login',
+            'pic',
+            'gender',
+            'status',
+            'country',
+            'city',
+            'zipcode',
+            'range1',
+            'range2',
+            'ethnicity',
+            'height',
+            'bodytype',
+            'diet',
+            'smokes',
+            'drinks',
+            'drugs',
+            'religion',
+            'sign',
+            'education',
+            'job',
+            'income',
+            'offspring',
+            'pets',
+            'speaks',
+            'q1',
+            'lat',
+            'lng',
+            'birthdate',
+            'TIMESTAMPDIFF(YEAR, birthdate, NOW()) AS age'
+        ],
+        // select: 'SELECT id, login, email, pic, '
+        //     + '(SELECT IF (COUNT(*) > 0, true, false) FROM save WHERE emitter = '+id+' AND receiver = user.id) AS saved, '
+        //     + '(SELECT IF (COUNT(*) > 0, true, false) FROM visit WHERE emitter = '+id+' AND receiver = user.id) AS visited, '
+        //     + '(SELECT IF (COUNT(*) > 0, true, false) FROM flash WHERE emitter = '+id+' AND receiver = user.id) AS flashed '
+        //     + 'FROM user',
+        where: 'WHERE gender = ?'
     };
 
-    this.list(queries, [2], params, callback);
+    this.list2(queries, ['female'], params, callback);
 };
 
 UserManager.prototype.getFlashed = function(id, params, callback) {

@@ -3,9 +3,21 @@ Ext.define('Meet.view.phone.Search', {
 
     xtype: 'meet_search',
 
+    // requires: ['Meet.template.phone.User'],
+
     config: {
         store: 'usersStore',
-        itemTpl: '<img src="{pic}" style="width:48px; height:48px; float:left;" /><div style="margin-left:60px;">{login}</div><div style="clear:both;"></div>',
+        // itemTpl: Meet.template.phone.User.getTpl(),
+        itemTpl: Meet.template.phone.User,
+        // itemTpl: [
+        //     '<img src="{pic}" style="width:48px; height:48px; float:left;" />',
+        //     '<div style="margin-left:60px;">',
+        //         '<h2>{login}</h2>',
+        //         '<div>{age} years old, {height} cm</div>',
+        //         '<div>{city}, {country}</div>',
+        //     '</div>',
+        //     '<div style="clear:both;"></div>'
+        // ],
         items: [{
             docked: 'top',
             xtype: 'toolbar',
@@ -18,10 +30,8 @@ Ext.define('Meet.view.phone.Search', {
             xclass: 'Ext.plugin.ListPaging',
             autoPaging: true
         }]
-        // showAnimation: {
-        //     duration: 300,
-        //     type: 'slide',
-        //     direction: 'left'
+        // onItemDisclosure: function() {
+        //     console.log('onItemDisclosure', this, arguments);
         // }
     }
 

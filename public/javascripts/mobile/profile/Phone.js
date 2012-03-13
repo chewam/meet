@@ -1,11 +1,13 @@
 Ext.define('Meet.profile.Phone', {
     extend: 'Ext.app.Profile',
 
+    requires: ['Meet.template.phone.User'],
+
     config: {
         name: 'Phone',
         models: ['User'],
         stores: ['User', 'Users'],
-        views: ['Main', 'Menu', 'Home', 'Login', 'Search'],
+        views: [/*'Meet.template.phone.User', */'Main'],
         controllers: ['Main']
     },
 

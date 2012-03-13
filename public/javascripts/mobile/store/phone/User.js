@@ -6,12 +6,11 @@ Ext.define('Meet.store.phone.User', {
         storeId: 'userStore',
         model: 'Meet.model.phone.User',
         proxy: {
-            type: 'ajax',
-            url : '/users/isLogged',
+            type: 'rest',
+            url : '/ws/signIn',
             reader: {
                 type: 'json',
-                rootProperty: 'data',
-                // totalProperty: 'count'
+                rootProperty: 'data'
             }
         }
     }

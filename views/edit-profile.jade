@@ -102,7 +102,7 @@ form#register-form.register.form-vertical(action="", method="POST")
                                 select.span1(name="birthday-year", placeholder="YYYY")
                                     - var year = (new Date()).getFullYear();
                                     - for (var i = year-18, l = year-100+18; i >= l; i--)
-                                        option(value="#{i}") #{i}
+                                        option #{i}
 
 
                 div.span5
@@ -139,7 +139,7 @@ form#register-form.register.form-vertical(action="", method="POST")
 //     a.right.carousel-control(data-slide="next", href="#myCarousel") ›
 
 
-form.form-horizontal(action="/users/#{item.id}", method="post")
+form.form-horizontal(action="/ws/users/#{item.id}", method="post")
     fieldset.box
         h3.thin.page-header Your words
 
@@ -156,7 +156,7 @@ form.form-horizontal(action="/users/#{item.id}", method="post")
 
 
 
-form.form-horizontal(action="/users/#{item.id}", method="post")
+form.form-horizontal(action="/ws/users/#{item.id}", method="post")
     fieldset.box
         h3.thin.page-header Your profile
 
@@ -164,181 +164,181 @@ form.form-horizontal(action="/users/#{item.id}", method="post")
             label.control-label(for="input01") Ethnicity
             div.controls
                 select.span3(name="ethnicity")
-                    - var selectedValue = item.ethnicity || 0;
+                    - var selectedValue = item.ethnicity || '--';
                     - var values = ['--', 'Asian', 'Black', 'Indian', 'Hispanic / Latin', 'Middle Eastern', 'Pacific Islander', 'White', 'Other']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Height
             div.controls
                 select.span3(name="height")
                     option(value="0") --
-                    - var selectedValue = item.height || 0;
+                    - var selectedValue = item.height || '--';
                     - for (var i = 140, l = 200; i <= l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{i}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{i}
                         - else
-                            option(value="#{i}") #{i}
+                            option #{i}
 
         div.control-group
             label.control-label(for="input01") Body Type
             div.controls
                 select.span3(name="bodytype")
-                    - var selectedValue = item.bodytype || 0;
+                    - var selectedValue = item.bodytype || '--';
                     - var values = ['--', 'Rather not say', 'Thin', 'Overweight', 'Skinny', 'Average', 'Fit', 'Athletic', 'Jacked', 'A little extra', 'Curvy', 'Full figured', 'Used up']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Diet
             div.controls
                 select.span3(name="diet")
-                    - var selectedValue = item.diet || 0;
+                    - var selectedValue = item.diet || '--';
                     - var values = ['--', 'anything', 'vegetarian', 'vegan', 'kosher', 'halal', 'other']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Smokes
             div.controls
                 select.span3(name="smokes")
-                    - var selectedValue = item.smokes || 0;
+                    - var selectedValue = item.smokes || '--';
                     - var values = ['--', 'Yes', 'Sometimes', 'When drinking', 'Try to quit', 'No']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Drinks
             div.controls
                 select.span3(name="drinks")
-                    - var selectedValue = item.drinks || 0;
+                    - var selectedValue = item.drinks || '--';
                     - var values = ['--', 'Very often', 'Often', 'Socially', 'Rarely', 'Desperately', 'Not at all']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Drugs
             div.controls
                 select.span3(name="drugs")
-                    - var selectedValue = item.drugs || 0;
+                    - var selectedValue = item.drugs || '--';
                     - var values = ['--', 'Never', 'Sometimes', 'Often']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Religion
             div.controls
                 select.span3(name="religion")
-                    - var selectedValue = item.religion || 0;
+                    - var selectedValue = item.religion || '--';
                     - var values = ['--', 'Agnosticism', 'Atheism', 'Christianity', 'Judaism', 'Catholicism', 'Islam', 'Hinduism', 'Buddhism', 'Other']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Sign
             div.controls
                 select.span3(name="sign")
-                    - var selectedValue = item.sign || 0;
+                    - var selectedValue = item.sign || '--';
                     - var values = ['--', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Education
             div.controls
                 select.span3(name="education")
-                    - var selectedValue = item.education || 0;
+                    - var selectedValue = item.education || '--';
                     - var values = ['--', 'high school', 'two-year college', 'college/university', 'masters program', 'law school', 'med school', 'Ph.D program', 'space camp']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Job
             div.controls
                 select.span3(name="job")
-                    - var selectedValue = item.job || 0;
+                    - var selectedValue = item.job || '--';
                     - var values = ['--', 'Student', 'Artistic / Musical / Writer', 'Banking / Financial / Real Estate', 'Clerical / Administrative', 'Computer / Hardware / Software', 'Construction / Craftsmanship', 'Education / Academia', 'Entertainment / Media', 'Executive / Management', 'Hospitality / Travel', 'Law / Legal Services', 'Medicine / Health', 'Military', 'Political / Government', 'Sales / Marketing / Biz Dev', 'Science / Tech / Engineering', 'Transportation', 'Unemployed', 'Other', 'Rather Not Say', 'Retired']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Income
             div.controls
                 select.span3(name="income")
-                    - var selectedValue = item.income || 0;
+                    - var selectedValue = item.income || '--';
                     - var values = ['--', 'Less than $20,000', '$20,000–$30,000', '$30,000–$40,000', '$40,000–$50,000', '$50,000–$60,000', '$60,000–$70,000', '$70,000–$80,000', '$80,000–$100,000', '$100,000–$150,000', '$150,000–$250,000', '$250,000–$500,000', '$500,000–$1,000,000', 'More than $1,000,000', 'Rather not say']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Offspring
             div.controls
                 select.span3(name="offspring")
-                    - var selectedValue = item.offspring || 0;
+                    - var selectedValue = item.offspring || '--';
                     - var values = ['--', 'Has a kid', 'Has kids', 'Doesn’t have kids']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Pets
             div.controls
                 select.span3(name="pets")
-                    - var selectedValue = item.pets || 0;
+                    - var selectedValue = item.pets || '--';
                     - var values = ['--', 'Has pets', 'Likes pets', 'Dislikes pets']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.control-group
             label.control-label(for="input01") Speaks
             div.controls
                 select.span3(name="speaks")
-                    - var selectedValue = item.pets || 0;
-                    - var values = ['--', 'English', 'Français', 'Dislikes pets']
+                    - var selectedValue = item.pets || '--';
+                    - var values = ['--', 'English', 'Français']
                     - for (var i = 0, l = values.length; i < l; i++)
-                        - if (i === selectedValue)
-                            option(value="#{i}", selected="selected") #{values[i]}
+                        - if (values[i] === selectedValue)
+                            option(selected="selected") #{values[i]}
                         - else
-                            option(value="#{i}") #{values[i]}
+                            option #{values[i]}
 
         div.form-actions
             span.form-loader Loading...

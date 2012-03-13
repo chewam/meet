@@ -7,7 +7,7 @@ Ext.define('Meet.store.phone.Users', {
         model: 'Meet.model.phone.User',
         proxy: {
             type: 'ajax',
-            url : '/users',
+            url : '/ws/users',
             pageParam: 'pageIndex',
             limitParam: 'pageLimit',
             reader: {

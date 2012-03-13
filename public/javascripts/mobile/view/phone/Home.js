@@ -1,28 +1,30 @@
 Ext.define('Meet.view.phone.Home', {
-    extend: 'Ext.Container',
+    extend: 'Ext.dataview.DataView',
 
     xtype: 'meet_home',
 
     config: {
-        layout: 'fit',
-        // style: 'background: url("/images/188.gif") repeat #aabbcd',
-        style: 'background: #1468A2',
-        // masked: {
-        //     // hidden: true,
-        //     xtype: 'loadmask',
-        //     message: 'Loading profile...'
-        // },
+        style: 'background: url("/images/grid.png") repeat scroll 0 0 #1468A2',
+        store: 'userStore',
+        padding: 14,
+        itemTpl: [
+            '<div style="margin-bottom: 14px; background-color: #0A4372; border-bottom: 1px solid #2579B3; box-shadow: 0px 1px 1px -1px black inset; padding: 10px; border-radius: 5px; color: #FFF;">'
+        ].concat(Meet.template.phone.User).concat([
+            '</div>',
+            '<div style="margin-bottom: 14px; background-color: #0A4372; border-bottom: 1px solid #2579B3; box-shadow: 0px 1px 1px -1px black inset; padding: 10px; border-radius: 5px; color: #FFF;">',
+                '<div>Visited: {visited}</div>',
+            '</div>',
+            '<div style="margin-bottom: 14px; background-color: #0A4372; border-bottom: 1px solid #2579B3; box-shadow: 0px 1px 1px -1px black inset; padding: 10px; border-radius: 5px; color: #FFF;">',
+                '<div>Flashed: {flashed}</div>',
+            '</div>',
+            '<div style="background-color: #0A4372; border-bottom: 1px solid #2579B3; box-shadow: 0px 1px 1px -1px black inset; padding: 10px; border-radius: 5px; color: #FFF;">',
+                '<div>Saved: {saved}</div>',
+            '</div>'
+        ]),
         items: [{
             docked: 'top',
             title: 'HOME',
             xtype: 'toolbar'
-        }, {
-            // height: 100,
-            xtype: 'dataview',
-            store: 'userStore',
-            padding: 16,
-            // style: 'background-color: ; padding: 20px;'
-            itemTpl: '<div style="background-color: #105483; padding: 10px; border-radius: 5px; color: #FFF;"><img src="{pic}" style="width:64px; height:64px; float:left;" /><div style="margin-left:70px;">{login}</div><div style="clear:both;"></div></div>'
         }]
     }
 

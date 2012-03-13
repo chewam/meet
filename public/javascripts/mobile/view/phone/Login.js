@@ -16,11 +16,14 @@ Ext.define('Meet.view.phone.Login', {
             items: [{
                 xtype: 'textfield',
                 name: 'login',
-                label: 'Login'
+                label: 'Login',
+                autoCapitalize: false,
+                value: 'gary'
             }, {
                 xtype: 'passwordfield',
                 name: 'password',
-                label: 'Password'
+                label: 'Password',
+                value: 'pass'
             }]
         }, {
             xtype: 'button',

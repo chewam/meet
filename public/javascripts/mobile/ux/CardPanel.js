@@ -24,6 +24,13 @@ Ext.define('Ext.ux.CardPanel', {
                 direction: direction || 'left'
             })
         );
+    },
+
+    setSlideAnimation: function(direction) {
+        this.getLayout().setAnimation({
+            type: 'slide',
+            direction: direction || 'left'
+        });
     }
 
 });

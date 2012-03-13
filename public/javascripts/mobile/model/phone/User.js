@@ -1,8 +1,5 @@
 Ext.define('Meet.model.phone.User', {
 
-    extend: 'Ext.data.Model',
+    extend: 'Meet.model.User'
 
-    config: {
-        fields: ['id', 'login', 'email', 'pic', 'saved', 'visited', 'flashed']
-    }
 });

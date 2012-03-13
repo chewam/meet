@@ -35,7 +35,8 @@ app.configure('production', function() {
     app.use(express.errorHandler());
 });
 
-// Routes
+
+// WEB SITE
 
 app.all('/', routes.index);
 app.all('/login', routes.login);
@@ -60,21 +61,32 @@ app.get('/activity/saved', routes.checkSession, routes.saved);
 app.get('/activity/visited', routes.checkSession, routes.visited);
 app.get('/activity/visitedby', routes.checkSession, routes.visitedBy);
 
-app.get('/users', routes.checkSession, routes.getUsers);
-app.post('/users', routes.createUser);
 
-app.get('/users/isLogged', routes.isLogged);
-app.post('/users/login', routes.logUser);
+// WEB SERVICE
 
-app.get('/users/:id', routes.getUser);
-app.put('/users/:id', routes.updateUser);
-app.del('/users/:id', routes.deleteUser);
+app.get('/ws/signIn', routes.signIn);
+// app.post('/ws/signOn', routes.signOn);
+// app.post('/ws/checkLoginAvailability', routes.checkLoginAvailability);
+// app.post('/ws/checkEmailAvailability', routes.checkEmailAvailability);
+// 
 
-app.post('/users/:id/write', routes.writeUser);
-app.post('/users/:id/flash', routes.flashUser);
-app.post('/users/:id/save', routes.saveUser);
+app.put('/ws/users/:id', routes.checkSession, routes.updateUser);
 
-app.post('/utils/:method', routes.utils);
+app.get('/ws/users', routes.checkSession, routes.getUsers);
+// app.post('/ws/users', routes.checkSession, routes.createUser);
+// 
+// // app.get('/ws/users/isLogged', routes.isLogged);
+// // app.post('/ws/users/login', routes.logUser);
+// 
+// app.get('/ws/users/:id', routes.checkSession, routes.getUser);
+
+// app.del('/ws/users/:id', routes.checkSession, routes.deleteUser);
+// 
+// app.post('/ws/users/:id/write', routes.checkSession, routes.writeUser);
+// app.post('/ws/users/:id/flash', routes.checkSession, routes.flashUser);
+// app.post('/ws/users/:id/save', routes.checkSession, routes.saveUser);
+// 
+// // app.post('/utils/:method', routes.utils);
 
 app.listen(3000);
 
