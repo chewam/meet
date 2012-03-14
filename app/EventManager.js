@@ -19,7 +19,7 @@ EventManager.prototype.init = function(app, store) {
 };
 
 EventManager.prototype.onConnect = function(socket) {
-    this.sockets[socket.handshake.session.user._id] = socket;
+    this.sockets[socket.handshake.session.user.id] = socket;
 };
 
 EventManager.prototype.checkAuthorization = function(data, accept) {
@@ -31,7 +31,7 @@ EventManager.prototype.checkAuthorization = function(data, accept) {
                 data.session = session;
                 accept(null, true);
             } else {
-                accept(null, false);
+                accept("Session doesn't exist.", false);
             }
         });
     } else {
@@ -40,13 +40,10 @@ EventManager.prototype.checkAuthorization = function(data, accept) {
 };
 
 EventManager.prototype.getSession = function(id, callback) {
-    console.log('getSession', id);
     this.store.get(id, function (err, session) {
         if (err || !session || !session.user) {
-            console.log('SESSION DOES NOT EXIST');
             callback.call(this, false);
         } else {
-            console.log('SESSION EXISTS');
             callback.call(this, session);
         }
     });
@@ -58,6 +55,7 @@ EventManager.prototype.getSocket = function(id) {
 
 EventManager.prototype.emit = function(id, event, data) {
     var socket = this.getSocket(id);
+    console.log('EMIT', id, event, socket);
     if (socket) {
         console.log('EMIT', event);
         socket.emit(event, data);

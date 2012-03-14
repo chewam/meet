@@ -1,5 +1,4 @@
-var DataMgr = require('./DataManager'),
-    EventMgr = require('./EventManager');
+var DataMgr = require('./DataManager');
 
 function UserManager() {
     console.log('---> Create UserManager');
@@ -55,7 +54,8 @@ UserManager.prototype.getProfile = function(id, callback) {
     var fields = this.defaultUserFields.concat([
         '(SELECT COUNT(*) FROM save WHERE receiver = 278) AS saved',
         '(SELECT COUNT(*) FROM flash WHERE receiver = 278) AS flashed',
-        '(SELECT COUNT(*) FROM visit WHERE receiver = 278) AS visited'
+        '(SELECT COUNT(*) FROM visit WHERE receiver = 278) AS visited',
+        '(SELECT GROUP_CONCAT(name) FROM pic WHERE userid = user.id GROUP BY userid) pics'
     ]);
 
     this.get(id, fields, callback);
@@ -209,13 +209,6 @@ UserManager.prototype.visit = function(emitter, receiver, callback) {
         DataMgr.client.query(query, [emitter, receiver], function(err, info) {
             callback.call(this, info.insertId);
         });
-        // EventMgr.emit(receiver, 'visit', {
-        //     id: user._id,
-        //     pic: user.pic,
-        //     login: user.login,
-        //     gender: user.gender,
-        //     zipcode: user.zipcode
-        // });
     } else {
         callback.call(this);
     }
@@ -272,7 +265,7 @@ UserManager.prototype.find = function(id, params, callback) {
         where: 'WHERE gender = ?'
     };
 
-    this.list2(queries, ['female'], params, callback);
+    this.list2(queries, [params.gender], params, callback);
 };
 
 UserManager.prototype.getFlashed = function(id, params, callback) {

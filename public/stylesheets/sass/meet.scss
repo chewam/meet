@@ -1,0 +1,79 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+$base-color: #333;
+
+$page-bg-color: #111;
+
+$loading-spinner-color: black;
+
+$include-default-icons: false;
+
+@import 'sencha-touch/default/all';
+
+@include pictos-iconmask('more');
+@include pictos-iconmask('home');
+@include pictos-iconmask('user');
+@include pictos-iconmask('time');
+@include pictos-iconmask('list');
+@include pictos-iconmask('delete');
+@include pictos-iconmask('check1');
+@include pictos-iconmask('search1');
+@include pictos-iconmask('bolt_side');
+
+
+@include sencha-panel;
+@include sencha-buttons;
+@include sencha-sheet;
+@include sencha-tabs;
+@include sencha-toolbar;
+@include sencha-list;
+@include sencha-list-paging;
+@include sencha-list-pullrefresh;
+@include sencha-layout;
+@include sencha-carousel;
+@include sencha-form;
+@include sencha-msgbox;
+@include sencha-loading-spinner;
+
+/***** GLOBAL RULES
+*******************************************************************************/
+body, * {
+    font-weight: 400;
+    font-family: 'Lato', sans-serif;
+}
+
+/***** TEMPLATE USER
+*******************************************************************************/
+.tpl-user > div {
+    margin-left: 60px;
+}
+
+.tpl-user > div > div {
+    font-size: 0.7em;
+}
+
+.tpl-user > img {
+    float:left;
+    width: 52px;
+    height: 52px;
+}
+
+/***** TEMPLATE USER DETAILS
+*******************************************************************************/
+.tpl-user-details {
+    width: 100%;
+}
+
+.tpl-user-details td {
+    padding: 10px;
+    font-size: 0.8em;
+}
+
+.tpl-user-details tr:nth-of-type(odd) {
+    background-color: #F5F5F5;
+}
+
+.tpl-user-details tr td:first-child {
+    color: slategrey;
+    font-style: oblique;
+}

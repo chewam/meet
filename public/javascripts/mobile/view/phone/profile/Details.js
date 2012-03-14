@@ -9,7 +9,7 @@ Ext.define('Meet.view.phone.profile.Details', {
             directionLock: true
         },
         tpl: [
-            '<table>',
+            '<table class="tpl-user-details">',
                 '<tr><td>Ethnicity</td><td>{ethnicity}</td></tr>',
                 '<tr><td>Age</td><td>{age}</td></tr>',
                 '<tr><td>Body Type</td><td>{bodytype}</td></tr>',

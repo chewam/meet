@@ -38,7 +38,10 @@ Ext.define('Meet.model.User', {
             'lat',
             'lng',
             'birthdate',
-            'age'
+            'age',
+            {name: 'pics', convert: function(v) {
+                return v ? v.split(',') : false;
+            }}
         ]
     }
 });

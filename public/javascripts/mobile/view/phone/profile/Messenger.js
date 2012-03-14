@@ -3,8 +3,9 @@ Ext.define('Meet.view.phone.profile.Messenger', {
 
     xtype: 'meet_profile_messenger',
 
+    autoRemove: true,
+
     config: {
-        autoRemove: true,
         style: 'background: #1468A2',
         layout: {
             type: 'vbox',
@@ -30,9 +31,10 @@ Ext.define('Meet.view.phone.profile.Messenger', {
             xtype: 'textareafield',
             label: 'Your message:'
         }, {
+            ui: 'light',
             docked: 'bottom',
-            xtype: 'container',
-            padding: '10',
+            xtype: 'toolbar',
+            // padding: '10',
             layout: {
                 type: 'hbox',
                 pack: 'center'
@@ -41,14 +43,14 @@ Ext.define('Meet.view.phone.profile.Messenger', {
                 ui: 'decline',
                 xtype: 'button',
                 text: 'Cancel',
-                iconCls: 'ckeck1',
+                iconCls: 'delete',
                 iconMask: true,
                 action: 'cancel'
             }, {
                 ui: 'confirm',
                 xtype: 'button',
                 text: 'Send',
-                iconCls: 'delete',
+                iconCls: 'check1',
                 iconMask: true,
                 action: 'send',
                 margin: '0 0 0 20'

@@ -6,6 +6,7 @@ module.exports = function(req, res) {
 
     q.pageIndex = q.pageIndex || 1;
     q.pageSize = q.pageSize || 10;
+    q.gender = user.gender == 'Male' ? 'Female' : 'Male';
 
     UserMgr.find(user.id, q, function(users, count) {
         res.render('search', {

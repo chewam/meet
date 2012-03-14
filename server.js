@@ -70,6 +70,7 @@ app.get('/ws/signIn', routes.signIn);
 // app.post('/ws/checkEmailAvailability', routes.checkEmailAvailability);
 // 
 
+app.get('/ws/user/pic/:name'/*, routes.checkSession*/, routes.getPic);
 app.get('/ws/user/getVisited', routes.checkSession, routes.getVisited);
 app.get('/ws/user/getFlashed', routes.checkSession, routes.getFlashed);
 app.get('/ws/user/getVisitedBy', routes.checkSession, routes.getVisitedBy);

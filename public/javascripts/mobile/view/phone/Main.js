@@ -12,6 +12,13 @@ Ext.define('Meet.view.phone.Main', {
                 iconMask: true,
                 iconCls: 'more',
                 action: 'menu'
+            }, {
+                xtype: 'spacer'
+            }, {
+                xtype: 'button',
+                iconMask: true,
+                iconCls: 'bolt_side',
+                action: 'notification'
             }]
         }]
     }

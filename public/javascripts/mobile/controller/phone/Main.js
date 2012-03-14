@@ -10,8 +10,9 @@ Ext.define('Meet.controller.phone.Main', {
         },
         refs: {
             mainPanel: 'meet_main',
-            menuButton: 'button[action=menu]',
-            loginButton: 'button[action=login]',
+            menuButton: 'meet_main button[action=menu]',
+            notificationButton: 'meet_main button[action=notification]',
+            loginButton: 'meet_login button[action=login]',
             homeMenuButton: 'meet_menu button[action=home]',
             searchMenuButton: 'meet_menu button[action=search]',
             profileMenuButton: 'meet_menu button[action=profile]',
@@ -60,6 +61,9 @@ Ext.define('Meet.controller.phone.Main', {
             loginButton: {
                 tap: 'login'
             },
+            notificationButton: {
+                tap: 'onNotificationButtonTap'
+            },
             searchMenuButton: {
                 tap: 'onSearchMenuButtonTap'
             },
@@ -98,15 +102,16 @@ Ext.define('Meet.controller.phone.Main', {
 
     authenticate: function(action) {
         // this.getHomePanel().setMasked(true);
-
         Ext.getStore('userStore').load({
             scope: this,
             callback: function(records, operation, success) {
                 this.getHomePanel().setMasked(false);
                 if (success) {
+                    this.initIOEvents();
                     action.resume();
+                    this.removeStartupScreen();
                 } else {
-                    this.showLogin();
+                    this.removeStartupScreen(this.showLogin);
                 }
             }
         });
@@ -122,6 +127,7 @@ Ext.define('Meet.controller.phone.Main', {
                 if (success) {
                     // Ext.getStore('userStore').setData(response.data);
                     // this.getLoginPanel().setMasked(false);
+                    this.initIOEvents();
                     this.removeLogin();
                 } else {
                     Ext.Msg.alert('Error', 'Ooops, sorry server connot authenticate yourself!', function() {
@@ -134,6 +140,32 @@ Ext.define('Meet.controller.phone.Main', {
 
     initHome: function() {
         console.log('initHome', this, arguments);
+    },
+
+    initIOEvents: function() {
+        Meet.utils.Events.init();
+        Meet.utils.Events.on({
+            scope: this,
+            visit: this.onVisiEvent,
+            flash: this.onFlashEvent
+        });
+    },
+
+    removeStartupScreen: function(callback) {
+        var el = Ext.get('startupscreen');
+
+        callback = callback || Ext.emptyFn;
+
+        Ext.Anim.run(el, 'fade', {
+            scope: this,
+            out: true,
+            autoClear: true,
+            after: function() {
+                el.destroy();
+                callback.call(this);
+                
+            }
+        });
     },
 
     showHome: function() {
@@ -202,6 +234,10 @@ Ext.define('Meet.controller.phone.Main', {
         } else {
             this.showMenu(item);
         }
+    },
+
+    onNotificationButtonTap: function() {
+        console.log('onNotificationButtonTap', this, arguments);
     },
 
     onHomeMenuButtonTap: function() {
@@ -275,5 +311,23 @@ Ext.define('Meet.controller.phone.Main', {
         this.getMainPanel().setSlideAnimation('right');
         this.showProfile();
     },
+
+    onFlashEvent: function(data) {
+        console.log('onFlashEvent', this, arguments);
+        this.updateNotication();
+    },
+
+    onVisiEvent: function(data) {
+        console.log('onVisiEvent', this, arguments);
+        this.updateNotication();
+    },
+
+    updateNotication: function() {
+        var button = this.getNotificationButton(),
+            count = parseInt(button.getBadgeText() || 0) + 1;
+
+        console.log('updateNotication', button, count);
+        button.setBadgeText(''+count);
+    }
 
 });

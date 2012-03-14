@@ -18,10 +18,21 @@ Ext.define('Ext.ux.CardPanel', {
     onActiveItemChange: function(panel, newItem, oldItem) {
         var me = this;
 
-        if (oldItem.getAutoRemove && oldItem.getAutoRemove()) {
-            setTimeout(function() {
-                me.remove(oldItem);
-            }, 500);
+        if (oldItem.autoRemove && (oldItem.excludedFromAutoRemove || []).indexOf(newItem.xtype) === -1) {
+            if (oldItem.blockAutoRemove) {
+                if (oldItem.previousOldItem) {
+                    console.warn('REMOVE PREVIOUS: ', oldItem.previousOldItem.xtype);
+                    me.remove(oldItem.previousOldItem);
+                }
+            }
+            if (!newItem.blockAutoRemove) {
+                setTimeout(function() {
+                    console.warn('REMOVE: ', oldItem.xtype);
+                    me.remove(oldItem);
+                }, 500);
+            } else {
+                newItem.previousOldItem = oldItem;
+            }
         }
     },
 

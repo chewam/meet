@@ -3,7 +3,8 @@
  * GET pages.
  */
 
-var UserMgr = require('../app/').UserManager,
+var fs = require('fs'),
+    UserMgr = require('../app/').UserManager,
     TestMgr = require('../test').TestManager;
 
 // UTILS
@@ -118,6 +119,8 @@ exports.getUsers = function(req, res) {
     var q = req.query,
         user = req.session.user;
 
+    q.gender = user.gender == 'Male' ? 'Female' : 'Male';
+
     UserMgr.find(user.id, q, function(users, count) {
           res.end(JSON.stringify({
               data: users,
@@ -182,6 +185,35 @@ exports.getVisitedBy = function(req, res) {
     });
 };
 
+exports.getPic = function(req, res) {
+    var id = req.session.user.id,
+        name = req.params.name,
+        path = __dirname + '/../files/images/'+id+'/'+name;
+
+    function safeRead(filename, callback) {
+        fs.readFile(filename, function (err, data) {
+            if (err) {
+                if (err.errno === process.ENOENT) {
+                    callback(null, "");
+                } else {
+                    callback(err);
+                }
+            } else {
+                callback(null, data);
+            }
+        });
+    }
+
+    safeRead(path, function (err, data) {
+        if (err) {
+            throw err;
+        } else {
+            res.writeHead(200, {'Content-Type': 'image/jpg' });
+            res.end(data, 'binary');
+        }
+    });
+
+};
 
 // exports.isLogged = function(req, res) {
     // res.end(JSON.stringify({

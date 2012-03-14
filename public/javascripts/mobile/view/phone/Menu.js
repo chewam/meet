@@ -3,9 +3,11 @@ Ext.define('Meet.view.phone.Menu', {
 
     xtype: 'meet_menu',
 
+    autoRemove: true,
+
+    blockAutoRemove: true,
+
     config: {
-        autoRemove: true,
-        style: 'background: #1468A2',
         defaults: {
             ui: 'action',
             xtype: 'button',
@@ -24,17 +26,17 @@ Ext.define('Meet.view.phone.Menu', {
             iconCls: 'home',
             action: 'home'
         }, {
+            text: 'My Profile',
+            iconCls: 'user',
+            action: 'profile'
+        }, {
             text: 'Search',
-            iconCls: 'search',
+            iconCls: 'search1',
             action: 'search'
         }, {
             text: 'My Activity',
-            iconCls: 'action',
+            iconCls: 'time',
             action: 'activity'
-        }, {
-            text: 'My Profile',
-            iconCls: 'action',
-            action: 'profile'
         }]
     }
 

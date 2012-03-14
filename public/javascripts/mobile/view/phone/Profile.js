@@ -4,11 +4,16 @@ Ext.define('Meet.view.phone.Profile', {
     xtype: 'meet_profile',
 
     requires: [
+        'Meet.view.phone.profile.Pics',
         'Meet.view.phone.profile.About',
         'Meet.view.phone.profile.Details',
         'Meet.view.phone.profile.Actions',
         'Meet.view.phone.profile.Messenger'
     ],
+
+    autoRemove: true,
+
+    excludedFromAutoRemove: ['meet_profile_messenger'],
 
     config: {
         tabBar: {
@@ -26,7 +31,7 @@ Ext.define('Meet.view.phone.Profile', {
             }, {
                 xtype: 'spacer'
             }, {
-                iconCls: 'action',
+                iconCls: 'list',
                 action: 'action',
                 iconMask: true
             }]
@@ -38,16 +43,23 @@ Ext.define('Meet.view.phone.Profile', {
             xtype: 'meet_profile_details'
         }, {
             title: 'Photos',
-            html: 'photos...',
-            padding: 14,
-            style: 'background: #1468A2'
+            xtype: 'meet_profile_pics',
+            // style: 'background: #1468A2'
         }]
     },
 
-    // initialize: function() {
-    //     this.callParent(arguments);
-    //     Ext.getStore('userStore').on('load', this.onStoreLoad, this);
+    initialize: function() {
+        this.callParent(arguments);
+        // Ext.getStore('userStore').on('load', this.onStoreLoad, this);
+        // this.on('activate', this.onActivate, this);
+    },
+
+    // onActivate: function() {
+    //     console.log('onActivate', this, arguments);
+        // this.callParent(arguments);
+        // this.setActiveItem(0);
     // },
+
     // 
     // onStoreLoad: function() {
     //     console.warn('onStoreLoad', this, arguments);
@@ -55,6 +67,7 @@ Ext.define('Meet.view.phone.Profile', {
 
     setData: function(data) {
         this.callParent(arguments);
+        this.down('meet_profile_pics').setData(data);
         this.down('meet_profile_about').setData(data);
         this.down('meet_profile_details').setData(data);
     }
