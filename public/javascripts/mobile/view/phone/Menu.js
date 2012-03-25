@@ -9,7 +9,7 @@ Ext.define('Meet.view.phone.Menu', {
 
     config: {
         defaults: {
-            ui: 'action',
+            // ui: 'action',
             xtype: 'button',
             iconMask: true,
             iconAlign: 'top',
@@ -22,18 +22,22 @@ Ext.define('Meet.view.phone.Menu', {
             title: 'NAVIGATION',
             style: undefined
         }, {
+            // ui: 'light',
             text: 'Home',
             iconCls: 'home',
             action: 'home'
         }, {
+            // ui: 'neutral',
             text: 'My Profile',
             iconCls: 'user',
             action: 'profile'
         }, {
+            // ui: 'dark',
             text: 'Search',
             iconCls: 'search1',
             action: 'search'
         }, {
+            // ui: 'confirm',
             text: 'My Activity',
             iconCls: 'time',
             action: 'activity'

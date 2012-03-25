@@ -10,15 +10,19 @@ $include-default-icons: false;
 
 @import 'sencha-touch/default/all';
 
+@include pictos-iconmask('hot');
+@include pictos-iconmask('mail');
+@include pictos-iconmask('bolt');
 @include pictos-iconmask('more');
 @include pictos-iconmask('home');
 @include pictos-iconmask('user');
 @include pictos-iconmask('time');
 @include pictos-iconmask('list');
+@include pictos-iconmask('heart');
+@include pictos-iconmask('team1');
 @include pictos-iconmask('delete');
 @include pictos-iconmask('check1');
 @include pictos-iconmask('search1');
-@include pictos-iconmask('bolt_side');
 
 
 @include sencha-panel;

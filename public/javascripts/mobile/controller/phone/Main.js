@@ -19,7 +19,9 @@ Ext.define('Meet.controller.phone.Main', {
             activityMenuButton: 'meet_menu button[action=activity]',
             profileBackButton: 'meet_profile button[action=back]',
             profileActionButton: 'meet_profile button[action=action]',
+            profileSaveButton: 'meet_profile_actions button[action=save]',
             profileFlashButton: 'meet_profile_actions button[action=flash]',
+            profileMessageButton: 'meet_profile_actions button[action=message]',
             messengerBackButton: 'meet_profile_messenger button[action=back]',
             homePanel: 'meet_main meet_home',
             activityList: 'meet_main meet_activity list',
@@ -91,8 +93,14 @@ Ext.define('Meet.controller.phone.Main', {
             profileActionButton: {
                 tap: 'onProfileActionButtonTap'
             },
+            profileSaveButton: {
+                tap: 'onProfileSaveButtonTap'
+            },
             profileFlashButton: {
                 tap: 'onProfileFlashButtonTap'
+            },
+            profileMessageButton: {
+                tap: 'onProfileMessageButtonTap'
             },
             messengerBackButton: {
                 tap: 'onMessengerBackButtonTap'
@@ -134,6 +142,42 @@ Ext.define('Meet.controller.phone.Main', {
                         form.reset();
                     });
                 }
+            }
+        });
+    },
+
+    flash: function() {
+        var id = this.getProfilePanel().getData().id;
+
+        Ext.Ajax.request({
+            scope: this,
+            url: '/ws/users/'+id+'/flash',
+            callback: function() {
+                console.warn('FLASH CALLBACK', arguments);
+                this.hideActionsSheet();
+            }
+        });
+    },
+
+    visit: function(id) {
+        Ext.Ajax.request({
+            scope: this,
+            url: '/ws/users/'+id+'/visit',
+            callback: function() {
+                console.warn('VISIT CALLBACK', arguments);
+            }
+        });
+    },
+
+    save: function() {
+        var id = this.getProfilePanel().getData().id;
+
+        Ext.Ajax.request({
+            scope: this,
+            url: '/ws/users/'+id+'/save',
+            callback: function() {
+                console.warn('SAVE CALLBACK', arguments);
+                this.hideActionsSheet();
             }
         });
     },
@@ -226,6 +270,22 @@ Ext.define('Meet.controller.phone.Main', {
         this.getMainPanel().setActiveItem(this.getMessengerPanel());
     },
 
+    showActionsSheet: function() {
+        var sheet = Ext.Viewport.down('meet_profile_actions');
+        if (!sheet) {
+            var sheet = Ext.create('Meet.view.phone.profile.Actions');
+            Ext.Viewport.add(sheet);
+        }
+        sheet.show();
+    },
+
+    hideActionsSheet: function(callback) {
+        var sheet = Ext.Viewport.down('meet_profile_actions');
+        console.log('hideActionsSheet', sheet.getHideAnimation());
+        sheet.hide();
+        setTimeout(Ext.bind(callback, this), 300);
+    },
+
     onMenuButtonTap: function() {
         console.log('onMenuButtonTap', this, arguments);
         var item = this.getMainPanel().getActiveItem();
@@ -277,6 +337,7 @@ Ext.define('Meet.controller.phone.Main', {
         console.log('onSearchPanelItemTap', record);
         this.getMainPanel().setSlideAnimation('left');
         this.showProfile(record.data, this.showSearch);
+        this.visit(record.data.id);
     },
 
     onActivityListItemTap: function(list, index) {
@@ -284,6 +345,7 @@ Ext.define('Meet.controller.phone.Main', {
         console.log('onActivityListItemTap', record);
         this.getMainPanel().setSlideAnimation('left');
         this.showProfile(record.data, this.showActivity);
+        this.visit(record.data.id);
     },
 
     onProfileBackButtonTap: function() {
@@ -293,17 +355,22 @@ Ext.define('Meet.controller.phone.Main', {
     },
 
     onProfileActionButtonTap: function() {
-        var sheet = Ext.create('Meet.view.phone.profile.Actions');
-        console.log('onProfileActionButtonTap', sheet);
-        Ext.Viewport.add(sheet);
-        sheet.show();
+        this.showActionsSheet();
+    },
+
+    onProfileMessageButtonTap: function() {
+        console.log('onProfileMessageButtonTap', this, arguments);
+        this.hideActionsSheet(this.showMessenger);
     },
 
     onProfileFlashButtonTap: function() {
         console.log('onProfileFlashButtonTap', this, arguments);
-        var sheet = Ext.Viewport.down('meet_profile_actions');
-        sheet.hide();
-        this.showMessenger();
+        this.hideActionsSheet(this.flash);
+    },
+
+    onProfileSaveButtonTap: function() {
+        console.log('onProfileSaveButtonTap', this, arguments);
+        this.hideActionsSheet(this.save);
     },
 
     onMessengerBackButtonTap: function() {

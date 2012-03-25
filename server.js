@@ -71,11 +71,16 @@ app.get('/ws/signIn', routes.signIn);
 // 
 
 app.get('/ws/user/pic/:name'/*, routes.checkSession*/, routes.getPic);
+
+app.get('/ws/user/getSaved', routes.checkSession, routes.getSaved);
 app.get('/ws/user/getVisited', routes.checkSession, routes.getVisited);
 app.get('/ws/user/getFlashed', routes.checkSession, routes.getFlashed);
 app.get('/ws/user/getVisitedBy', routes.checkSession, routes.getVisitedBy);
 app.get('/ws/user/getFlashedBy', routes.checkSession, routes.getFlashedBy);
 
+app.get('/ws/users/:id/save', routes.checkSession, routes.saveUser);
+app.get('/ws/users/:id/flash', routes.checkSession, routes.flashUser);
+app.get('/ws/users/:id/visit', routes.checkSession, routes.visitUser);
 app.put('/ws/users/:id', routes.checkSession, routes.updateUser);
 
 // app.get('/ws/users/:id/getFlash', routes.checkSession, routes.getFlash);
@@ -91,7 +96,7 @@ app.get('/ws/users', routes.checkSession, routes.getUsers);
 // app.del('/ws/users/:id', routes.checkSession, routes.deleteUser);
 // 
 // app.post('/ws/users/:id/write', routes.checkSession, routes.writeUser);
-// app.post('/ws/users/:id/flash', routes.checkSession, routes.flashUser);
+// app.get('/ws/users/:id/flash', routes.checkSession, routes.flashUser);
 // app.post('/ws/users/:id/save', routes.checkSession, routes.saveUser);
 // 
 // // app.post('/utils/:method', routes.utils);

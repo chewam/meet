@@ -8,6 +8,7 @@ Ext.define('Meet.view.phone.profile.Details', {
             direction: 'vertical',
             directionLock: true
         },
+        style: 'background: #FFF',
         tpl: [
             '<table class="tpl-user-details">',
                 '<tr><td>Ethnicity</td><td>{ethnicity}</td></tr>',

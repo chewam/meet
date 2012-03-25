@@ -6,7 +6,7 @@ Ext.define('Meet.profile.Phone', {
     config: {
         name: 'Phone',
         models: ['User'],
-        stores: ['User', 'Users', 'UsersFlashed', 'UsersVisited', 'UsersFlashedBy', 'UsersVisitedBy'],
+        stores: ['User', 'Users', 'UsersFlashed', 'UsersVisited', 'UsersFlashedBy', 'UsersVisitedBy', 'UsersSaved'],
         views: ['Main'],
         controllers: ['Main']
     },

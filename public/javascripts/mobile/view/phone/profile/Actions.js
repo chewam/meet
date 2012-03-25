@@ -5,15 +5,31 @@ Ext.define('Meet.view.phone.profile.Actions', {
 
     config: {
         hideOnMaskTap: true,
+        layout: {
+            type: 'hbox',
+            align: 'stretch'
+        },
+        defaults: {
+            flex: 1,
+            ui: 'small',
+            xtype: 'button',
+            iconMask: true,
+            iconAlign: 'top',
+            margin: '0 10 0 0'
+        },
         items: [{
-            text: 'Send a message',
+            iconCls: 'mail',
+            text: 'MESSAGE',
             action: 'message'
         }, {
-            text: 'Flash',
-            action: 'flash'
+            text: 'FLASH',
+            action: 'flash',
+            iconCls: 'bolt'
         }, {
-            text: 'Save',
-            action: 'save'
+            text: 'SAVE',
+            action: 'save',
+            iconCls: 'heart',
+            margin: 0
         }]
     },
 

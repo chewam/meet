@@ -179,11 +179,15 @@ UserManager.prototype.login = function(data, callback) {
 };
 
 UserManager.prototype.save = function(emitter, receiver, callback) {
-    var query = 'INSERT INTO save SET emitter = ?, receiver = ?';
+    if (emitter !== receiver) {
+        var query = 'INSERT INTO save SET emitter = ?, receiver = ?';
 
-    DataMgr.client.query(query, [emitter, receiver], function(err, info) {
-        callback.call(this, info.insertId);
-    });
+        DataMgr.client.query(query, [emitter, receiver], function(err, info) {
+            callback.call(this, info.insertId);
+        });
+    } else {
+        callback.call(this);
+    }
 };
 
 UserManager.prototype.write = function(emitter, receiver, data, callback) {
@@ -195,11 +199,15 @@ UserManager.prototype.write = function(emitter, receiver, data, callback) {
 };
 
 UserManager.prototype.flash = function(emitter, receiver, callback) {
-    var query = 'INSERT INTO flash SET emitter = ?, receiver = ?';
+    if (emitter !== receiver) {
+        var query = 'INSERT INTO flash SET emitter = ?, receiver = ?';
 
-    DataMgr.client.query(query, [emitter, receiver], function(err, info) {
-        callback.call(this, info.insertId);
-    });
+        DataMgr.client.query(query, [emitter, receiver], function(err, info) {
+            callback.call(this, info.insertId);
+        });
+    } else {
+        callback.call(this);
+    }
 };
 
 UserManager.prototype.visit = function(emitter, receiver, callback) {
@@ -350,16 +358,23 @@ UserManager.prototype.getVisitedBy = function(id, params, callback) {
 };
 
 UserManager.prototype.getSaved = function(id, params, callback) {
+    // var queries = {
+    //     count: 'SELECT count(*) AS total FROM save WHERE emitter = ?',
+    //     select: 'SELECT id, login, email, pic, '
+    //         + '(SELECT IF (COUNT(*) > 0, true, false) FROM save WHERE emitter = '+id+' AND receiver = user.id) AS saved, '
+    //         + '(SELECT IF (COUNT(*) > 0, true, false) FROM visit WHERE emitter = '+id+' AND receiver = user.id) AS visited, '
+    //         + '(SELECT IF (COUNT(*) > 0, true, false) FROM flash WHERE emitter = '+id+' AND receiver = user.id) AS flashed '
+    //         + 'FROM user WHERE id IN (SELECT receiver FROM save WHERE emitter = ?)'
+    // };
+    // 
+    // this.list(queries, [id], params, callback);
     var queries = {
         count: 'SELECT count(*) AS total FROM save WHERE emitter = ?',
-        select: 'SELECT id, login, email, pic, '
-            + '(SELECT IF (COUNT(*) > 0, true, false) FROM save WHERE emitter = '+id+' AND receiver = user.id) AS saved, '
-            + '(SELECT IF (COUNT(*) > 0, true, false) FROM visit WHERE emitter = '+id+' AND receiver = user.id) AS visited, '
-            + '(SELECT IF (COUNT(*) > 0, true, false) FROM flash WHERE emitter = '+id+' AND receiver = user.id) AS flashed '
-            + 'FROM user WHERE id IN (SELECT receiver FROM save WHERE emitter = ?)'
+        fields: this.defaultUserFields,
+        where: 'WHERE id IN (SELECT receiver FROM save WHERE emitter = ?)'
     };
 
-    this.list(queries, [id], params, callback);
+    this.list2(queries, [id], params, callback);
 };
 
 UserManager.prototype.getSavedBy = function(id, params, callback) {

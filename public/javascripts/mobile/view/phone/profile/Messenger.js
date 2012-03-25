@@ -1,4 +1,5 @@
 Ext.define('Meet.view.phone.profile.Messenger', {
+
     extend: 'Ext.form.FormPanel',
 
     xtype: 'meet_profile_messenger',
@@ -42,14 +43,14 @@ Ext.define('Meet.view.phone.profile.Messenger', {
             items: [{
                 ui: 'decline',
                 xtype: 'button',
-                text: 'Cancel',
+                text: 'CANCEL',
                 iconCls: 'delete',
                 iconMask: true,
                 action: 'cancel'
             }, {
                 ui: 'confirm',
                 xtype: 'button',
-                text: 'Send',
+                text: 'SEND',
                 iconCls: 'check1',
                 iconMask: true,
                 action: 'send',

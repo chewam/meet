@@ -17,7 +17,7 @@ Ext.define('Meet.view.phone.Main', {
             }, {
                 xtype: 'button',
                 iconMask: true,
-                iconCls: 'bolt_side',
+                iconCls: 'hot',
                 action: 'notification'
             }]
         }]

@@ -5,6 +5,7 @@ Ext.define('Meet.view.phone.Activity', {
     xtype: 'meet_activity',
 
     requires: [
+        'Meet.view.phone.activity.Saved',
         'Meet.view.phone.activity.Flashed',
         'Meet.view.phone.activity.Visited',
         'Meet.view.phone.activity.FlashedBy',
@@ -21,26 +22,35 @@ Ext.define('Meet.view.phone.Activity', {
             title: 'ACTIVITY',
             xtype: 'toolbar'
         }, {
-            title: 'Visited',
-            iconCls: 'action',
-            xtype: 'meet_activity_visited',
+        //     title: 'Visited',
+        //     iconCls: 'team1',
+        //     xtype: 'meet_activity_visited',
+        //     listeners: {
+        //         painted: function(list) {
+        //             list.getStore().load();
+        //         }
+        //     }
+        // }, {
+        //     title: 'Flashed',
+        //     iconCls: 'bolt',
+        //     xtype: 'meet_activity_flashed'
+        // }, {
+            title: 'Visitors',
+            iconCls: 'team1',
+            xtype: 'meet_activity_visitedby',
             listeners: {
                 painted: function(list) {
                     list.getStore().load();
                 }
             }
         }, {
-            title: 'Flashed',
-            iconCls: 'action',
-            xtype: 'meet_activity_flashed'
-        }, {
-            title: 'Visited by',
-            iconCls: 'action',
-            xtype: 'meet_activity_visitedby',
-        }, {
-            title: 'Flashed by',
-            iconCls: 'action',
+            title: 'Flash',
+            iconCls: 'bolt',
             xtype: 'meet_activity_flashedby'
+        }, {
+            title: 'Favorites',
+            iconCls: 'heart',
+            xtype: 'meet_activity_saved'
         }]
     },
 

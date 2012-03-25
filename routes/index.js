@@ -5,7 +5,8 @@
 
 var fs = require('fs'),
     UserMgr = require('../app/').UserManager,
-    TestMgr = require('../test').TestManager;
+    EventMgr = require('../app/').EventManager;
+    // TestMgr = require('../test').TestManager;
 
 // UTILS
 
@@ -137,6 +138,18 @@ exports.updateUser = function(req, res) {
     });
 };
 
+exports.getSaved = function(req, res) {
+    var q = req.query,
+        user = req.session.user;
+
+    UserMgr.getSaved(user.id, q, function(users, count) {
+        res.end(JSON.stringify({
+            data: users,
+            count: count
+        }));
+    });
+};
+
 exports.getFlashed = function(req, res) {
     var q = req.query,
         user = req.session.user;
@@ -215,6 +228,62 @@ exports.getPic = function(req, res) {
 
 };
 
+exports.flashUser = function(req, res) {
+    var user = req.session.user;
+
+    UserMgr.flash(user.id, req.params.id, function() {
+        // req.session.user.flashed.push({
+        //     user: req.params.id,
+        //     date: new Date()
+        // });
+        EventMgr.emit(req.params.id, 'flash', {
+            id: user.id,
+            age: user.age,
+            status: user.status,
+            pic: user.pic,
+            login: user.login,
+            gender: user.gender,
+            city: user.city,
+            country: user.country
+        });
+        res.end(JSON.stringify({success: true}));
+    });
+};
+
+exports.visitUser = function(req, res) {
+    var user = req.session.user;
+
+    UserMgr.visit(user.id, req.params.id, function() {
+        // req.session.user.flashed.push({
+        //     user: req.params.id,
+        //     date: new Date()
+        // });
+        EventMgr.emit(req.params.id, 'visit', {
+            id: user.id,
+            age: user.age,
+            status: user.status,
+            pic: user.pic,
+            login: user.login,
+            gender: user.gender,
+            city: user.city,
+            country: user.country
+        });
+        res.end(JSON.stringify({success: true}));
+    });
+};
+
+exports.saveUser = function(req, res) {
+    var user = req.session.user;
+
+    UserMgr.save(user.id, req.params.id, function() {
+        // req.session.user.saved.push({
+        //     user: req.params.id,
+        //     date: new Date()
+        // });
+        res.end(JSON.stringify({success: true}));
+    });
+}
+
 // exports.isLogged = function(req, res) {
     // res.end(JSON.stringify({
     //     success: !!req.session.user,
@@ -271,25 +340,7 @@ exports.getPic = function(req, res) {
 //     });
 // }
 // 
-// exports.flashUser = function(req, res) {
-//     UserMgr.flash(req.session.user.id, req.params.id, function() {
-//         // req.session.user.flashed.push({
-//         //     user: req.params.id,
-//         //     date: new Date()
-//         // });
-//         res.end('{success: true}');
-//     });
-// }
 // 
-// exports.saveUser = function(req, res) {
-//     UserMgr.save(req.session.user.id, req.params.id, function() {
-//         // req.session.user.saved.push({
-//         //     user: req.params.id,
-//         //     date: new Date()
-//         // });
-//         res.end('{success: true}');
-//     });
-// }
 // 
 // exports.writeUser = function(req, res) {
 //     var data = req.body;
